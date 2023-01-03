@@ -1,0 +1,10 @@
+# env
+.idea
+.vscode
+.env
+
+# build
+lib
+
+# npm
+node_modules
