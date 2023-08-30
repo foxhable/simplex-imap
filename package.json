@@ -1,25 +1,25 @@
 {
   "type": "module",
-  "name": "evo-imap",
-  "description": "lib for imap",
+  "name": "esmap",
+  "description": "library for imap",
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {
-    "start": "node ./lib/main.js",
-    "watch": "tsc --watch",
-    "dev": "nodemon -q ./lib/main.js",
-    "test": "jest"
+    "build": "turbo run build",
+    "build:watch": "turbo run build:watch",
+    "start": "turbo run start",
+    "dev": "turbo run dev",
+    "test": "turbo run test"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.4",
-    "@types/node": "^20.5.7",
-    "jest": "^29.6.4",
-    "nodemon": "^3.0.1",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.2.2"
+    "turbo": "latest",
+    "config": "workspace:*"
   },
   "engines": {
     "node": ">=17"
   },
-  "packageManager": "pnpm@8.6.0"
+  "packageManager": "pnpm@8.6.0",
+  "nodemonConfig": {
+    "ignore": ["*.test.*"]
+  }
 }
