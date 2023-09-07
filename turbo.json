@@ -3,6 +3,9 @@
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {
+      "outputs": ["lib/**"]
+    },
+    "build-project": {
       "dependsOn": ["^build"],
       "outputs": ["lib/**"]
     },
