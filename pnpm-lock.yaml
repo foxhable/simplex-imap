@@ -56,11 +56,16 @@ importers:
       ts-jest:
         specifier: ^29.1.1
         version: 29.1.1(@babel/core@7.22.11)(jest@29.6.4)(typescript@5.2.2)
+      types:
+        specifier: workspace:*
+        version: link:../../packages/types
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
 
   packages/config: {}
+
+  packages/types: {}
 
 packages:
 
