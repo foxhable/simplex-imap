@@ -1,8 +1,3 @@
-import { SearchCriteria } from "./search.js";
-import { SequenceSet } from "./general.js";
-
-import { StatusDataArg } from "./message.js";
-
 type IMAPMethodAnyState = 'CAPABILITY' | 'NOOP' | 'LOGOUT'
 type IMAPMethodWithoutAuthState = 'STARTTLS' | 'AUTHENTICATE' | 'LOGIN'
 type IMAPMethodWithAuthState =
