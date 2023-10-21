@@ -1,5 +1,5 @@
-import { connect as createTLSConnection, type TLSSocket } from "tls";
-import { createConnection as createTCPConnection, type Socket } from 'net'
+import { connect as createTLSConnection } from "tls";
+import { createConnection as createTCPConnection } from 'net'
 
 import { parseIMAPResponse } from "./functions/parser.js";
 
@@ -7,14 +7,13 @@ import {
   ExtractMethodArgs,
   IMAP_STATUSES,
   IMAPConfig,
+  IMAPConnection,
   IMAPMethod,
   IMAPResult,
   IMAPStatus,
   MethodWithArgs,
   MethodWithoutArgs
 } from "./types/index.js";
-
-type IMAPConnection = TLSSocket | Socket
 
 export default class IMAP {
   protected readonly _defaultConfig = {
