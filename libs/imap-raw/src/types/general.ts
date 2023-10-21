@@ -17,3 +17,5 @@ export interface IMAPConfig {
   readonly tlsOptions?: TLSOptions
   readonly connectOnCreating?: boolean
 }
+
+export type IMAPTag = '*' | string
