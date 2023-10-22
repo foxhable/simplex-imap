@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "esmap",
+  "name": "ten-imap",
   "description": "Library for easy use of imap",
   "version": "0.0.1",
   "author": "foxhable",
