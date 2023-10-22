@@ -1,4 +1,4 @@
-import { IMAPTag } from "./general.js";
+import type { IMAPTag } from "./general.js";
 
 export const TAGGED_RESPONSES = {
   OK: 'OK',

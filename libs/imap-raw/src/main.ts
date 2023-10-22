@@ -3,9 +3,8 @@ import { createConnection as createTCPConnection } from 'net'
 
 import { parseIMAPResponse } from "./functions/parser.js";
 
-import {
+import type {
   ExtractMethodArgs,
-  IMAP_STATUSES,
   IMAPConfig,
   IMAPConnection,
   IMAPMethod,
@@ -14,6 +13,7 @@ import {
   MethodWithArgs,
   MethodWithoutArgs
 } from "./types/index.js";
+import {IMAP_STATUSES} from './types/index.js'
 
 export default class IMAP {
   protected readonly _defaultConfig = {
