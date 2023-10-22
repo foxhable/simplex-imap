@@ -20,6 +20,7 @@ export default class IMAP {
     port: 993,
     tls: true,
     connectOnCreating: true,
+    debug: false,
   } as const satisfies Partial<IMAPConfig>
 
   protected readonly _config: typeof this._defaultConfig & IMAPConfig
@@ -58,6 +59,7 @@ export default class IMAP {
     const body = `${_tag} ${method}${_args}\r\n`
 
     this._connection.write(body)
+    this._consoleIMAP.log('Sent message, body:\n', body)
     return await this._response(_tag)
   }
 
@@ -83,15 +85,27 @@ export default class IMAP {
 
     if (!connection) throw new Error('Error while creating connection')
 
-    connection.once('data', data => {
-      this._status = IMAP_STATUSES.READY
-    })
+    connection.once('connect', () => this._status = IMAP_STATUSES.CONNECTED)
+    connection.once('data', () => this._status = IMAP_STATUSES.READY)
+    connection.once('close', this.disconnect)
+    connection.once('timeout', this.disconnect)
 
     connection.on('data', data => {
-      console.log(data.toString())
+      const result = parseIMAPResponse(data.toString())
+      this._consoleIMAP.log('Receive message, result:\n', result)
+      if (result.status === 'BYE') this.disconnect()
     })
 
     return connection
+  }
+
+  async disconnect() {
+    const timeout = setTimeout(this._connection!.destroy, 15000)
+    if (this._connection) await this.send('LOGOUT')
+    clearTimeout(timeout)
+    this._status = IMAP_STATUSES.DISCONNECTED
+    this._connection = null
+    this._consoleIMAP.log('Connection was closed')
   }
 
   protected _getTag(): string {
@@ -112,5 +126,15 @@ export default class IMAP {
 
       this._connection.on('data', handler)
     })
+  }
+
+  protected _logIMAP(body: string, ...info: any[]) {
+    if (!this._config.debug) return
+
+    console.log(`[imap-raw]: ${body}`, ...info)
+  }
+
+  protected _consoleIMAP = {
+    log: (body: string, ...info: any[]) => this._logIMAP.call(this, body, ...info)
   }
 }
