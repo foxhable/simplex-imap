@@ -11,13 +11,19 @@ export interface TLSOptions {
   readonly ca: string
 }
 
-export interface IMAPConfig {
+export interface IMAPCredentials {
+  username: string
+  password: string
+}
+
+export type IMAPConfig = {
   readonly host: string
   readonly port?: number
   readonly tls?: boolean
   readonly tlsOptions?: TLSOptions
   readonly connectOnCreating?: boolean
   readonly debug?: boolean
+  readonly credentials?: IMAPCredentials
 }
 
 export type IMAPTag = '*' | string
