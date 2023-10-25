@@ -35,6 +35,9 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.2.2
+      utf7:
+        specifier: ^1.0.2
+        version: 1.0.2
 
   libs/ten-imap:
     devDependencies:
@@ -2348,6 +2351,11 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
 
+  /semver@5.3.0:
+    resolution: {integrity: sha512-mfmm3/H9+67MCVix1h+IXTpDwL6710LyHuk7+cWC9T1mE0qz4iHhh6r4hU2wrIT9iTsAAC2XQRvfblL028cpLw==}
+    hasBin: true
+    dev: true
+
   /semver@6.3.1:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
@@ -2636,6 +2644,12 @@ packages:
       browserslist: 4.21.10
       escalade: 3.1.1
       picocolors: 1.0.0
+    dev: true
+
+  /utf7@1.0.2:
+    resolution: {integrity: sha512-qQrPtYLLLl12NF4DrM9CvfkxkYI97xOb5dsnGZHE3teFr0tWiEZ9UdgMPczv24vl708cYMpe6mGXGHrotIp3Bw==}
+    dependencies:
+      semver: 5.3.0
     dev: true
 
   /v8-to-istanbul@9.1.0:
