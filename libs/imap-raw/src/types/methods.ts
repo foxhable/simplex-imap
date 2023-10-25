@@ -11,6 +11,7 @@ type IMAPMethodWithAuthState =
   | 'LIST'
   | 'LSUB'
   | 'STATUS'
+  | 'NAMESPACE'
 
 type IMAPMethodSelectedState = 'CHECK' | 'CLOSE' | 'EXPUNGE' | 'SEARCH' | 'FETCH' | 'STORE' | 'COPY' | 'UID'
 
@@ -54,6 +55,7 @@ type MethodsMap = [
   CreateMethod<'STORE', { sequenceSet: string, criteria: string }>,
   CreateMethod<'COPY', { sequenceSet: string, mailbox: string }>,
   CreateMethod<'UID', { command: string, args: string }>,
+  CreateMethod<'NAMESPACE'>
 ]
 export type MethodWithArgs = Extract<MethodsMap[number], { args: { [index: string]: any } }>['method']
 export type MethodWithoutArgs = Extract<MethodsMap[number], { args: null }>['method']
