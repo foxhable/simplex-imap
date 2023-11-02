@@ -1,5 +1,6 @@
-import { describe, expect, test } from '@jest/globals'
 import { createProxyObject } from './proxy-object.js'
+
+const { describe, expect, test, afterEach } = require('@jest/globals')
 
 const innerValue = 'Hello'
 const initPrivateField = 'Private Hello'
@@ -39,7 +40,7 @@ class SomeClassWithAsyncMethods {
       set innerPrivateField(value) {
         this._innerPrivateField = value
       },
-      async get (index: number) {
+      async get(index: number) {
         return list[index]
       },
     }
@@ -153,8 +154,8 @@ describe('Proxy object', () => {
       expect(value).toBe(initPrivateField)
     })
 
-    test('Should return init value by getter "login().privateField"', () => {
-      const value = instance.login().privateField
+    test('Should return init value by getter "login().privateField"', async () => {
+      const value = await instance.login().privateField
       expect(value).toBe(initPrivateField)
     })
 
@@ -165,22 +166,24 @@ describe('Proxy object', () => {
       expect(instance.privateField).toBe(newValue)
     })
 
-    test('Should set value of field by setter "login().privateField"', () => {
+    test('Should set value of field by setter "login().privateField"', async () => {
       const newValue = 'New private value'
-      instance.login().privateField = newValue
-      expect(instance.login().privateField).toBe(newValue)
+      const object = await instance.login()
+      object.privateField = newValue
+      expect(await instance.login().privateField).toBe(newValue)
       expect(instance.privateField).toBe(newValue)
     })
 
-    test('Should return init value of field by getter "login().list().innerPrivateField"', () => {
-      const value = instance.login().list().innerPrivateField
+    test('Should return init value of field by getter "login().list().innerPrivateField"', async () => {
+      const value = await instance.login().list().innerPrivateField
       expect(value).toBe(initPrivateField)
     })
 
-    test('Should set value of field by setter "login().list().innerPrivateField"', () => {
+    test('Should set value of field by setter "login().list().innerPrivateField"', async () => {
       const newValue = 'New private value'
-      instance.login().list().innerPrivateField = newValue
-      expect(instance.login().list().innerPrivateField).toBe(newValue)
+      const list = await instance.login().list()
+      list.innerPrivateField = newValue
+      expect(await instance.login().list().innerPrivateField).toBe(newValue)
     })
   })
 })
