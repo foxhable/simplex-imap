@@ -1,12 +1,13 @@
 import IMAP from 'imap-raw'
 
+import type { IMAPConfig } from 'imap-raw/types'
+
+import { login } from './methods/login/login.js'
+
 export default class TenIMAP extends IMAP {
+  constructor(config: IMAPConfig) {
+    super(config)
+  }
 
+  login = login
 }
-
-const imap = new TenIMAP({
-    host: 'imap.mail.ru',
-    debug: true,
-})
-
-imap.send('LOGIN', {username: 'me@foxhable.ru', password: 'CKS1n4BV2fvtATibd7pu'})
