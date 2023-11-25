@@ -21,6 +21,9 @@
     "typescript": "^5.2.2",
     "utf7": "^1.0.2"
   },
+  "dependencies": {
+    "logger": "workspace:*"
+  },
   "exports": {
     ".": "./lib/main.js",
     "./types": "./lib/types/index.js"
