@@ -1,3 +1,5 @@
+import type { LogLevel } from 'logger'
+
 export const IMAP_STATUSES = {
   NOT_CONNECTED: 'not_connected',
   CONNECTED: 'connected',
@@ -22,7 +24,7 @@ export type IMAPConfig = {
   readonly tls?: boolean
   readonly tlsOptions?: TLSOptions
   readonly connectOnCreating?: boolean
-  readonly debug?: boolean
+  readonly logLevel?: LogLevel
   readonly credentials?: IMAPCredentials
 }
 
