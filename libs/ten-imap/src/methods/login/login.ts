@@ -1,5 +1,6 @@
 import { IMAP_STATUSES, type IMAPCredentials } from 'imap-raw/types'
 import type TenIMAP from '../../main.js'
+import { TenIMAPError } from '../../general/error.js'
 
 export async function login(this: TenIMAP, credentials?: IMAPCredentials) {
   await this._waitStatus(IMAP_STATUSES.READY)
@@ -12,5 +13,5 @@ export async function login(this: TenIMAP, credentials?: IMAPCredentials) {
     return await this.send('LOGIN', this._config.credentials)
   }
 
-  throw new Error('No credentials in init config and arguments')
+  throw new TenIMAPError('No credentials in init config and arguments')
 }
