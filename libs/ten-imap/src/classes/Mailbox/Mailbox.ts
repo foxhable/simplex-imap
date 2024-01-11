@@ -9,7 +9,7 @@ import type {
 } from '../../types/index.js'
 
 export class Mailbox {
-  protected _connection: TenIMAP
+  public readonly connection: TenIMAP
 
   public name: string
   public uid: number | null = null
@@ -31,7 +31,7 @@ export class Mailbox {
   public isRemote: boolean | null = null
 
   constructor(connection: TenIMAP, data: MailboxData) {
-    this._connection = connection
+    this.connection = connection
     this.name = data.name
     this.uid = data.uid || null
     this.uidNext = data.uidNext || null
@@ -104,14 +104,14 @@ export class Mailbox {
   }
 
   public async select(config?: Omit<SelectMethodConfig, 'onlyParse'>) {
-    const parse = await this._connection.select(this.name, Object.assign({ onlyParse: true } as const, config))
+    const parse = await this.connection.select(this.name, Object.assign({ onlyParse: true } as const, config))
 
     this.uid = parse.uid
     this.uidNext = parse.uidNext
     this.messageCounts = parse.messageCounts
     this.flags = parse.flags
 
-    this._connection.selectedMailbox = this
+    this.connection.selectedMailbox = this
 
     return this
   }
