@@ -13,7 +13,7 @@ type IMAPMethodWithAuthState =
   | 'STATUS'
   | 'NAMESPACE'
 
-type IMAPMethodSelectedState = 'CHECK' | 'CLOSE' | 'EXPUNGE' | 'SEARCH' | 'FETCH' | 'STORE' | 'COPY' | 'UID'
+type IMAPMethodSelectedState = 'CHECK' | 'UNSELECT' | 'CLOSE' | 'EXPUNGE' | 'SEARCH' | 'FETCH' | 'STORE' | 'COPY' | 'UID'
 
 export type IMAPMethod =
   | IMAPMethodAnyState
@@ -38,6 +38,7 @@ type MethodsMap = [
   CreateMethod<'AUTHENTICATE', { authMethod: string }>,
   CreateMethod<'LOGIN', { username: string, password: string }>,
   CreateMethod<'SELECT', { mailbox: string }>,
+  CreateMethod<'UNSELECT'>,
   CreateMethod<'EXAMINE', { mailbox: string }>,
   CreateMethod<'DELETE', { mailbox: string }>,
   CreateMethod<'DELETE', { mailbox: string }>,

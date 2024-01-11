@@ -2,10 +2,12 @@ import IMAP from 'imap-raw'
 import { tenImapLogger } from 'logger'
 import type { IMAPConfig } from 'imap-raw/types'
 
+import { Mailbox } from './classes/Mailbox/Mailbox.js'
 import { mailboxes } from './methods/mailboxes/mailboxes.js'
 import { login } from './methods/login/login.js'
 import { select } from './methods/select/select.js'
-import { Mailbox } from './classes/Mailbox/Mailbox.js'
+import { unselect } from './methods/unselect/unselect.js'
+import { close } from './methods/close/close.js'
 
 export default class TenIMAP extends IMAP {
   public selectedMailbox: Mailbox | null = null
@@ -13,6 +15,8 @@ export default class TenIMAP extends IMAP {
   public mailboxes = mailboxes
   public login = login
   public select = select
+  public unselect = unselect
+  public close = close
 
   constructor(config: IMAPConfig) {
     super(config)
