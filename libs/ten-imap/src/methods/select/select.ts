@@ -5,6 +5,7 @@ import { TenIMAPError } from '../../general/error.js'
 import type { MailboxFlag } from '../../classes/Mailbox/types.js'
 import { MAILBOX_FLAGS } from '../../classes/Mailbox/types.js'
 import { Mailbox } from '../../classes/Mailbox/Mailbox.js'
+import { SelectedMailbox } from '../../classes/Mailbox/SelectedMailbox.js'
 
 export async function select<TConfig extends SelectMethodConfig>(
   this: TenIMAP,
@@ -12,7 +13,7 @@ export async function select<TConfig extends SelectMethodConfig>(
   config?: TConfig,
 ): Promise<TConfig extends {
   onlyParse: infer ParseOption
-} ? ParseOption extends true ? SelectParse : Mailbox : Mailbox> {
+} ? ParseOption extends true ? SelectParse : SelectedMailbox : SelectedMailbox> {
   await this._waitStatus(IMAP_STATUSES.READY)
 
   const res = await this.send(config?.readonly ? 'EXAMINE' : 'SELECT', { mailbox })
@@ -23,15 +24,12 @@ export async function select<TConfig extends SelectMethodConfig>(
   }
 
   const parse = parseSelect(res.response.lines)
+  const selectedMailbox = new SelectedMailbox(this, { name: mailbox, mailbox: config?.mailbox })
+
+  this.selectedMailbox = selectedMailbox
 
   // @ts-expect-error TS2322 fix later
-  return config?.onlyParse ? parse : new Mailbox(
-    this,
-    {
-      ...parse,
-      name: mailbox,
-    },
-  )
+  return config?.onlyParse ? parse : selectedMailbox
 }
 
 const FLAGS_LIST = Object.values(MAILBOX_FLAGS).map(i => `\\${i}`).join('|')
