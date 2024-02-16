@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { SearchFilter } from './types.js'
-import { generateSearchFilter } from './search.js'
+import { generateSearchFilter, parseSearchResponse } from './search.js'
 import { HEADER_FIELDS } from './types.js'
 import { convertToIMAPDate } from '../../general/date/date.js'
 import { MAILBOX_FLAGS } from '../../classes/Mailbox/types.js'
@@ -416,6 +416,63 @@ describe('Search method', () => {
         expect(generateSearchFilter(filter)).contain('UNSEEN')
         expect(generateSearchFilter(filter)).contain('NEW')
       })
+    })
+  })
+
+  describe('Response parser', () => {
+    test('Should be output array of one single digit number', () => {
+      const parsed = parseSearchResponse('* SEARCH 1')
+      expect(parsed).toStrictEqual([1])
+    })
+
+    test('Should be output array of two single digit numbers', () => {
+      const parsed = parseSearchResponse('* SEARCH 1 2')
+      expect(parsed).toStrictEqual([1, 2])
+    })
+
+    test('Should be output array of three single digit numbers', () => {
+      const parsed = parseSearchResponse('* SEARCH 1 2 3')
+      expect(parsed).toStrictEqual([1, 2, 3])
+    })
+
+    test('Should be output empty array', () => {
+      const parsed = parseSearchResponse('* SEARCH')
+      expect(parsed).toStrictEqual([])
+    })
+
+    test('Should be output array of one two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 10')
+      expect(parsed).toStrictEqual([10])
+    })
+
+    test('Should be output array of two two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 13 20')
+      expect(parsed).toStrictEqual([13, 20])
+    })
+
+    test('Should be output array of three two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 12 23 40')
+      expect(parsed).toStrictEqual([12, 23, 40])
+    })
+
+    test('Should be output array of two single and two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 1 23')
+      expect(parsed).toStrictEqual([1, 23])
+    })
+
+    test('Should be output array of four single and two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 12 3 40 5')
+      expect(parsed).toStrictEqual([12, 3, 40, 5])
+    })
+
+    test('Should be output array of six single and two-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 12 3 40 5 55 60')
+      expect(parsed).toStrictEqual([12, 3, 40, 5, 55, 60])
+    })
+
+    test('Should be output array of three single, two-digit and three-digit numbers ', () => {
+      const parsed = parseSearchResponse('* SEARCH 12 3 405')
+      expect(parsed).toStrictEqual([12, 3, 405])
     })
   })
 })
