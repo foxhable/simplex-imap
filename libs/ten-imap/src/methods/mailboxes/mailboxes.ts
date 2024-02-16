@@ -16,12 +16,8 @@ export async function mailboxes(this: TenIMAP) {
 
   if (!res.ok) throw new TenIMAPError(res.body, { res })
 
-  const list = res.response.lines.map(line => {
-    const parsedData = parseMailbox(line.body)
-    return [ parsedData.name, parsedData ] as const
-  })
-
-  return new MailboxMap(this, list)
+  const list = res.response.lines.map(line => parseMailbox(line.body))
+  return list.map(data => new Mailbox(this, data))
 }
 
 const MAILBOX_ATTRIBUTES_LIST_REGEX_PART = Object.values(MAILBOX_ATTRIBUTES).map(i => `\\${i}`).join('|')
@@ -42,37 +38,5 @@ function parseMailbox(text: string): ParsedMailbox {
     delimiter: match[2],
     name: match[3],
     raw: text,
-  }
-}
-
-class MailboxMap extends Map<string, Mailbox> {
-  protected _connection: TenIMAP
-
-  constructor(connection: TenIMAP, entries?: readonly (readonly [ string, ParsedMailbox ])[] | null) {
-    // @ts-expect-error TS2769
-    super(entries)
-    this._connection = connection
-  }
-
-  get(key: string): Mailbox | undefined {
-    const value = super.get(key) as Mailbox | ParsedMailbox
-
-    if (value instanceof Mailbox) return value
-
-    const mailbox = new Mailbox(this._connection, value)
-    super.set(key, mailbox)
-    return mailbox
-  }
-
-  forEach(callbackfn: (value: Mailbox, key: string, map: Map<string, Mailbox>) => void, thisArg?: any) {
-    super.forEach((value, key, map) => {
-      let _value = value as Mailbox | ParsedMailbox
-
-      if (_value instanceof Mailbox) return callbackfn.call(thisArg, _value, key, map)
-
-      const mailbox = new Mailbox(this._connection, value)
-      super.set(key, mailbox)
-      callbackfn.call(thisArg, mailbox, key, map)
-    })
   }
 }
