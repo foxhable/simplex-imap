@@ -17,5 +17,4 @@ node_modules
 .turbo
 
 # test files
-test.*
-*-test.*
+main-test.js

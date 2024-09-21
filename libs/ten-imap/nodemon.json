@@ -1,7 +1,0 @@
-{
-  "watch": [
-    "../imap-raw/lib/",
-    "lib/",
-    "main-test.js"
-  ]
-}
