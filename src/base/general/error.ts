@@ -1,4 +1,4 @@
-import { imapRawLogger } from 'logger'
+import { imapRawLogger } from '@/logger/main.js'
 
 export class RawIMAPError extends Error {
   public data: any[]

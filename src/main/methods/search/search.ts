@@ -1,4 +1,4 @@
-import type TenIMAP from '@/main/main.js'
+import type TenIMAP from '@/main.js'
 import { IMAP_STATUSES } from '@/base/types/index.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import type {

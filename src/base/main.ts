@@ -1,7 +1,7 @@
 import { connect as createTLSConnection } from 'tls'
 import { createConnection as createTCPConnection } from 'net'
 import { imap as utf7imap } from 'utf7'
-import { imapRawLogger as logger } from 'logger'
+import { imapRawLogger as logger } from '@/logger/main.js'
 import { parseIMAPResponse } from './functions/parser.js'
 
 import type {
