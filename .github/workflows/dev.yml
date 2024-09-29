@@ -1,4 +1,4 @@
-name: Compile, type check and unit tests
+name: Dev
 
 on:
   push:
