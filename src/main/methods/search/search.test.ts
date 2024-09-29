@@ -390,9 +390,10 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter)).contain('SUBJECT "it"')
-    expect(generateSearchFilter(filter)).contain('FROM it@example.com')
-    expect(generateSearchFilter(filter)).contain('OR NOT ANSWERED OR SEEN FLAGGED')
+    expect(generateSearchFilter(filter))
+      .contain('SUBJECT "it"')
+      .and.contain('FROM it@example.com')
+      .and.contain('OR NOT ANSWERED OR SEEN FLAGGED')
   })
 
   it('Should be TEXT "it" SUBJECT "test2" FROM it@example.com UNSEEN NEW', () => {
@@ -408,11 +409,12 @@ describe('Advanced filters', () => {
       }
     }
 
-    expect(generateSearchFilter(filter)).contain('SUBJECT "test2"')
-    expect(generateSearchFilter(filter)).contain('TEXT "it"')
-    expect(generateSearchFilter(filter)).contain('FROM it@example.com')
-    expect(generateSearchFilter(filter)).contain('UNSEEN')
-    expect(generateSearchFilter(filter)).contain('NEW')
+    expect(generateSearchFilter(filter))
+      .contain('SUBJECT "test2"')
+      .and.contain('TEXT "it"')
+      .and.contain('FROM it@example.com')
+      .and.contain('UNSEEN')
+      .and.contain('NEW')
   })
 })
 
