@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseIMAPResponse } from './parser.js'
-import type { IMAPResponseLine, ResponseCode, ResponseStatus } from '../types/index.js'
+import type { IMAPResponseLine, ResponseCode, ResponseStatus } from '@/base/types/index.js'
 
 interface TestMessageOptions {
   tag?: string
