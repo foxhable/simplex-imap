@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepare": "husky",
     "test": "vitest"
   },
