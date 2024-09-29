@@ -10,9 +10,15 @@ export async function select<TConfig extends SelectMethodConfig>(
   this: TenIMAP,
   mailbox: string,
   config?: TConfig,
-): Promise<TConfig extends {
-  onlyParse: infer ParseOption
-} ? ParseOption extends true ? SelectParse : SelectedMailbox : SelectedMailbox> {
+): Promise<
+  TConfig extends {
+    onlyParse: infer ParseOption
+  }
+    ? ParseOption extends true
+      ? SelectParse
+      : SelectedMailbox
+    : SelectedMailbox
+> {
   await this._waitStatus(IMAP_STATUSES.READY)
 
   const res = await this.send(config?.readonly ? 'EXAMINE' : 'SELECT', { mailbox })
@@ -31,7 +37,9 @@ export async function select<TConfig extends SelectMethodConfig>(
   return config?.onlyParse ? parse : selectedMailbox
 }
 
-const FLAGS_LIST = Object.values(MAILBOX_FLAGS).map(i => `\\${i}`).join('|')
+const FLAGS_LIST = Object.values(MAILBOX_FLAGS)
+  .map((i) => `\\${i}`)
+  .join('|')
 const FLAGS_REGEX = new RegExp(`FLAGS \\(((?:(?:${FLAGS_LIST}) ?)+)\\)`)
 const PERMANENT_FLAGS_REGEX = new RegExp(`OK \\[PERMANENTFLAGS \\(((?:(?:${FLAGS_LIST}) ?)+)\\)]`)
 const EXISTS_REGEX = /(\d+) EXISTS/
@@ -41,50 +49,53 @@ const UID_REGEX = /OK \[UIDVALIDITY (\d+)]/
 const NEXT_UID_REGEX = /OK \[UIDNEXT (\d+)]/
 
 function parseSelect(lines: IMAPResponseLine[]): SelectParse {
-  return lines.reduce((result, item) => {
-    switch (true) {
-      case PERMANENT_FLAGS_REGEX.test(item.body): {
-        const match = item.body.match(PERMANENT_FLAGS_REGEX)
-        result.permanentFlags = match![1].split(' ') as MailboxFlag[]
-        break
-      }
-      case FLAGS_REGEX.test(item.body): {
-        const match = item.body.match(FLAGS_REGEX)
-        result.flags = match![1].split(' ') as MailboxFlag[]
-        break
-      }
-      case EXISTS_REGEX.test(item.body): {
-        const match = item.body.match(EXISTS_REGEX)
-        result.messageCounts.exists = Number(match![1])
-        break
-      }
-      case RECENT_REGEX.test(item.body): {
-        const match = item.body.match(RECENT_REGEX)
-        result.messageCounts.recent = Number(match![1])
-        break
-      }
-      case UNSEEN_REGEX.test(item.body): {
-        const match = item.body.match(UNSEEN_REGEX)
-        result.messageCounts.unseen = Number(match![1])
-        break
-      }
-      case UID_REGEX.test(item.body): {
-        const match = item.body.match(UID_REGEX)
-        result.uid = Number(match![1])
-        break
-      }
-      case NEXT_UID_REGEX.test(item.body): {
-        const match = item.body.match(NEXT_UID_REGEX)
-        result.uidNext = Number(match![1])
-        break
+  return lines.reduce(
+    (result, item) => {
+      switch (true) {
+        case PERMANENT_FLAGS_REGEX.test(item.body): {
+          const match = item.body.match(PERMANENT_FLAGS_REGEX)
+          result.permanentFlags = match![1].split(' ') as MailboxFlag[]
+          break
+        }
+        case FLAGS_REGEX.test(item.body): {
+          const match = item.body.match(FLAGS_REGEX)
+          result.flags = match![1].split(' ') as MailboxFlag[]
+          break
+        }
+        case EXISTS_REGEX.test(item.body): {
+          const match = item.body.match(EXISTS_REGEX)
+          result.messageCounts.exists = Number(match![1])
+          break
+        }
+        case RECENT_REGEX.test(item.body): {
+          const match = item.body.match(RECENT_REGEX)
+          result.messageCounts.recent = Number(match![1])
+          break
+        }
+        case UNSEEN_REGEX.test(item.body): {
+          const match = item.body.match(UNSEEN_REGEX)
+          result.messageCounts.unseen = Number(match![1])
+          break
+        }
+        case UID_REGEX.test(item.body): {
+          const match = item.body.match(UID_REGEX)
+          result.uid = Number(match![1])
+          break
+        }
+        case NEXT_UID_REGEX.test(item.body): {
+          const match = item.body.match(NEXT_UID_REGEX)
+          result.uidNext = Number(match![1])
+          break
+        }
+
+        case !PERMANENT_FLAGS_REGEX.test(item.body): {
+          result.permanentFlags = null
+          break
+        }
       }
 
-      case !PERMANENT_FLAGS_REGEX.test(item.body): {
-        result.permanentFlags = null
-        break
-      }
-    }
-
-    return result
-  }, { messageCounts: {} } as SelectParse)
+      return result
+    },
+    { messageCounts: {} } as SelectParse,
+  )
 }

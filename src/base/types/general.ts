@@ -7,7 +7,7 @@ export const IMAP_STATUSES = {
   DISCONNECTED: 'disconnected',
 } as const
 
-export type IMAPStatus = typeof IMAP_STATUSES[keyof typeof IMAP_STATUSES]
+export type IMAPStatus = (typeof IMAP_STATUSES)[keyof typeof IMAP_STATUSES]
 
 export interface TLSOptions {
   readonly ca: string

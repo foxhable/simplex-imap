@@ -6,14 +6,14 @@ export const TAGGED_RESPONSES = {
   NO: 'NO',
 } as const
 
-export type TaggedResponse = typeof TAGGED_RESPONSES[keyof typeof TAGGED_RESPONSES]
+export type TaggedResponse = (typeof TAGGED_RESPONSES)[keyof typeof TAGGED_RESPONSES]
 
 export const UNTAGGED_RESPONSES = {
   PREAUTH: 'PREAUTH',
   BYE: 'BYE',
 } as const
 
-export type UntaggedResponse = typeof UNTAGGED_RESPONSES[keyof typeof UNTAGGED_RESPONSES]
+export type UntaggedResponse = (typeof UNTAGGED_RESPONSES)[keyof typeof UNTAGGED_RESPONSES]
 
 export const RESPONSE_STATUSES = {
   ...TAGGED_RESPONSES,
@@ -39,13 +39,16 @@ export type IMAPResult = {
     lines: IMAPResponseLine[]
     raw: string
   }
-} & ({
-  ok: true
-  status: Exclude<ResponseStatus, 'NO' | 'BAD'>
-} | {
-  ok: false
-  status: Extract<ResponseStatus, 'NO' | 'BAD'>
-})
+} & (
+  | {
+      ok: true
+      status: Exclude<ResponseStatus, 'NO' | 'BAD'>
+    }
+  | {
+      ok: false
+      status: Extract<ResponseStatus, 'NO' | 'BAD'>
+    }
+)
 
 export const RESPONSE_CODES = {
   ALERT: 'ALERT',
@@ -83,4 +86,4 @@ export const RESPONSE_CODES = {
   UNKNOWN_CTE: 'UNKNOWN-CTE',
 } as const
 
-export type ResponseCode = typeof RESPONSE_CODES[keyof typeof RESPONSE_CODES]
+export type ResponseCode = (typeof RESPONSE_CODES)[keyof typeof RESPONSE_CODES]

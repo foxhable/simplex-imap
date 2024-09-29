@@ -20,7 +20,7 @@ export const MAILBOX_ATTRIBUTES = {
   UNMARKED: '\\Unmarked',
 } as const
 
-export type MailboxAttribute = typeof MAILBOX_ATTRIBUTES[keyof typeof MAILBOX_ATTRIBUTES]
+export type MailboxAttribute = (typeof MAILBOX_ATTRIBUTES)[keyof typeof MAILBOX_ATTRIBUTES]
 
 export const MAILBOX_ROLES = {
   ALL: 'all',
@@ -33,7 +33,7 @@ export const MAILBOX_ROLES = {
   TRASH: 'trash',
 }
 
-export type MailboxRole = typeof MAILBOX_ROLES[keyof typeof MAILBOX_ROLES]
+export type MailboxRole = (typeof MAILBOX_ROLES)[keyof typeof MAILBOX_ROLES]
 
 export type MailboxMessageCounts = {
   exists: number
@@ -49,4 +49,4 @@ export const MAILBOX_FLAGS = {
   SEEN: '\\Seen',
 } as const
 
-export type MailboxFlag = typeof MAILBOX_FLAGS[keyof typeof MAILBOX_FLAGS]
+export type MailboxFlag = (typeof MAILBOX_FLAGS)[keyof typeof MAILBOX_FLAGS]

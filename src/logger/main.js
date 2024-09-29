@@ -11,7 +11,7 @@ export const LOG_LEVELS = {
  * @param {LogLevel[]} list
  * */
 function isLogLevelOneOf(logLevel, list) {
-  return list.map(i => logLevel.includes(i)).includes(true)
+  return list.map((i) => logLevel.includes(i)).includes(true)
 }
 
 export function createLogger(config) {
@@ -19,7 +19,7 @@ export function createLogger(config) {
    * @param {string} text
    * @return {string}
    * */
-  const addPrefix = (text) => config.prefix ? `[${config.prefix}] ${text}` : text
+  const addPrefix = (text) => (config.prefix ? `[${config.prefix}] ${text}` : text)
 
   /** @type {Logger}  */
   const logger = {
@@ -41,7 +41,7 @@ export function createLogger(config) {
       if (!isLogLevelOneOf(this.logLevel, [LOG_LEVELS.ALL, LOG_LEVELS.WARN])) return
 
       console.warn(addPrefix(text), ...info)
-    }
+    },
   }
 
   return logger
