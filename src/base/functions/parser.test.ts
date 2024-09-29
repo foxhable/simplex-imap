@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { parseIMAPResponse } from "./parser.js";
 import type { IMAPResponseLine, ResponseCode, ResponseStatus } from "../types/index.js";
 
@@ -45,26 +45,26 @@ describe('Parser', () => {
 
   describe('parseIMAPResponse', () => {
     describe('IMAP Response result', () => {
-      test('Should match tag', () => {
+      it('Should match tag', () => {
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.tag).toMatch(testMessage.tag)
       })
 
-      test('Should match status', () => {
+      it('Should match status', () => {
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.status).toMatch(testMessage.status)
       })
 
-      test('Should match code', () => {
+      it('Should match code', () => {
         const testMessage = createTestMessage({code: 'OVERQUOTA'})
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.code).toMatch(testMessage.code)
       })
 
-      test('Should match body', () => {
+      it('Should match body', () => {
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.body).toMatch(testMessage.body)
@@ -72,20 +72,20 @@ describe('Parser', () => {
     })
 
     describe('IMAP Response line', () => {
-      test('Should match zero lines', () => {
+      it('Should match zero lines', () => {
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.response.lines.length).toEqual(0)
         expect(result.response.lines[0]).toBeUndefined()
       })
-      test('Should match one line', () => {
+      it('Should match one line', () => {
         const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 1})
         const result = parseIMAPResponse(testMessage.message)
 
         expect(result.response.lines.length).toEqual(1)
         expect(result.response.lines[0].body).toMatch(testMessage.responseLines[0].body)
       })
-      test('Should match two lines', () => {
+      it('Should match two lines', () => {
         const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 2})
         const result = parseIMAPResponse(testMessage.message)
 
