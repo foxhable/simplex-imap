@@ -9,7 +9,7 @@ import { select } from './main/methods/select/select.js'
 import { unselect } from './main/methods/unselect/unselect.js'
 import { search } from './main/methods/search/search.js'
 
-export default class TenIMAP extends IMAP {
+export class TenIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
 
   public mailboxes = mailboxes

@@ -1,4 +1,4 @@
-import type TenIMAP from '@/main.js'
+import type { TenIMAP } from '@/main/types/index.js'
 import type { ParsedMailbox } from './types.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import { Mailbox } from '@/main/classes/Mailbox/Mailbox.js'
