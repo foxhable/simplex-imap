@@ -1,13 +1,13 @@
 import type { SelectMethodConfig, SelectParse } from './types.js'
 import { IMAP_STATUSES, type IMAPResponseLine } from '@/base/types/index.js'
-import type { TenIMAP } from '@/main.js'
+import type { SimplexIMAP } from '@/main.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import type { MailboxFlag } from '@/main/classes/Mailbox/types.js'
 import { MAILBOX_FLAGS } from '@/main/classes/Mailbox/types.js'
 import { SelectedMailbox } from '@/main/classes/Mailbox/SelectedMailbox.js'
 
 export async function select<TConfig extends SelectMethodConfig>(
-  this: TenIMAP,
+  this: SimplexIMAP,
   mailbox: string,
   config?: TConfig,
 ): Promise<

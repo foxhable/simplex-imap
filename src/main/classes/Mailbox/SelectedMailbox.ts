@@ -1,5 +1,5 @@
 import { Mailbox, type MailboxData } from './Mailbox.js'
-import type { TenIMAP } from '@/main.js'
+import type { SimplexIMAP } from '@/main.js'
 import { type SearchMethodConfig } from '@/main/methods/search/types.js'
 import { type UnselectMethodConfig } from '@/main/methods/unselect/types.js'
 
@@ -10,7 +10,7 @@ export interface SelectedMailboxData extends MailboxData {
 export class SelectedMailbox extends Mailbox {
   protected readonly _mailbox: Mailbox
 
-  constructor(connection: TenIMAP, data: SelectedMailboxData) {
+  constructor(connection: SimplexIMAP, data: SelectedMailboxData) {
     super(connection, data)
     this._mailbox = data.mailbox || new Mailbox(connection, data)
   }
