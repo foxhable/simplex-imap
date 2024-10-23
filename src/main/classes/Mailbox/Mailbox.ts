@@ -1,16 +1,16 @@
-import type { TenIMAP } from '@/main.js'
-import type { SelectMethodConfig } from '@/main/types/index.js'
+import type { SimplexIMAP } from '@/main.js'
+import type { SelectMethodConfig } from '@/main/types.js'
 
 export interface MailboxData {
   name: string
 }
 
 export class Mailbox {
-  public readonly connection: TenIMAP
+  public readonly connection: SimplexIMAP
 
   public name: string
 
-  constructor(connection: TenIMAP, data: MailboxData) {
+  constructor(connection: SimplexIMAP, data: MailboxData) {
     this.name = data.name
     this.connection = connection
   }
