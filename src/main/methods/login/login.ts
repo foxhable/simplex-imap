@@ -1,6 +1,6 @@
 import { IMAP_STATUSES, type IMAPCredentials } from '@/base/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
-import { TenIMAPError } from '@/main/general/error.js'
+import { SimplexIMAPError } from '@/main/general/error.js'
 
 export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   await this._waitStatus(IMAP_STATUSES.READY)
@@ -11,13 +11,13 @@ export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   }
 
   if (!_credentials.username || !_credentials.password) {
-    throw new TenIMAPError('No credentials in init config and arguments')
+    throw new SimplexIMAPError('No credentials in init config and arguments')
   }
 
   const res = await this.send('LOGIN', _credentials)
 
   if (!res.ok) {
-    throw new TenIMAPError(res.body, { res })
+    throw new SimplexIMAPError(res.body, { res })
   }
 
   return res
