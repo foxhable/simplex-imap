@@ -1,6 +1,6 @@
 import type { SimplexIMAP } from '@/main.js'
 import { IMAP_STATUSES } from '@/base/types/index.js'
-import { TenIMAPError } from '@/main/general/error.js'
+import { SimplexIMAPError } from '@/main/general/error.js'
 import type {
   SearchFilter,
   SearchFilterByFlag,
@@ -22,7 +22,7 @@ export async function search(this: SimplexIMAP, config: SearchMethodConfig) {
 
   if (!res.ok) {
     this.selectedMailbox = null
-    throw new TenIMAPError(res.body, { res })
+    throw new SimplexIMAPError(res.body, { res })
   }
 
   const messageIDs = parseSearchResponse(res.response.lines[0].raw)

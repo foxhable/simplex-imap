@@ -1,6 +1,6 @@
 import type { SimplexIMAP } from '@/main.js'
 import { IMAP_STATUSES } from '@/base/types/index.js'
-import { TenIMAPError } from '@/main/general/error.js'
+import { SimplexIMAPError } from '@/main/general/error.js'
 import type { UnselectMethodConfig } from './types.js'
 
 export async function unselect(this: SimplexIMAP, config?: UnselectMethodConfig) {
@@ -10,7 +10,7 @@ export async function unselect(this: SimplexIMAP, config?: UnselectMethodConfig)
 
   if (!res.ok) {
     this.selectedMailbox = null
-    throw new TenIMAPError(res.body, { res })
+    throw new SimplexIMAPError(res.body, { res })
   }
 
   this.selectedMailbox = null
