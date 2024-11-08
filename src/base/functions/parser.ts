@@ -1,4 +1,4 @@
-import type { IMAPResponseLine, IMAPResult, IMAPTag, ResponseCode, ResponseStatus } from '@/base/types/index.js'
+import type { IMAPResponseLine, IMAPResult, ResponseCode, ResponseStatus } from '@/base/types/index.js'
 import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/base/types/index.js'
 import { RawIMAPError } from '@/base/general/error.js'
 
@@ -16,7 +16,14 @@ const BODY_REGEX_PART = `(?<${GROUP_NAMES.BODY}>.*)`
 export const IMAP_RESULT_REGEX = new RegExp(
   `(?:\r\n)?${TAG_REGEX_PART} ${STATUS_REGEX_PART} ${CODE_REGEX_PART}${BODY_REGEX_PART}\r\n$`,
 )
-export const IMAP_RESPONSE_LINE_REGEX = new RegExp(`(?<${GROUP_NAMES.TAG}>[*+]) (?<${GROUP_NAMES.BODY}>.+)`)
+export const IMAP_RESPONSE_LINE_REGEX = new RegExp(
+  `^(?<${GROUP_NAMES.TAG}>[*+]) (?<${GROUP_NAMES.BODY}>(?:[\\w\\W](?!^\\*))+)`,
+  'gm',
+)
+
+export function hasResultLine(data: string) {
+  return IMAP_RESULT_REGEX.test(data)
+}
 
 export function parseIMAPResponse(data: string): IMAPResult {
   const match = data.match(IMAP_RESULT_REGEX)
@@ -26,24 +33,18 @@ export function parseIMAPResponse(data: string): IMAPResult {
   }
 
   const response = data.replace(match[0], '')
-  const responseLines = response
-    .split('\r\n')
-    .filter(Boolean)
-    .map((line) => [line, line.match(IMAP_RESPONSE_LINE_REGEX)])
-    .map<IMAPResponseLine>(([line, lineMatch]) => {
-      if (!lineMatch) {
-        throw new RawIMAPError('Response line doesnt match to regex pattern', {
-          line,
-          response,
-        })
-      }
 
-      return {
-        tag: lineMatch[1] as IMAPTag,
-        body: lineMatch[2],
-        raw: lineMatch[0],
-      }
-    })
+  const responseLines: IMAPResponseLine[] = [...response.matchAll(IMAP_RESPONSE_LINE_REGEX)].map((match) => {
+    if (!match.groups) {
+      throw new RawIMAPError('')
+    }
+
+    return {
+      tag: match.groups[GROUP_NAMES.TAG],
+      body: match.groups[GROUP_NAMES.BODY].trim(),
+      raw: match[0],
+    }
+  })
 
   // TODO: add text
   if (!match.groups) {

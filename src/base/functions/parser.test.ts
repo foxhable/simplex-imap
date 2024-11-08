@@ -29,6 +29,26 @@ test('Should match body', () => {
   expect(result.body).toStrictEqual('Authentication successful')
 })
 
+test('Should match multiline body', () => {
+  const message = [
+    '* 1 FETCH (BODY[] {5668}\r\n',
+    'Delivered-To: test@tenvolve.ru\r\n',
+    'Date: Mon, 28 Oct 2024 20:12:53 +0300\r\n',
+    ')\r\n',
+    '4 OK FETCH done\r\n',
+  ].join('')
+
+  const result = parseIMAPResponse(message)
+
+  expect(result.body).toStrictEqual('FETCH done')
+  expect.soft(result.response.lines.length).toEqual(1)
+  expect
+    .soft(result.response.lines[0].body)
+    .toStrictEqual(
+      '1 FETCH (BODY[] {5668}\r\nDelivered-To: test@tenvolve.ru\r\nDate: Mon, 28 Oct 2024 20:12:53 +0300\r\n)',
+    )
+})
+
 test('Should match zero lines', () => {
   const message = '1 OK [OVERQUOTA] Authentication successful\r\n'
   const result = parseIMAPResponse(message)
