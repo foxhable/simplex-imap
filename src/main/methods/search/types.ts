@@ -1,4 +1,5 @@
 import type { MailboxFlag } from '@/main/classes/Mailbox/types.js'
+import type { SequenceSet } from '@/main/general/sequenceSet/sequenceSet.js'
 
 export const HEADER_FIELDS = {
   TRACE: 'trace',
@@ -74,7 +75,7 @@ export type SearchFilterByFlag = {
 
 export type SearchFilter =
   | {
-      sequenceSet?: string
+      sequenceSet?: SequenceSet
       flags?: SearchFilterByFlag
       headers?: SearchFilterHeaders
       date?: SearchFilterDate
