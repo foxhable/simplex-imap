@@ -87,6 +87,8 @@ test('should parse message detail headers', () => {
   expect.soft(parsed.headers.contentType).toStrictEqual({
     type: 'multipart/alternative',
     boundary: '00000000000002133006258c9558',
+    charset: null,
+    encoding: null,
   })
   expect(parsed.headers.mimeVersion).toStrictEqual('1.0')
 })
@@ -111,7 +113,7 @@ test('should parse body section', () => {
   const message = '1 FETCH (BODY[1] {14}\r\nsome message\r\n)'
   const parsed = fetchResponseParser(message)
 
-  expect(parsed.body?.[0].section).toStrictEqual(1)
+  expect(parsed.body?.[0].section).toStrictEqual('1')
   expect(parsed.body?.[0].text).toStrictEqual('some message')
 })
 
@@ -144,17 +146,19 @@ test('should parse full body message', () => {
   expect.soft(parsed.headers.contentType).toStrictEqual({
     type: 'multipart/alternative',
     boundary: '00000000000002133006258c9558',
+    charset: null,
+    encoding: null,
   })
   expect.soft(parsed.headers.mimeVersion).toStrictEqual('1.0')
 
   expect.soft(parsed.body?.[0].text).toStrictEqual('some message')
-  expect.soft(parsed.body?.[0].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
   expect.soft(parsed.body?.[0].encoding).toBeNull()
 
   expect.soft(parsed.body?.[1].text).toStrictEqual('<div dir="ltr">some message</div>')
-  expect.soft(parsed.body?.[1].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[1].section).toStrictEqual('2')
   expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/html')
   expect.soft(parsed.body?.[1].charset).toStrictEqual('UTF-8')
   expect(parsed.body?.[1].encoding).toBeNull()
@@ -164,7 +168,7 @@ test('should parse mime responses', () => {
   const message = '1 FETCH (BODY[1.MIME] {45}\r\nContent-Type: text/plain; charset="UTF-8"\r\n\r\n)'
   const parsed = fetchResponseParser(message)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
 })
@@ -173,7 +177,7 @@ test('should parse headers of 2 section', () => {
   const message = '1 FETCH (BODY[2.HEADER] {45}\r\nContent-Type: text/plain; charset="UTF-8"\r\n\r\n)'
   const parsed = fetchResponseParser(message)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('2')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
 })
@@ -189,11 +193,11 @@ test('should parse few mime responses', () => {
     ')'
   const parsed = fetchResponseParser(message)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('2')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/html')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
 
-  expect.soft(parsed.body?.[1].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[1].section).toStrictEqual('1')
   expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/plain')
   expect.soft(parsed.body?.[1].charset).toStrictEqual('UTF-8')
 })
@@ -212,11 +216,11 @@ test('should parse few mime responses and header of 2 section', () => {
     ')'
   const parsed = fetchResponseParser(message)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('2')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/html')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
 
-  expect.soft(parsed.body?.[1].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[1].section).toStrictEqual('1')
   expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/plain')
   expect.soft(parsed.body?.[1].charset).toStrictEqual('UTF-8')
 })
@@ -240,11 +244,11 @@ test('should parse FULL macro', () => {
   expect.soft(parsed.internalDate).toStrictEqual(new Date('28-Oct-2024 17:13:08 +0000'))
   expect.soft(parsed.size).toStrictEqual(6006)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('utf-8')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
 
-  expect.soft(parsed.body?.[1].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[1].section).toStrictEqual('2')
   expect.soft(parsed.body?.[1].charset).toStrictEqual('utf-8')
   expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/html')
 })
@@ -269,11 +273,11 @@ test('should parse different options in one time', () => {
   expect.soft(parsed.internalDate).toStrictEqual(new Date('28-Oct-2024 17:13:08 +0000'))
   expect.soft(parsed.size).toStrictEqual(6006)
 
-  expect.soft(parsed.body?.[0].section).toStrictEqual(1)
+  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
   expect.soft(parsed.body?.[0].charset).toStrictEqual('utf-8')
   expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
 
-  expect.soft(parsed.body?.[1].section).toStrictEqual(2)
+  expect.soft(parsed.body?.[1].section).toStrictEqual('2')
   expect.soft(parsed.body?.[1].charset).toStrictEqual('utf-8')
   expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/html')
 })

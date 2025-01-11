@@ -11,9 +11,46 @@ const FLAGS_REGEX = /FLAGS \((?<flags>(?:[\w\\$]+ ?)*)\)/
 const BODY_HEADER_REGEX = /BODY\[HEADER] \{\d+}\r\n(?<headers>[\W\w]*)\r\n/
 const ENVELOPE_REGEX =
   /ENVELOPE \((?:"(?<date>.*)"|NIL|"") (?:"(?<subject>.*)"|""|NIL) (?:\((?<from>.+)\)|NIL) (?:\((?<sender>.+)\)|NIL) (?:\((?<replyTo>.+)\)|NIL) (?:\((?<to>.+)\)|NIL) (?:\((?<cc>.+)\)|NIL) (?:\((?<bcc>.+)\)|NIL) (?:\((?<inReplyTo>.+)\)|NIL) (?:"<(?<messageId>.+)>"|NIL|"")\)/
+const BODY_SPECIFIED_REGEX = /BODY\[(?<section>[\d.]+)] {\d+}\r\n(?<body>.*)\r\n/g
+const BODY_WITH_HEADERS_REGEX =
+  /BODY\[] {\d+}\r\n(?<headers>(?:[\w-]+: ?.+\r\n)+)\r\n(?<bodyList>(?<boundary>--.+)\r\n[\w\W\r\n]+)/
 
 function unfoldMessage(raw: string): string {
   return raw.replaceAll(/\r\n[ \t]/g, ' ').replaceAll(/ {8}/g, ' ')
+}
+
+function parseHeaders(headersString: string): MessageHeadersParsed {
+  const headersMatchAll = headersString.matchAll(/^(?<name>[\w-]+): ?(?<value>.*)(?:\r\n)?/gm)
+
+  const headersList = [...headersMatchAll]
+    .map((match) => {
+      if (!match.groups?.name || !match.groups?.value) return false
+
+      return { name: match.groups?.name, value: match.groups?.value }
+    })
+    .filter((i) => !!i)
+
+  // TODO: Add support of CC and other headers
+  const fromValue = headersList.find((i) => i.name === 'From')?.value
+  const toValue = headersList.find((i) => i.name === 'To')?.value
+
+  const dateValue = headersList.find((i) => i.name === 'Date')?.value
+  const messageIdValue = headersList.find((i) => i.name === 'Message-ID')?.value
+  const messageId = messageIdValue?.match(/<(?<id>.*)>/)?.groups?.id
+  const contentTypeValue = headersList.find((i) => i.name === 'Content-Type')?.value
+  const subject = headersList.find((i) => i.name === 'Subject')?.value || null
+  const mimeVersion = headersList.find((i) => i.name === 'MIME-Version')?.value || null
+
+  return {
+    list: headersList,
+    from: fromValue ? parseAddressFromHeaders(fromValue) : null,
+    to: toValue ? parseAddressFromHeaders(toValue) : null,
+    subject,
+    date: dateValue ? new Date(dateValue) : null,
+    messageId: messageId || null,
+    contentType: contentTypeValue ? parseContentType(contentTypeValue) : null,
+    mimeVersion,
+  }
 }
 
 export function fetchResponseParser(rawResponse: string): FetchParseResult {
@@ -41,7 +78,7 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
     flags = flagsMatch.groups.flags.split(' ')
   }
 
-  const headers: MessageHeadersParsed = {
+  let headers: MessageHeadersParsed = {
     list: [],
     from: null,
     to: null,
@@ -54,31 +91,7 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
 
   const headersMatch = raw.match(BODY_HEADER_REGEX)
   if (headersMatch?.groups?.headers) {
-    const headersMatchAll = headersMatch?.groups?.headers.matchAll(/^(?<name>[\w-]+): ?(?<value>.*)(?:\r\n)?/gm)
-    headers.list = [...headersMatchAll]
-      .map((match) => {
-        if (!match.groups?.name || !match.groups?.value) return false
-
-        return { name: match.groups?.name, value: match.groups?.value }
-      })
-      .filter((i) => !!i)
-
-    // TODO: Add support of CC and other headers
-    const fromValue = headers.list.find((i) => i.name === 'From')?.value
-    const toValue = headers.list.find((i) => i.name === 'To')?.value
-
-    const dateValue = headers.list.find((i) => i.name === 'Date')?.value
-    const messageIdValue = headers.list.find((i) => i.name === 'Message-ID')?.value
-    const messageId = messageIdValue?.match(/<(?<id>.*)>/)?.groups?.id
-    const contentTypeValue = headers.list.find((i) => i.name === 'Content-Type')?.value
-
-    headers.from = fromValue ? parseAddressFromHeaders(fromValue) : null
-    headers.to = toValue ? parseAddressFromHeaders(toValue) : null
-    headers.subject = headers.list.find((i) => i.name === 'Subject')?.value || null
-    headers.date = dateValue ? new Date(dateValue) : null
-    headers.messageId = messageId || null
-    headers.contentType = contentTypeValue ? parseContentType(contentTypeValue) : null
-    headers.mimeVersion = headers.list.find((i) => i.name === 'MIME-Version')?.value || null
+    headers = parseHeaders(headersMatch?.groups?.headers)
   }
 
   const envelopeMatch = raw.match(ENVELOPE_REGEX)
@@ -95,8 +108,72 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
     messageId: envelopeMatch?.groups?.messageId || null,
   }
 
+  let body: FetchParseResult['body'] = []
+
+  const bodyMatchList = [...raw.matchAll(BODY_SPECIFIED_REGEX)]
+  if (bodyMatchList.length) {
+    bodyMatchList.forEach((bodyMatch) => {
+      if (!bodyMatch.groups?.section || !bodyMatch.groups?.body) return
+
+      const section = bodyMatch.groups.section
+      const indexOfSection = body!.findIndex((bodyItem) => bodyItem.section === section)
+
+      const newObject = {
+        charset: null,
+        contentType: null,
+        encoding: null,
+        section,
+        text: bodyMatch.groups.body,
+      }
+
+      if (indexOfSection === -1) {
+        body!.push(newObject)
+      } else {
+        body![indexOfSection] = newObject
+      }
+    })
+  }
+
+  const bodyWithHeadersMatch = raw.match(BODY_WITH_HEADERS_REGEX)
+  if (bodyWithHeadersMatch?.groups?.headers) {
+    headers = parseHeaders(bodyWithHeadersMatch?.groups?.headers)
+  }
+
+  if (bodyWithHeadersMatch?.groups?.bodyList && bodyWithHeadersMatch?.groups.boundary) {
+    const bodyList = bodyWithHeadersMatch?.groups.bodyList
+      .split(bodyWithHeadersMatch?.groups.boundary)
+      .filter((i) => i !== '\r\n' && i !== '')
+
+    bodyList?.forEach((item, index) => {
+      const match = item.match(/\r\n(?:(?<headers>(?:[\w-]+: ?.+(?:\r\n)?)+)\r\n\r\n)?(?<content>[\w\W\r\n]*)\r\n\r\n/)
+
+      if (!match?.groups?.content) return
+
+      const section = (index + 1).toString()
+      const indexOfSection = body!.findIndex((bodyItem) => bodyItem.section === section)
+
+      const contentTypeParsed = parseContentType(match?.groups?.headers || '')
+
+      const newObject = {
+        charset: contentTypeParsed.charset,
+        contentType: contentTypeParsed.type,
+        encoding: contentTypeParsed.encoding,
+        section,
+        text: match?.groups?.content,
+      }
+
+      if (indexOfSection === -1) {
+        body!.push(newObject)
+      } else {
+        body![indexOfSection] = newObject
+      }
+    })
+  }
+
+  if (!body.length) body = null
+
   return {
-    body: undefined,
+    body,
     envelope,
     flags,
     headers,

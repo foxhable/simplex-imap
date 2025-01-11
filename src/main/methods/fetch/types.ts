@@ -68,7 +68,12 @@ export interface AddressItem {
 }
 
 export type AddressesList = AddressItem[]
-export type ContentType = { type: string; boundary: string | null }
+export type ContentType = {
+  type: string
+  boundary: string | null
+  charset: string | null
+  encoding: string | null
+}
 
 export interface MessageHeadersParsed {
   list: MessageHeader[]
@@ -95,15 +100,15 @@ export interface EnvelopeParsed {
 }
 
 export interface BodyParsed {
-  section: number
-  text: string
+  section: string
+  text: string | null
   contentType: string | null
   charset: string | null
   encoding: string | null
 }
 
-type OtherMimeValues = {
-  [index: string]: string
+export type MimeValues = {
+  [index: string]: string | null
 }
 
 export interface FetchParseResult {
@@ -112,7 +117,7 @@ export interface FetchParseResult {
   size: number | null
   internalDate: Date | null
   headers: MessageHeadersParsed
-  body: Array<BodyParsed & OtherMimeValues> | null
+  body: Array<BodyParsed & MimeValues> | null
   envelope: EnvelopeParsed
   raw: string
 }
