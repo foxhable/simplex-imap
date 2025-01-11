@@ -2,6 +2,8 @@ import { Mailbox, type MailboxData } from './Mailbox.js'
 import type { SimplexIMAP } from '@/main.js'
 import { type SearchMethodConfig } from '@/main/methods/search/types.js'
 import { type UnselectMethodConfig } from '@/main/methods/unselect/types.js'
+import type { FetchConfig } from '@/main/methods/fetch/types.js'
+import type { SequenceSet } from '@/main/general/sequenceSet/sequenceSet.js'
 
 export interface SelectedMailboxData extends MailboxData {
   mailbox?: Mailbox
@@ -22,5 +24,9 @@ export class SelectedMailbox extends Mailbox {
   public async unselect(config?: UnselectMethodConfig) {
     await this.connection.unselect(config)
     return this._mailbox
+  }
+
+  public async fetch(sequenceSet: SequenceSet, config?: FetchConfig) {
+    await this.connection.fetch(sequenceSet, config)
   }
 }

@@ -18,3 +18,5 @@ node_modules
 
 # test files
 main-test.js
+
+dev-test.ts
