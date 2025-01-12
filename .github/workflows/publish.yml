@@ -28,8 +28,18 @@ jobs:
       - name: build lib
         run: pnpm build
 
+      - name: setup git config
+        run: |
+          git config --global user.email "foxhable@gmail.com"
+          git config --global user.name "foxhable"
+
       - name: change version of package
         run: npm version ${{ github.event.release.tag_name }}
+
+      - name: push version commits
+        run: |
+          git show
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" "${{ github.head_ref }}"
 
       - name: publish beta
         if: ${{ github.event.release.is_prerelease }}
