@@ -1,0 +1,24 @@
+# misc
+.husky
+.github
+.idea
+.vscode
+
+# configs
+.prettierignore
+.prettierrc.toml
+.lintstagedrc.yaml
+eslint.config.js
+tsconfig.build.json
+tsconfig.json
+vitest.config.js
+
+# test
+dev-test.ts
+
+# env
+.env.*.local
+.env.local
+
+# source
+src
