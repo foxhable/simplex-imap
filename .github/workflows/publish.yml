@@ -37,7 +37,10 @@ jobs:
         run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
 
       - name: commit version of package
-        run: git commit -m "${{ github.event.release.tag_name }}"
+        run: |
+          git add .
+          git status
+          git commit -m "${{ github.event.release.tag_name }}"
 
       - name: push version commit
         run: |
