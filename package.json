@@ -6,6 +6,7 @@
   "author": "foxhable",
   "scripts": {
     "start": "node ./lib/main.js",
+    "watch": "tsc --watch",
     "dev": "nodemon -q ./lib/main.js",
     "test": "jest"
   },
