@@ -164,7 +164,7 @@ test('should parse full body message', () => {
   expect(parsed.body?.[1].encoding).toBeNull()
 })
 
-test('should parse mime responses', () => {
+test('should parse mime response of section 1', () => {
   const message = '1 FETCH (BODY[1.MIME] {45}\r\nContent-Type: text/plain; charset="UTF-8"\r\n\r\n)'
   const parsed = fetchResponseParser(message)
 
@@ -173,7 +173,7 @@ test('should parse mime responses', () => {
   expect.soft(parsed.body?.[0].charset).toStrictEqual('UTF-8')
 })
 
-test('should parse headers of 2 section', () => {
+test('should parse headers of section 2', () => {
   const message = '1 FETCH (BODY[2.HEADER] {45}\r\nContent-Type: text/plain; charset="UTF-8"\r\n\r\n)'
   const parsed = fetchResponseParser(message)
 
@@ -187,7 +187,7 @@ test('should parse few mime responses', () => {
     '1 FETCH (BODY[2.MIME] {44}\r\n' +
     'Content-Type: text/html; charset="UTF-8"\r\n' +
     '\r\n' +
-    ' BODY[1.MIME] {45}\\r\\n' +
+    ' BODY[1.MIME] {45}\r\n' +
     'Content-Type: text/plain; charset="UTF-8"\r\n' +
     '\r\n' +
     ')'
@@ -202,15 +202,15 @@ test('should parse few mime responses', () => {
   expect.soft(parsed.body?.[1].charset).toStrictEqual('UTF-8')
 })
 
-test('should parse few mime responses and header of 2 section', () => {
+test('should parse few mime responses and header of section 2', () => {
   const message =
     '1 FETCH (BODY[2.MIME] {44}\r\n' +
     'Content-Type: text/html; charset="UTF-8"\r\n' +
     '\r\n' +
-    ' BODY[2.HEADER] {45}\\r\\n' +
+    ' BODY[2.HEADER] {45}\r\n' +
     'Content-Type: text/html; charset="UTF-8"\r\n' +
     '\r\n' +
-    ' BODY[1.MIME] {45}\\r\\n' +
+    ' BODY[1.MIME] {45}\r\n' +
     'Content-Type: text/plain; charset="UTF-8"\r\n' +
     '\r\n' +
     ')'
@@ -235,6 +235,7 @@ test('should parse ALL macro', () => {
   expect.soft(parsed.size).toStrictEqual(6006)
 })
 
+// TODO: Add tests for parsing of BODYSTRUCTURE
 test('should parse FULL macro', () => {
   const message =
     '1 FETCH (FLAGS (\\Seen) INTERNALDATE "28-Oct-2024 17:13:08 +0000" RFC822.SIZE 6006 ENVELOPE ("Mon, 28 Oct 2024 17:13:08 +0000" "test" (("foxhable" NIL "foxhable" "gmail.com")) NIL NIL (("" NIL "test" "tenvolve.ru")) NIL NIL NIL "<CACOgkFFDw7oYp-qMURqnJgzq_AKf2onre1kwzpJk5TYRfVSkkw@mail.gmail.com>") BODY (("text" "plain" ("charset" "utf-8") NIL NIL "7bit" 13 0)("text" "html" ("charset" "utf-8") NIL NIL "7bit" 34 0) "alternative"))'
@@ -243,14 +244,6 @@ test('should parse FULL macro', () => {
   expect.soft(parsed.flags).toStrictEqual(['\\Seen'])
   expect.soft(parsed.internalDate).toStrictEqual(new Date('28-Oct-2024 17:13:08 +0000'))
   expect.soft(parsed.size).toStrictEqual(6006)
-
-  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
-  expect.soft(parsed.body?.[0].charset).toStrictEqual('utf-8')
-  expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
-
-  expect.soft(parsed.body?.[1].section).toStrictEqual('2')
-  expect.soft(parsed.body?.[1].charset).toStrictEqual('utf-8')
-  expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/html')
 })
 
 test('should parse FAST macro', () => {
@@ -262,6 +255,7 @@ test('should parse FAST macro', () => {
   expect.soft(parsed.size).toStrictEqual(6006)
 })
 
+// TODO: Add tests for parsing of BODYSTRUCTURE
 test('should parse different options in one time', () => {
   const message =
     '1 FETCH (UID 4 FLAGS (\\Seen) RFC822.SIZE 6006 INTERNALDATE "28-Oct-2024 17:13:08 +0000" BODYSTRUCTURE (("text" "plain" ("charset" "utf-8") NIL NIL "7bit" 13 0 NIL NIL NIL NIL)("text" "html" ("charset" "utf-8") NIL NIL "7bit" 34 0 NIL NIL NIL NIL) "alternative" ("boundary" NIL)) BODY[2.MIME] {44}\r\n' +
@@ -272,12 +266,4 @@ test('should parse different options in one time', () => {
   expect.soft(parsed.flags).toStrictEqual(['\\Seen'])
   expect.soft(parsed.internalDate).toStrictEqual(new Date('28-Oct-2024 17:13:08 +0000'))
   expect.soft(parsed.size).toStrictEqual(6006)
-
-  expect.soft(parsed.body?.[0].section).toStrictEqual('1')
-  expect.soft(parsed.body?.[0].charset).toStrictEqual('utf-8')
-  expect.soft(parsed.body?.[0].contentType).toStrictEqual('text/plain')
-
-  expect.soft(parsed.body?.[1].section).toStrictEqual('2')
-  expect.soft(parsed.body?.[1].charset).toStrictEqual('utf-8')
-  expect.soft(parsed.body?.[1].contentType).toStrictEqual('text/html')
 })

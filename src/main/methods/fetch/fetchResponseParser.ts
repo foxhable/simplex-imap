@@ -14,6 +14,7 @@ const ENVELOPE_REGEX =
 const BODY_SPECIFIED_REGEX = /BODY\[(?<section>[\d.]+)] {\d+}\r\n(?<body>.*)\r\n/g
 const BODY_WITH_HEADERS_REGEX =
   /BODY\[] {\d+}\r\n(?<headers>(?:[\w-]+: ?.+\r\n)+)\r\n(?<bodyList>(?<boundary>--.+)\r\n[\w\W\r\n]+)/
+const BODY_MIME_REGEX = /BODY\[(?<section>[\d.]+).(MIME|HEADER)] \{\d+}\r\n(?<headers>.+)(?:\r\n)+/g
 
 function unfoldMessage(raw: string): string {
   return raw.replaceAll(/\r\n[ \t]/g, ' ').replaceAll(/ {8}/g, ' ')
@@ -53,6 +54,7 @@ function parseHeaders(headersString: string): MessageHeadersParsed {
   }
 }
 
+// TODO: Add parsing of BODYSTRUCTURE
 export function fetchResponseParser(rawResponse: string): FetchParseResult {
   const unfoldedRaw = unfoldMessage(rawResponse)
 
@@ -111,28 +113,26 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
   let body: FetchParseResult['body'] = []
 
   const bodyMatchList = [...raw.matchAll(BODY_SPECIFIED_REGEX)]
-  if (bodyMatchList.length) {
-    bodyMatchList.forEach((bodyMatch) => {
-      if (!bodyMatch.groups?.section || !bodyMatch.groups?.body) return
+  bodyMatchList.forEach((bodyMatch) => {
+    if (!bodyMatch.groups?.section || !bodyMatch.groups?.body) return
 
-      const section = bodyMatch.groups.section
-      const indexOfSection = body!.findIndex((bodyItem) => bodyItem.section === section)
+    const section = bodyMatch.groups.section
+    const indexOfSection = body!.findIndex((bodyItem) => bodyItem.section === section)
 
-      const newObject = {
-        charset: null,
-        contentType: null,
-        encoding: null,
-        section,
-        text: bodyMatch.groups.body,
-      }
+    const newObject = {
+      charset: null,
+      contentType: null,
+      encoding: null,
+      section,
+      text: bodyMatch.groups.body,
+    }
 
-      if (indexOfSection === -1) {
-        body!.push(newObject)
-      } else {
-        body![indexOfSection] = newObject
-      }
-    })
-  }
+    if (indexOfSection === -1) {
+      body!.push(newObject)
+    } else {
+      body![indexOfSection] = newObject
+    }
+  })
 
   const bodyWithHeadersMatch = raw.match(BODY_WITH_HEADERS_REGEX)
   if (bodyWithHeadersMatch?.groups?.headers) {
@@ -169,6 +169,31 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
       }
     })
   }
+
+  const mimeBodyMatchList = [...raw.matchAll(BODY_MIME_REGEX)]
+  mimeBodyMatchList.forEach((match) => {
+    if (!match.groups?.headers || !match.groups?.section) return
+
+    const section = match.groups.section
+    const indexOfSection = body!.findIndex((bodyItem) => bodyItem.section === section)
+
+    // TODO: parse all headers
+    const contentTypeParsed = parseContentType(match?.groups.headers)
+
+    const newObject = {
+      charset: contentTypeParsed.charset,
+      contentType: contentTypeParsed.type,
+      encoding: contentTypeParsed.encoding,
+      section,
+      text: null,
+    }
+
+    if (indexOfSection === -1) {
+      body!.push(newObject)
+    } else {
+      body![indexOfSection] = newObject
+    }
+  })
 
   if (!body.length) body = null
 
