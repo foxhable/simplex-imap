@@ -1,4 +1,4 @@
-import type { LogLevel } from 'logger'
+import type { LogLevel } from '@/logger/main.js'
 
 export const IMAP_STATUSES = {
   NOT_CONNECTED: 'not_connected',

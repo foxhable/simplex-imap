@@ -1,4 +1,4 @@
-import { tenImapLogger } from 'logger'
+import { tenImapLogger } from '@/logger/main.js'
 
 export class TenIMAPError extends Error {
   public data: any[]

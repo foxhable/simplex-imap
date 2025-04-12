@@ -2,8 +2,8 @@ import type { IMAPResponseLine, IMAPResult, IMAPTag, ResponseCode, ResponseStatu
 import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/base/types/index.js'
 import { RawIMAPError } from '@/base/general/error.js'
 
-const TAG_REGEX_PART = '([\\d*]+)'
-const STATUS_REGEX_PART = `(${Object.values(RESPONSE_STATUSES).join('|')})`
+const TAG_REGEX_PART = '(?<tag>[\\d*]+)'
+const STATUS_REGEX_PART = `(?<status>${Object.values(RESPONSE_STATUSES).join('|')})`
 const CODE_REGEX_PART = `(?:\\[(${Object.values(RESPONSE_CODES).join('|')})] )?`
 const BODY_REGEX_PART = '(.*)'
 export const IMAP_RESULT_REGEX = new RegExp(`(?:\r\n)?${TAG_REGEX_PART} ${STATUS_REGEX_PART} ${CODE_REGEX_PART}${BODY_REGEX_PART}\r\n$`)
