@@ -13,26 +13,24 @@ export interface IMAPConfig {
   readonly tlsOptions?: TLSOptions
 }
 
-const defaultConfig = {
-  port: 993,
-  tls: true,
-} as const satisfies Partial<IMAPConfig>
-
-type DefaultIMAPConfig = typeof defaultConfig
-
-function createIMAPConfig(userConfig?: IMAPConfig) {
-  return Object.assign(defaultConfig, userConfig)
-}
-
 type IMAPConnection = TLSSocket | Socket
 
 export default class IMAP {
-  private _config: DefaultIMAPConfig & IMAPConfig
-  private _connection: IMAPConnection
+  protected readonly _defaultConfig = {
+    port: 993,
+    tls: true,
+  } as const satisfies Partial<IMAPConfig>
+
+  protected readonly _config: typeof this._defaultConfig & IMAPConfig
+  protected readonly _connection: IMAPConnection
 
   constructor(config: IMAPConfig) {
-    this._config = createIMAPConfig(config)
+    this._config = this._createIMAPConfig(config)
     this._connection = this.createConnection()
+  }
+
+  protected _createIMAPConfig(userConfig?: IMAPConfig) {
+    return Object.assign(this._defaultConfig, userConfig)
   }
 
   createConnection(): IMAPConnection {
