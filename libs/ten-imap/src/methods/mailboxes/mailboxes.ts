@@ -2,7 +2,7 @@ import TenIMAP from '../../main.js'
 import type { MailboxAttribute, MailboxRole, ParsedMailbox } from './types.js'
 import { MAILBOX_ATTRIBUTES, MAILBOX_ROLES } from './types.js'
 
-export async function inboxes(this: TenIMAP) {
+export async function mailboxes(this: TenIMAP) {
   const res = await this.send('LIST',
     {
       refName: '""',
