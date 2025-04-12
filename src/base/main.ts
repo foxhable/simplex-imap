@@ -1,8 +1,9 @@
 import { connect as createTLSConnection } from 'node:tls'
 import { createConnection as createTCPConnection } from 'node:net'
 import { imap as utf7imap } from 'utf7'
+import { Buffer } from 'node:buffer'
 import { imapRawLogger as logger } from '@/logger/main.js'
-import { parseIMAPResponse } from './functions/parser.js'
+import { hasResultLine, parseIMAPResponse } from './functions/parser.js'
 
 import type {
   ExtractMethodArgs,
@@ -111,12 +112,6 @@ export default class IMAP {
     connection.once('close', this.disconnect)
     connection.once('timeout', this.disconnect)
 
-    connection.on('data', (data) => {
-      const result = parseIMAPResponse(utf7imap.decode(data.toString()))
-      logger.log('Receive message, result:\n', result)
-      if (result.status === 'BYE') this.disconnect()
-    })
-
     return connection
   }
 
@@ -133,19 +128,29 @@ export default class IMAP {
     return String(++this._tag)
   }
 
+  buffer: Buffer[] = []
+
   protected async _response(tag: string): Promise<IMAPResult> {
     return new Promise<IMAPResult>((resolve) => {
       if (!this._connection) throw new Error('Connection not created')
 
-      const handler = (data: any) => {
-        const result = parseIMAPResponse(utf7imap.decode(data.toString()))
-        if (result.tag === tag) {
-          this._connection?.removeListener('data', handler)
-          resolve(result)
-        }
+      const onData = (data: Buffer) => {
+        this.buffer.push(data)
+
+        if (!hasResultLine(utf7imap.decode(data.toString()))) return
+
+        const bufferString = utf7imap.decode(Buffer.concat(this.buffer).toString())
+
+        const result = parseIMAPResponse(bufferString)
+
+        if (result.tag !== tag) return
+
+        this._connection?.removeListener('data', onData)
+        this.buffer = []
+        resolve(result)
       }
 
-      this._connection.on('data', handler)
+      this._connection.on('data', onData)
     })
   }
 }
