@@ -1,3 +1,5 @@
+import { Mailbox } from './Mailbox.js'
+
 export const MAILBOX_ATTRIBUTES = {
   INBOX: '\\Inbox',
   SPAM: '\\Spam',
@@ -39,16 +41,6 @@ export type MailboxMessageCounts = {
   exists: number
   recent: number
   unseen: number
-}
-
-export interface MailboxData {
-  name: string
-  uid?: number | null
-  uidNext?: number | null
-  flags?: MailboxFlag[]
-  attributes?: MailboxAttribute[]
-  delimiter?: string | null
-  messageCounts?: MailboxMessageCounts | null
 }
 
 export const MAILBOX_FLAGS = {
