@@ -10,6 +10,7 @@ import type {
   SearchMethodConfig,
 } from './types.js'
 import { convertToIMAPDate } from '../../general/date/date.js'
+import { Message } from '../../classes/Mailbox/Message.js'
 
 export async function search(this: TenIMAP, config: SearchMethodConfig) {
   await this._waitStatus(IMAP_STATUSES.READY)
@@ -22,7 +23,8 @@ export async function search(this: TenIMAP, config: SearchMethodConfig) {
     throw new TenIMAPError(res.body, { res })
   }
 
-  return res
+  const messageIDs = parseSearchResponse(res.response.lines[0].raw)
+  return messageIDs.map(id => new Message(id))
 }
 
 export function generateSearchFilter(config: SearchFilter) {
@@ -144,4 +146,13 @@ function generateLogicalSearchFilter(filter: SearchFilterLogical) {
   })
 
   return result.join(' ')
+}
+
+export function parseSearchResponse(res: string): number[] {
+  const result = res
+    .match(/(\d+ |\d+$)/g)
+    ?.map(i => i.trim())
+    .map(Number)
+
+  return result || []
 }

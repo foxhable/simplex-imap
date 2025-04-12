@@ -1,5 +1,3 @@
-import { Mailbox } from './Mailbox.js'
-
 export const MAILBOX_ATTRIBUTES = {
   INBOX: '\\Inbox',
   SPAM: '\\Spam',
