@@ -1,4 +1,4 @@
-import type { IMAPTag } from "./general.js";
+import type { IMAPTag } from './general.js'
 
 export const TAGGED_RESPONSES = {
   OK: 'OK',
@@ -30,6 +30,7 @@ export interface IMAPResponseLine {
 
 export interface IMAPResult {
   tag: IMAPTag
+  ok: boolean
   status: ResponseStatus
   body: string
   code: ResponseCode | null

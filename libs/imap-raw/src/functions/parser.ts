@@ -37,6 +37,7 @@ export function parseIMAPResponse(data: string): IMAPResult {
   return {
     tag: match[1],
     status: match[2] as ResponseStatus,
+    ok: (match[2] as ResponseStatus) === 'OK',
     code: match[3] as ResponseCode || null,
     raw: match[0].replaceAll('\r\n', ''),
     body: match[4],
