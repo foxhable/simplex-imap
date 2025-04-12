@@ -8,19 +8,19 @@ test('should parse message uid', () => {
   expect(parsed.uid).toStrictEqual(4)
 })
 
-test('should parse message flags', () => {
+test('should parse message 3 flags', () => {
   const message = '1 FETCH (FLAGS (\\Seen \\Answered SomeCustomFlag $Junk))'
   const parsed = fetchResponseParser(message)
   expect(parsed.flags).toStrictEqual(['\\Seen', '\\Answered', 'SomeCustomFlag', '$Junk'])
 })
 
-test('should parse message flags', () => {
+test('should parse message 1 flags', () => {
   const message = '1 FETCH (FLAGS (\\Seen))'
   const parsed = fetchResponseParser(message)
   expect(parsed.flags).toStrictEqual(['\\Seen'])
 })
 
-test('should parse message flags', () => {
+test('should parse message zero flags', () => {
   const message = '1 FETCH (FLAGS ())'
   const parsed = fetchResponseParser(message)
   expect(parsed.flags).toStrictEqual([])
