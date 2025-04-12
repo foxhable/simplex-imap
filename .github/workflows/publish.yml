@@ -45,7 +45,7 @@ jobs:
       - name: push version commit
         run: |
           git show
-          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" "refs/heads/master"
+          git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" "origin/master"
 
       - name: publish beta
         if: ${{ github.event.release.is_prerelease }}
