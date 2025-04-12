@@ -25,6 +25,9 @@ jobs:
       - name: install deps
         run: pnpm install
 
+      - name: build lib
+        run: pnpm build
+
       - name: change version of package
         run: npm version ${{ github.event.release.tag_name }}
 
