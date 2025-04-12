@@ -8,6 +8,7 @@ import { login } from './main/methods/login/login.js'
 import { select } from './main/methods/select/select.js'
 import { unselect } from './main/methods/unselect/unselect.js'
 import { search } from './main/methods/search/search.js'
+import { fetch } from './main/methods/fetch/fetch.js'
 
 export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
@@ -17,6 +18,7 @@ export class SimplexIMAP extends IMAP {
   public select = select
   public unselect = unselect
   public search = search
+  public fetch = fetch
 
   constructor(config: IMAPConfig) {
     super(config)
