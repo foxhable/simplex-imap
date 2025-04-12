@@ -21,10 +21,10 @@
     "typescript": "^5.2.2",
     "utf7": "^1.0.2"
   },
-  "files": [
-    "src/**/*.ts",
-    "lib/**/*.js"
-  ],
+  "exports": {
+    ".": "./lib/main.js",
+    "./types": "./lib/types/index.js"
+  },
   "engines": {
     "node": ">=17"
   },
