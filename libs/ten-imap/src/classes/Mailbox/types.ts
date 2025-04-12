@@ -43,12 +43,12 @@ export type MailboxMessageCounts = {
 
 export interface MailboxData {
   name: string
-  uid?: number
-  uidNext?: number
+  uid?: number | null
+  uidNext?: number | null
   flags?: MailboxFlag[]
   attributes?: MailboxAttribute[]
   delimiter?: string | null
-  messageCounts?: MailboxMessageCounts
+  messageCounts?: MailboxMessageCounts | null
 }
 
 export const MAILBOX_FLAGS = {
