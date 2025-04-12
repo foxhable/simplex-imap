@@ -2,7 +2,7 @@ import { connect as createTLSConnection } from 'node:tls'
 import { createConnection as createTCPConnection } from 'node:net'
 import { imap as utf7imap } from 'utf7'
 import { Buffer } from 'node:buffer'
-import { imapRawLogger as logger } from '@/logger/main.js'
+import { imapRawLogger, imapRawLogger as logger } from '@/logger/main.js'
 import { hasResultLine, parseIMAPResponse } from './functions/parser.js'
 
 import type {
@@ -111,6 +111,10 @@ export default class IMAP {
     connection.once('data', () => (this._status = IMAP_STATUSES.READY))
     connection.once('close', this.disconnect)
     connection.once('timeout', this.disconnect)
+
+    connection.on('data', (data) => {
+      imapRawLogger.log('New message:\n', utf7imap.decode(data.toString()))
+    })
 
     return connection
   }
