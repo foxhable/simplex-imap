@@ -7,9 +7,7 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "start": "node ./lib/main.js",
     "build:watch": "tsc --watch --project tsconfig.build.json",
-    "dev": "nodemon -q ./lib/main.js",
     "test": "jest"
   },
   "devDependencies": {
