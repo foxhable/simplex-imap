@@ -11,5 +11,6 @@
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-  }
+  },
+  "exclude": ["../../libs/**/*.test.*"]
 }
