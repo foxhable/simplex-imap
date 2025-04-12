@@ -1,9 +1,0 @@
-{
-  "tasks": {
-    "dev": "deno run --watch --allow-net dev-test.ts"
-  },
-  "imports": {
-    "@/": "./src/"
-  },
-  "unstable": ["sloppy-imports", "bare-node-builtins"]
-}
