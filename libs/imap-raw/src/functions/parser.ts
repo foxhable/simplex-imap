@@ -1,3 +1,4 @@
+import { imapRawLogger as logger } from 'logger'
 import type { IMAPResponseLine, IMAPResult, IMAPTag, ResponseCode, ResponseStatus } from '../types/index.js'
 import { RESPONSE_CODES, RESPONSE_STATUSES } from '../types/index.js'
 
@@ -12,7 +13,7 @@ export function parseIMAPResponse(data: string): IMAPResult {
   const match = data.match(IMAP_RESULT_REGEX)
 
   if (!match) {
-    console.error('Data doesnt match to regex pattern. Data:\n', data)
+    logger.err('Data doesnt match to regex pattern. Data:\n', data)
     throw new Error('Error while parsing')
   }
 
@@ -20,8 +21,8 @@ export function parseIMAPResponse(data: string): IMAPResult {
   const responseLines = response
     .split('\r\n')
     .filter(Boolean)
-    .map(line => [line, line.match(IMAP_RESPONSE_LINE_REGEX)])
-    .map<IMAPResponseLine>(([line, lineMatch]) => {
+    .map(line => [ line, line.match(IMAP_RESPONSE_LINE_REGEX) ])
+    .map<IMAPResponseLine>(([ line, lineMatch ]) => {
       if (!lineMatch) {
         console.error('Response line doesnt match to regex pattern. Line:\n', line, '\nResponse:\n', response)
         throw new Error('Error while parsing')

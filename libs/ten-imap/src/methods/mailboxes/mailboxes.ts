@@ -1,4 +1,5 @@
-import TenIMAP from '../../main.js'
+import { tenImapLogger as logger } from 'logger'
+import type TenIMAP from '../../main.js'
 import type { MailboxAttribute, MailboxRole, ParsedMailbox } from './types.js'
 import { MAILBOX_ATTRIBUTES, MAILBOX_ROLES } from './types.js'
 
@@ -30,8 +31,8 @@ function parseMailbox(text: string): ParsedMailbox {
   const match = text.match(MAILBOX_PARSE_REGEX)
 
   if (!match) {
-    console.error('[ten-imap] LIST response text doesnt match to regex pattern. Text:\n', text)
-    throw new Error('[ten-imap] Error while parsing LIST response item')
+    logger.err('LIST response text doesnt match to regex pattern. Text:\n', text)
+    throw new Error('Error while parsing LIST response item')
   }
 
   return {

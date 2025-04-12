@@ -1,7 +1,7 @@
 import { connect as createTLSConnection } from 'tls'
 import { createConnection as createTCPConnection } from 'net'
 import { imap as utf7imap } from 'utf7'
-
+import { imapRawLogger as logger } from 'logger'
 import { parseIMAPResponse } from './functions/parser.js'
 
 import type {
@@ -13,15 +13,15 @@ import type {
   IMAPStatus,
   MethodWithArgs,
   MethodWithoutArgs,
-} from './types/index.js'
-import { IMAP_STATUSES } from './types/index.js'
+  } from './types/index.js'
+import { IMAP_STATUSES, LOG_LEVELS } from './types/index.js'
 
 export default class IMAP {
   protected readonly _defaultConfig = {
     port: 993,
     tls: true,
     connectOnCreating: true,
-    debug: false,
+    logLevel: LOG_LEVELS.NONE,
   } as const satisfies Partial<IMAPConfig>
 
   protected readonly _config: typeof this._defaultConfig & IMAPConfig
@@ -31,6 +31,7 @@ export default class IMAP {
 
   constructor(config: IMAPConfig) {
     this._config = this._createIMAPConfig(config)
+    logger.setLogLevel(config.logLevel || this._defaultConfig.logLevel)
 
     if (this._config.connectOnCreating) {
       this._connection = this._createConnection()
@@ -59,7 +60,7 @@ export default class IMAP {
     const body = `${_tag} ${method}${_args}\r\n`
 
     this._connection.write(body)
-    this._consoleIMAP.log('Sent message, body:\n', body)
+    logger.log('Sent message, body:\n', body)
     return await this._response(_tag)
   }
 
@@ -92,7 +93,7 @@ export default class IMAP {
 
     connection.on('data', data => {
       const result = parseIMAPResponse(utf7imap.decode(data.toString()))
-      this._consoleIMAP.log('Receive message, result:\n', result)
+      logger.log('Receive message, result:\n', result)
       if (result.status === 'BYE') this.disconnect()
     })
 
@@ -105,7 +106,7 @@ export default class IMAP {
     clearTimeout(timeout)
     this._status = IMAP_STATUSES.DISCONNECTED
     this._connection = null
-    this._consoleIMAP.log('Connection was closed')
+    logger.log('Connection was closed')
   }
 
   protected _getTag(): string {
@@ -126,15 +127,5 @@ export default class IMAP {
 
       this._connection.on('data', handler)
     })
-  }
-
-  protected _logIMAP(body: string, ...info: any[]) {
-    if (!this._config.debug) return
-
-    console.log(`[imap-raw]: ${body}`, ...info)
-  }
-
-  protected _consoleIMAP = {
-    log: (body: string, ...info: any[]) => this._logIMAP.call(this, body, ...info)
   }
 }

@@ -6,8 +6,8 @@ import { mailboxes } from './methods/mailboxes/mailboxes.js'
 import { login } from './methods/login/login.js'
 
 export default class TenIMAP extends IMAP {
-  inboxes = mailboxes
-  login = login
+  public inboxes = mailboxes
+  public login = login
 
   constructor(config: IMAPConfig) {
     super(config)
