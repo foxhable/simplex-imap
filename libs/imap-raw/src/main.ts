@@ -1,6 +1,6 @@
 import { connect as createTLSConnection, type TLSSocket } from "tls";
 import { createConnection as createTCPConnection, type Socket } from 'net'
-import { ExtractMethodArgs, IMAPMethod } from "./types/methods.js";
+import { ExtractMethodArgs, IMAPMethod, MethodWithArgs, MethodWithoutArgs } from "./types/methods.js";
 
 export interface TLSOptions {
   readonly ca: string
@@ -24,6 +24,8 @@ export default class IMAP {
   protected readonly _config: typeof this._defaultConfig & IMAPConfig
   protected readonly _connection: IMAPConnection
 
+  protected _tag: number = 0
+
   constructor(config: IMAPConfig) {
     this._config = this._createIMAPConfig(config)
     this._connection = this.createConnection()
@@ -34,22 +36,28 @@ export default class IMAP {
   }
 
   createConnection(): IMAPConnection {
-    let connection
-
     const _config = {
       host: this._config.host,
       port: this._config.port,
     }
 
-    if (this._config.tls) connection = createTLSConnection(_config)
-    if (!this._config.tls) connection = createTCPConnection(_config)
+    const connection = this._config.tls ? createTLSConnection(_config) : createTCPConnection(_config)
 
     if (!connection) throw new Error('Error while creating connection')
 
     return connection
   }
 
-  send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>) {
+  protected _getTag(): string {
+    return String(++this._tag)
+  }
 
+  send<TMethod extends MethodWithoutArgs>(method: TMethod): void
+  send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): void
+  send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): void {
+    const _args = args ? ` ${Object.values(args).join(' ')}` : ''
+    const body = `${this._getTag()} ${method}` + _args + '\r\n'
+
+    this._connection.write(body)
   }
 }

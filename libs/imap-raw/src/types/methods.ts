@@ -55,5 +55,7 @@ type MethodsMap = [
   CreateMethod<'COPY', { sequenceSet: string, mailbox: string }>,
   CreateMethod<'UID', { command: string, args: string }>,
 ]
+export type MethodWithArgs = Extract<MethodsMap[number], { args: { [index: string]: any } }>['method']
+export type MethodWithoutArgs = Extract<MethodsMap[number], { args: null }>['method']
 
 export type ExtractMethodArgs<TMethod extends IMAPMethod> = Extract<MethodsMap[number], { method: TMethod }>['args']
