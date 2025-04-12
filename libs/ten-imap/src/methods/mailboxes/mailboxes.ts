@@ -1,17 +1,18 @@
-import { tenImapLogger as logger } from 'logger'
 import type TenIMAP from '../../main.js'
 import type { MailboxAttribute, MailboxRole, ParsedMailbox } from './types.js'
 import { MAILBOX_ATTRIBUTES, MAILBOX_ROLES } from './types.js'
+import { TenIMAPError } from '../../general/error.js'
 
 export async function mailboxes(this: TenIMAP) {
-  const res = await this.send('LIST',
+  const res = await this.send(
+    'LIST',
     {
       refName: '""',
       mailbox: '"*"',
     },
   )
 
-  if (!res.ok) throw new Error('[ten-imap] Error while getting inbox list')
+  if (!res.ok) throw new TenIMAPError('Error while getting inbox list')
 
   const list = res.response.lines.map(line => {
     const parsedData = parseMailbox(line.body)
@@ -31,8 +32,7 @@ function parseMailbox(text: string): ParsedMailbox {
   const match = text.match(MAILBOX_PARSE_REGEX)
 
   if (!match) {
-    logger.err('LIST response text doesnt match to regex pattern. Text:\n', text)
-    throw new Error('Error while parsing LIST response item')
+    throw new TenIMAPError('LIST response text doesnt match to regex pattern', { text })
   }
 
   return {

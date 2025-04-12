@@ -15,6 +15,7 @@ import type {
   MethodWithoutArgs,
   } from './types/index.js'
 import { IMAP_STATUSES, LOG_LEVELS } from './types/index.js'
+import { RawIMAPError } from './general/error.js'
 
 export default class IMAP {
   protected readonly _defaultConfig = {
@@ -84,7 +85,7 @@ export default class IMAP {
 
     const connection = this._config.tls ? createTLSConnection(_config) : createTCPConnection(_config)
 
-    if (!connection) throw new Error('Error while creating connection')
+    if (!connection) throw new RawIMAPError('Error while creating connection')
 
     connection.once('connect', () => this._status = IMAP_STATUSES.CONNECTED)
     connection.once('data', () => this._status = IMAP_STATUSES.READY)
