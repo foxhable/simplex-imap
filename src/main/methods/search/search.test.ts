@@ -9,7 +9,7 @@ describe('Simple single filters', () => {
   describe('Filter by headers', () => {
     it('Should be set HEADER sender', () => {
       const filter: SearchFilter = {
-        headers: { header: [ { field: HEADER_FIELDS.SENDER, value: 'it@example.ru' } ] },
+        headers: { header: [{ field: HEADER_FIELDS.SENDER, value: 'it@example.ru' }] },
       }
 
       expect(generateSearchFilter(filter)).toBe('HEADER sender it@example.ru')
@@ -30,7 +30,7 @@ describe('Simple single filters', () => {
 
     it('Should be set one BCC', () => {
       const filter: SearchFilter = {
-        headers: { bcc: [ 'it' ] },
+        headers: { bcc: ['it'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('BCC "it"')
@@ -38,7 +38,7 @@ describe('Simple single filters', () => {
 
     it('Should be set two BCC', () => {
       const filter: SearchFilter = {
-        headers: { bcc: [ 'it', 'test1' ] },
+        headers: { bcc: ['it', 'test1'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('BCC "it" BCC "test1"')
@@ -46,7 +46,7 @@ describe('Simple single filters', () => {
 
     it('Should be set one CC', () => {
       const filter: SearchFilter = {
-        headers: { cc: [ 'it' ] },
+        headers: { cc: ['it'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('CC "it"')
@@ -54,7 +54,7 @@ describe('Simple single filters', () => {
 
     it('Should be set two CC', () => {
       const filter: SearchFilter = {
-        headers: { cc: [ 'it', 'test1' ] },
+        headers: { cc: ['it', 'test1'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('CC "it" CC "test1"')
@@ -62,7 +62,7 @@ describe('Simple single filters', () => {
 
     it('Should be set one FROM', () => {
       const filter: SearchFilter = {
-        headers: { from: [ 'it@example.com' ] },
+        headers: { from: ['it@example.com'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('FROM it@example.com')
@@ -70,7 +70,7 @@ describe('Simple single filters', () => {
 
     it('Should be set two FROM', () => {
       const filter: SearchFilter = {
-        headers: { from: [ 'it@example.com', 'test1@example.com' ] },
+        headers: { from: ['it@example.com', 'test1@example.com'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('FROM it@example.com FROM test1@example.com')
@@ -78,7 +78,7 @@ describe('Simple single filters', () => {
 
     it('Should be set one TO', () => {
       const filter: SearchFilter = {
-        headers: { to: [ 'it@example.com' ] },
+        headers: { to: ['it@example.com'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('TO it@example.com')
@@ -86,7 +86,7 @@ describe('Simple single filters', () => {
 
     it('Should be set two TO', () => {
       const filter: SearchFilter = {
-        headers: { to: [ 'it@example.com', 'test1@example.com' ] },
+        headers: { to: ['it@example.com', 'test1@example.com'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('TO it@example.com TO test1@example.com')
@@ -97,7 +97,7 @@ describe('Simple single filters', () => {
     it('Should be set one ON date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { on: [ date ] },
+        date: { on: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)}`)
@@ -108,7 +108,7 @@ describe('Simple single filters', () => {
       const date2 = new Date(date.getTime() + 60 * 60 * 1000)
 
       const filter: SearchFilter = {
-        date: { on: [ date, date2 ] },
+        date: { on: [date, date2] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)} ON ${convertToIMAPDate(date2)}`)
@@ -117,7 +117,7 @@ describe('Simple single filters', () => {
     it('Should be set SENTON date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { sentOn: [ date ] },
+        date: { sentOn: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SENTON ${convertToIMAPDate(date)}`)
@@ -126,7 +126,7 @@ describe('Simple single filters', () => {
     it('Should be set SINCE date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { since: [ date ] },
+        date: { since: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SINCE ${convertToIMAPDate(date)}`)
@@ -135,7 +135,7 @@ describe('Simple single filters', () => {
     it('Should be set SENTSINCE date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { sentSince: [ date ] },
+        date: { sentSince: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SENTSINCE ${convertToIMAPDate(date)}`)
@@ -144,7 +144,7 @@ describe('Simple single filters', () => {
     it('Should be set BEFORE date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { before: [ date ] },
+        date: { before: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`BEFORE ${convertToIMAPDate(date)}`)
@@ -153,7 +153,7 @@ describe('Simple single filters', () => {
     it('Should be set SENTBEFORE date', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        date: { sentBefore: [ date ] },
+        date: { sentBefore: [date] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SENTBEFORE ${convertToIMAPDate(date)}`)
@@ -164,7 +164,7 @@ describe('Simple single filters', () => {
     it('Should be set SUBJECT', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        content: { subject: [ 'it' ] },
+        content: { subject: ['it'] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SUBJECT "it"`)
@@ -173,7 +173,7 @@ describe('Simple single filters', () => {
     it('Should be set BODY', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        content: { body: [ 'it' ] },
+        content: { body: ['it'] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`BODY "it"`)
@@ -182,7 +182,7 @@ describe('Simple single filters', () => {
     it('Should be set TEXT', () => {
       const date = new Date()
       const filter: SearchFilter = {
-        content: { text: [ 'it' ] },
+        content: { text: ['it'] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`TEXT "it"`)
@@ -192,7 +192,7 @@ describe('Simple single filters', () => {
   describe('Filter by props', () => {
     it('Should be set UID', () => {
       const filter: SearchFilter = {
-        props: { uid: [ '1' ] },
+        props: { uid: ['1'] },
       }
 
       expect(generateSearchFilter(filter)).toBe('UID 1')
@@ -200,7 +200,7 @@ describe('Simple single filters', () => {
 
     it('Should be set one KEYWORD', () => {
       const filter: SearchFilter = {
-        props: { keyword: [ MAILBOX_FLAGS.FLAGGED ] },
+        props: { keyword: [MAILBOX_FLAGS.FLAGGED] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
@@ -208,7 +208,7 @@ describe('Simple single filters', () => {
 
     it('Should be set two KEYWORD', () => {
       const filter: SearchFilter = {
-        props: { keyword: [ MAILBOX_FLAGS.FLAGGED, MAILBOX_FLAGS.DELETED ] },
+        props: { keyword: [MAILBOX_FLAGS.FLAGGED, MAILBOX_FLAGS.DELETED] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED} KEYWORD ${MAILBOX_FLAGS.DELETED}`)
@@ -216,7 +216,7 @@ describe('Simple single filters', () => {
 
     it('Should be set UNKEYWORD', () => {
       const filter: SearchFilter = {
-        props: { unKeyword: [ MAILBOX_FLAGS.FLAGGED ] },
+        props: { unKeyword: [MAILBOX_FLAGS.FLAGGED] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`UNKEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
@@ -224,7 +224,7 @@ describe('Simple single filters', () => {
 
     it('Should be set LARGER', () => {
       const filter: SearchFilter = {
-        props: { larger: [ 200 ] },
+        props: { larger: [200] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`LARGER 200`)
@@ -232,7 +232,7 @@ describe('Simple single filters', () => {
 
     it('Should be set SMALLER', () => {
       const filter: SearchFilter = {
-        props: { smaller: [ 200 ] },
+        props: { smaller: [200] },
       }
 
       expect(generateSearchFilter(filter)).toBe(`SMALLER 200`)
@@ -325,7 +325,7 @@ describe('Simple single filters', () => {
 describe('Advanced filters', () => {
   it('Should be NOT ANSWERED', () => {
     const filter: SearchFilter = {
-      logical: { not: [ { flags: { answered: true } } ] },
+      logical: { not: [{ flags: { answered: true } }] },
     }
 
     expect(generateSearchFilter(filter)).toBe('NOT ANSWERED')
@@ -334,12 +334,7 @@ describe('Advanced filters', () => {
   it('Should be OR ANSWERED SEEN', () => {
     const filter: SearchFilter = {
       logical: {
-        or: [
-          [
-            { flags: { answered: true } },
-            { flags: { seen: true } },
-          ],
-        ],
+        or: [[{ flags: { answered: true } }, { flags: { seen: true } }]],
       },
     }
 
@@ -349,12 +344,7 @@ describe('Advanced filters', () => {
   it('Should be OR NOT ANSWERED SEEN', () => {
     const filter: SearchFilter = {
       logical: {
-        or: [
-          [
-            { logical: { not: [ { flags: { answered: true } } ] } },
-            { flags: { seen: true } },
-          ],
-        ],
+        or: [[{ logical: { not: [{ flags: { answered: true } }] } }, { flags: { seen: true } }]],
       },
     }
 
@@ -366,8 +356,8 @@ describe('Advanced filters', () => {
       logical: {
         or: [
           [
-            { logical: { not: [ { flags: { answered: true } } ] } },
-            { logical: { or: [ [ { flags: { seen: true } }, { flags: { flagged: true } } ] ] } },
+            { logical: { not: [{ flags: { answered: true } }] } },
+            { logical: { or: [[{ flags: { seen: true } }, { flags: { flagged: true } }]] } },
           ],
         ],
       },
@@ -379,12 +369,12 @@ describe('Advanced filters', () => {
   it('Should be SUBJECT "it" FROM it@example.com OR NOT ANSWERED OR SEEN FLAGGED', () => {
     const filter: SearchFilter = {
       content: { subject: ['it'] },
-      headers: { from: [ 'it@example.com' ] },
+      headers: { from: ['it@example.com'] },
       logical: {
         or: [
           [
-            { logical: { not: [ { flags: { answered: true } } ] } },
-            { logical: { or: [ [ { flags: { seen: true } }, { flags: { flagged: true } } ] ] } },
+            { logical: { not: [{ flags: { answered: true } }] } },
+            { logical: { or: [[{ flags: { seen: true } }, { flags: { flagged: true } }]] } },
           ],
         ],
       },
@@ -400,13 +390,13 @@ describe('Advanced filters', () => {
     const filter: SearchFilter = {
       content: {
         subject: ['test2'],
-        text: ['it']
+        text: ['it'],
       },
-      headers: { from: [ 'it@example.com' ] },
+      headers: { from: ['it@example.com'] },
       flags: {
         seen: false,
         new: true,
-      }
+      },
     }
 
     expect(generateSearchFilter(filter))

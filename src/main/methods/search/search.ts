@@ -2,10 +2,12 @@ import type TenIMAP from '@/main.js'
 import { IMAP_STATUSES } from '@/base/types/index.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import type {
-  SearchFilter, SearchFilterByFlag,
+  SearchFilter,
+  SearchFilterByFlag,
   SearchFilterContent,
   SearchFilterDate,
-  SearchFilterHeaders, SearchFilterLogical,
+  SearchFilterHeaders,
+  SearchFilterLogical,
   SearchFilterProps,
   SearchMethodConfig,
 } from './types.js'
@@ -24,7 +26,7 @@ export async function search(this: TenIMAP, config: SearchMethodConfig) {
   }
 
   const messageIDs = parseSearchResponse(res.response.lines[0].raw)
-  return messageIDs.map(id => new Message(id))
+  return messageIDs.map((id) => new Message(id))
 }
 
 export function generateSearchFilter(config: SearchFilter) {
@@ -62,11 +64,11 @@ export function generateSearchFilter(config: SearchFilter) {
 function generateHeadersSearchFilter(filter: SearchFilterHeaders) {
   const result: string[] = []
 
-  filter.header?.forEach(item => result.push(`HEADER ${item.field} ${item.value}`))
-  filter.bcc?.forEach(item => result.push(`BCC "${item}"`))
-  filter.cc?.forEach(item => result.push(`CC "${item}"`))
-  filter.from?.forEach(item => result.push(`FROM ${item}`))
-  filter.to?.forEach(item => result.push(`TO ${item}`))
+  filter.header?.forEach((item) => result.push(`HEADER ${item.field} ${item.value}`))
+  filter.bcc?.forEach((item) => result.push(`BCC "${item}"`))
+  filter.cc?.forEach((item) => result.push(`CC "${item}"`))
+  filter.from?.forEach((item) => result.push(`FROM ${item}`))
+  filter.to?.forEach((item) => result.push(`TO ${item}`))
 
   return result.join(' ')
 }
@@ -74,12 +76,12 @@ function generateHeadersSearchFilter(filter: SearchFilterHeaders) {
 function generateDateSearchFilter(filter: SearchFilterDate) {
   const result: string[] = []
 
-  filter.on?.forEach(date => result.push(`ON ${convertToIMAPDate(date)}`))
-  filter.sentOn?.forEach(date => result.push(`SENTON ${convertToIMAPDate(date)}`))
-  filter.since?.forEach(date => result.push(`SINCE ${convertToIMAPDate(date)}`))
-  filter.sentSince?.forEach(date => result.push(`SENTSINCE ${convertToIMAPDate(date)}`))
-  filter.before?.forEach(date => result.push(`BEFORE ${convertToIMAPDate(date)}`))
-  filter.sentBefore?.forEach(date => result.push(`SENTBEFORE ${convertToIMAPDate(date)}`))
+  filter.on?.forEach((date) => result.push(`ON ${convertToIMAPDate(date)}`))
+  filter.sentOn?.forEach((date) => result.push(`SENTON ${convertToIMAPDate(date)}`))
+  filter.since?.forEach((date) => result.push(`SINCE ${convertToIMAPDate(date)}`))
+  filter.sentSince?.forEach((date) => result.push(`SENTSINCE ${convertToIMAPDate(date)}`))
+  filter.before?.forEach((date) => result.push(`BEFORE ${convertToIMAPDate(date)}`))
+  filter.sentBefore?.forEach((date) => result.push(`SENTBEFORE ${convertToIMAPDate(date)}`))
 
   return result.join(' ')
 }
@@ -87,9 +89,9 @@ function generateDateSearchFilter(filter: SearchFilterDate) {
 function generateContentSearchFilter(filter: SearchFilterContent) {
   const result: string[] = []
 
-  filter.subject?.forEach(item => result.push(`SUBJECT "${item}"`))
-  filter.body?.forEach(item => result.push(`BODY "${item}"`))
-  filter.text?.forEach(item => result.push(`TEXT "${item}"`))
+  filter.subject?.forEach((item) => result.push(`SUBJECT "${item}"`))
+  filter.body?.forEach((item) => result.push(`BODY "${item}"`))
+  filter.text?.forEach((item) => result.push(`TEXT "${item}"`))
 
   return result.join(' ')
 }
@@ -97,11 +99,11 @@ function generateContentSearchFilter(filter: SearchFilterContent) {
 function generatePropsSearchFilter(filter: SearchFilterProps) {
   const result: string[] = []
 
-  filter.uid?.forEach(item => result.push(`UID ${item}`))
-  filter.keyword?.forEach(item => result.push(`KEYWORD ${item}`))
-  filter.unKeyword?.forEach(item => result.push(`UNKEYWORD ${item}`))
-  filter.larger?.forEach(item => result.push(`LARGER ${item}`))
-  filter.smaller?.forEach(item => result.push(`SMALLER ${item}`))
+  filter.uid?.forEach((item) => result.push(`UID ${item}`))
+  filter.keyword?.forEach((item) => result.push(`KEYWORD ${item}`))
+  filter.unKeyword?.forEach((item) => result.push(`UNKEYWORD ${item}`))
+  filter.larger?.forEach((item) => result.push(`LARGER ${item}`))
+  filter.smaller?.forEach((item) => result.push(`SMALLER ${item}`))
 
   return result.join(' ')
 }
@@ -139,7 +141,7 @@ function generateFlagsSearchFilter(filter: SearchFilterByFlag) {
 function generateLogicalSearchFilter(filter: SearchFilterLogical) {
   const result: string[] = []
 
-  filter.not?.forEach(filter => result.push(`NOT ${generateSearchFilter(filter)}`))
+  filter.not?.forEach((filter) => result.push(`NOT ${generateSearchFilter(filter)}`))
 
   filter.or?.forEach(([filter1, filter2]) => {
     result.push(`OR ${generateSearchFilter(filter1)} ${generateSearchFilter(filter2)}`)
@@ -151,7 +153,7 @@ function generateLogicalSearchFilter(filter: SearchFilterLogical) {
 export function parseSearchResponse(res: string): number[] {
   const result = res
     .match(/(\d+ |\d+$)/g)
-    ?.map(i => i.trim())
+    ?.map((i) => i.trim())
     .map(Number)
 
   return result || []

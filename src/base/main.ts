@@ -13,7 +13,7 @@ import type {
   IMAPStatus,
   MethodWithArgs,
   MethodWithoutArgs,
-  } from './types/index.js'
+} from './types/index.js'
 import { IMAP_STATUSES, LOG_LEVELS } from './types/index.js'
 import { RawIMAPError } from './general/error.js'
 
@@ -63,8 +63,14 @@ export default class IMAP {
   }
 
   public async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<IMAPResult>
-  public async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<IMAPResult>
-  public async send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): Promise<IMAPResult> {
+  public async send<TMethod extends MethodWithArgs>(
+    method: TMethod,
+    args: ExtractMethodArgs<TMethod>,
+  ): Promise<IMAPResult>
+  public async send<TMethod extends IMAPMethod>(
+    method: TMethod,
+    args?: ExtractMethodArgs<TMethod>,
+  ): Promise<IMAPResult> {
     if (!this._connection) throw new Error('Connection not created')
     await this._waitStatus(IMAP_STATUSES.READY)
 
@@ -79,7 +85,7 @@ export default class IMAP {
   }
 
   protected _waitStatus(targetStatus: IMAPStatus) {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       if (this._status === targetStatus) resolve()
 
       setTimeout(() => this._waitStatus(targetStatus).then(resolve), 50)
@@ -100,12 +106,12 @@ export default class IMAP {
 
     if (!connection) throw new RawIMAPError('Error while creating connection')
 
-    connection.once('connect', () => this._status = IMAP_STATUSES.CONNECTED)
-    connection.once('data', () => this._status = IMAP_STATUSES.READY)
+    connection.once('connect', () => (this._status = IMAP_STATUSES.CONNECTED))
+    connection.once('data', () => (this._status = IMAP_STATUSES.READY))
     connection.once('close', this.disconnect)
     connection.once('timeout', this.disconnect)
 
-    connection.on('data', data => {
+    connection.on('data', (data) => {
       const result = parseIMAPResponse(utf7imap.decode(data.toString()))
       logger.log('Receive message, result:\n', result)
       if (result.status === 'BYE') this.disconnect()
@@ -128,7 +134,7 @@ export default class IMAP {
   }
 
   protected async _response(tag: string): Promise<IMAPResult> {
-    return new Promise<IMAPResult>(resolve => {
+    return new Promise<IMAPResult>((resolve) => {
       if (!this._connection) throw new Error('Connection not created')
 
       const handler = (data: any) => {

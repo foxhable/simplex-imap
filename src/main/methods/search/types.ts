@@ -25,14 +25,14 @@ export const HEADER_FIELDS = {
   OPTIONAL_FIELD: 'optional-field',
 } as const
 
-export type HeaderField = typeof HEADER_FIELDS[keyof typeof HEADER_FIELDS]
+export type HeaderField = (typeof HEADER_FIELDS)[keyof typeof HEADER_FIELDS]
 
 export interface SearchFilterHeaders {
   bcc?: string[]
   cc?: string[]
   from?: string[]
   to?: string[]
-  header?: { field: HeaderField, value: string }[]
+  header?: { field: HeaderField; value: string }[]
 }
 
 export interface SearchFilterDate {
@@ -72,15 +72,16 @@ export type SearchFilterByFlag = {
   new?: boolean
 }
 
-export type SearchFilter = {
-  sequenceSet?: string
-  flags?: SearchFilterByFlag
-  headers?: SearchFilterHeaders
-  date?: SearchFilterDate
-  content?: SearchFilterContent
-  props?: SearchFilterProps
-  logical?: SearchFilterLogical
-} | { all: true }
-
+export type SearchFilter =
+  | {
+      sequenceSet?: string
+      flags?: SearchFilterByFlag
+      headers?: SearchFilterHeaders
+      date?: SearchFilterDate
+      content?: SearchFilterContent
+      props?: SearchFilterProps
+      logical?: SearchFilterLogical
+    }
+  | { all: true }
 
 export type SearchMethodConfig = { raw: string } | SearchFilter
