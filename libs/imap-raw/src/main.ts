@@ -1,9 +1,18 @@
 import { connect as createTLSConnection, type TLSSocket } from "tls";
 import { createConnection as createTCPConnection, type Socket } from 'net'
-import { ExtractMethodArgs, IMAPMethod, MethodWithArgs, MethodWithoutArgs } from "./types/methods.js";
-import { IMAPResult } from "./types/response.js";
-import { IMAP_STATUSES, IMAPConfig, IMAPStatus } from "./types/general.js";
+
 import { parseIMAPResponse } from "./functions/parser.js";
+
+import {
+  ExtractMethodArgs,
+  IMAP_STATUSES,
+  IMAPConfig,
+  IMAPMethod,
+  IMAPResult,
+  IMAPStatus,
+  MethodWithArgs,
+  MethodWithoutArgs
+} from "./types/index.js";
 
 type IMAPConnection = TLSSocket | Socket
 
@@ -19,17 +28,18 @@ export default class IMAP {
 
   protected _tag: number = 0
 
-  protected _status: IMAPStatus = IMAP_STATUSES.NOT_CONNECTED
-  get status() {
-    return this._status
-  }
-
   constructor(config: IMAPConfig) {
     this._config = this._createIMAPConfig(config)
 
     if (this._config.connectOnCreating) {
       this._connection = this._createConnection()
     }
+  }
+
+  protected _status: IMAPStatus = IMAP_STATUSES.NOT_CONNECTED
+
+  get status() {
+    return this._status
   }
 
   async connect() {
@@ -100,7 +110,7 @@ export default class IMAP {
           resolve(result)
         }
       }
-      
+
       this._connection.on('data', handler)
     })
   }
