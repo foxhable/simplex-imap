@@ -1,0 +1,67 @@
+name: Dev
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'dev'
+    paths:
+      - '**/*'
+      - '!**/*.md'
+      - '!.idea'
+      - '!.vscode'
+  pull_request:
+    branches:
+      - 'master'
+      - 'dev'
+    paths:
+      - '**/*'
+      - '!**/*.md'
+      - '!.idea'
+      - '!.vscode'
+  workflow_dispatch:
+
+jobs:
+  compile:
+    name: 'Compile and type check'
+    runs-on: ubuntu-latest
+
+    if: ${{ !startsWith( github.head_ref, 'release/v') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install pnpm via corepack
+        run: corepack enable pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Compile via tsc
+        run: pnpm run build
+
+  unit:
+    name: 'Unit tests'
+    runs-on: ubuntu-latest
+
+    if: ${{ !startsWith( github.head_ref, 'release/v') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install pnpm via corepack
+        run: corepack enable pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run unit tests
+        run: pnpm run test
