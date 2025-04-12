@@ -1,25 +1,26 @@
 {
   "type": "module",
-  "name": "imap_libs",
-  "description": "Monorepo of imap libs",
+  "name": "imap_lib",
+  "description": "imap",
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {
-    "build": "turbo run build",
-    "build:watch": "turbo run build:watch",
-    "start": "turbo run start",
-    "dev": "turbo run dev",
-    "test": "turbo run test"
+    "prepare": "husky",
+    "test": "vitest"
   },
   "devDependencies": {
-    "turbo": "latest",
-    "config": "workspace:*"
+    "@types/node": "^20.5.7",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "nodemon": "^3.0.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2",
+    "utf7": "^1.0.2",
+    "vite-tsconfig-paths": "^5.0.1",
+    "vitest": "^1.2.2"
   },
   "engines": {
     "node": ">=17"
   },
-  "packageManager": "pnpm@8.6.0",
-  "nodemonConfig": {
-    "ignore": ["*.test.*"]
-  }
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
 }
