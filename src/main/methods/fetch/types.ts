@@ -1,3 +1,5 @@
+import type { MessageFlag, MessageHeader } from '@/main/types.js'
+
 export const FETCH_MACROS = {
   ALL: 'ALL',
   FAST: 'FAST',
@@ -59,3 +61,57 @@ export type FetchConfig =
   | {
       raw: string
     }
+
+export interface AddressItem {
+  name: string | null
+  email: string
+}
+
+type AddressesList = AddressItem[]
+
+interface MessageHeadersParsed {
+  list: MessageHeader
+  from: AddressesList | null
+  to: AddressesList | null
+  subject: string | null
+  date: Date | null
+  messageId: string | null
+  contentType: { type: string; boundary: string | null } | null
+  mimeVersion: string | null
+}
+
+interface EnvelopeParsed {
+  date: Date | null
+  subject: string | null
+  from: AddressesList | null
+  sender: AddressesList | null
+  replyTo: AddressesList | null
+  to: AddressesList | null
+  cc: AddressesList | null
+  bcc: string | null
+  inReplyTo: string | null
+  messageId: string | null
+}
+
+export interface BodyParsed {
+  section: number
+  text: string
+  contentType: string | null
+  charset: string | null
+  encoding: string | null
+}
+
+type OtherMimeValues = {
+  [index: string]: string
+}
+
+export interface FetchParseResult {
+  uid: null | number
+  flags: Array<MessageFlag | string>
+  size: number | null
+  internalDate: Date
+  headers: MessageHeadersParsed
+  body: Array<BodyParsed & OtherMimeValues> | null
+  envelope: EnvelopeParsed
+  raw: string
+}
