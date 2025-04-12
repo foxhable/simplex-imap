@@ -41,17 +41,30 @@ export default class IMAP {
 
   protected _status: IMAPStatus = IMAP_STATUSES.NOT_CONNECTED
 
-  get status() {
+  public get status() {
     return this._status
   }
 
-  async connect() {
+  public async connect() {
     this._connection = this._createConnection()
   }
 
-  async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<IMAPResult>
-  async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<IMAPResult>
-  async send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): Promise<IMAPResult> {
+  public async rawSend(data: string) {
+    if (!this._connection) throw new Error('Connection not created')
+    await this._waitStatus(IMAP_STATUSES.READY)
+
+    const _tag = this._getTag()
+
+    const body = `${_tag} ${data}\r\n`
+
+    this._connection.write(body)
+    logger.log('Sent message, body:\n', body)
+    return await this._response(_tag)
+  }
+
+  public async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<IMAPResult>
+  public async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<IMAPResult>
+  public async send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): Promise<IMAPResult> {
     if (!this._connection) throw new Error('Connection not created')
     await this._waitStatus(IMAP_STATUSES.READY)
 
@@ -101,7 +114,7 @@ export default class IMAP {
     return connection
   }
 
-  async disconnect() {
+  public async disconnect() {
     const timeout = setTimeout(this._connection!.destroy, 15000)
     if (this._connection) await this.send('LOGOUT')
     clearTimeout(timeout)
