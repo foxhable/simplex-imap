@@ -1,8 +1,8 @@
 import { IMAP_STATUSES, type IMAPCredentials } from '@/base/types/index.js'
-import type { TenIMAP } from '@/main.js'
+import type { SimplexIMAP } from '@/main.js'
 import { TenIMAPError } from '@/main/general/error.js'
 
-export async function login(this: TenIMAP, credentials?: IMAPCredentials) {
+export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   await this._waitStatus(IMAP_STATUSES.READY)
 
   const _credentials = {

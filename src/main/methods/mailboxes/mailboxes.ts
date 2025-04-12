@@ -1,4 +1,4 @@
-import type { TenIMAP } from '@/main.js'
+import type { SimplexIMAP } from '@/main.js'
 import type { ParsedMailbox } from './types.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import { Mailbox } from '@/main/classes/Mailbox/Mailbox.js'
@@ -6,7 +6,7 @@ import type { MailboxAttribute } from '@/main/classes/Mailbox/types.js'
 import { MAILBOX_ATTRIBUTES } from '@/main/classes/Mailbox/types.js'
 import { RawIMAPError } from '@/base/general/error.js'
 
-export async function mailboxes(this: TenIMAP) {
+export async function mailboxes(this: SimplexIMAP) {
   const res = await this.send('LIST', {
     refName: '""',
     mailbox: '"*"',
