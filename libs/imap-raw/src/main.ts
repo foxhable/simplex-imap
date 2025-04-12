@@ -1,7 +1,8 @@
-import { connect as createTLSConnection } from "tls";
+import { connect as createTLSConnection } from 'tls'
 import { createConnection as createTCPConnection } from 'net'
+import { imap as utf7imap } from 'utf7'
 
-import { parseIMAPResponse } from "./functions/parser.js";
+import { parseIMAPResponse } from './functions/parser.js'
 
 import type {
   ExtractMethodArgs,
@@ -11,9 +12,9 @@ import type {
   IMAPResult,
   IMAPStatus,
   MethodWithArgs,
-  MethodWithoutArgs
-} from "./types/index.js";
-import {IMAP_STATUSES} from './types/index.js'
+  MethodWithoutArgs,
+} from './types/index.js'
+import { IMAP_STATUSES } from './types/index.js'
 
 export default class IMAP {
   protected readonly _defaultConfig = {
@@ -45,7 +46,6 @@ export default class IMAP {
   async connect() {
     this._connection = this._createConnection()
   }
-
 
   async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<IMAPResult>
   async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<IMAPResult>
@@ -91,7 +91,7 @@ export default class IMAP {
     connection.once('timeout', this.disconnect)
 
     connection.on('data', data => {
-      const result = parseIMAPResponse(data.toString())
+      const result = parseIMAPResponse(utf7imap.decode(data.toString()))
       this._consoleIMAP.log('Receive message, result:\n', result)
       if (result.status === 'BYE') this.disconnect()
     })
@@ -117,7 +117,7 @@ export default class IMAP {
       if (!this._connection) throw new Error('Connection not created')
 
       const handler = (data: any) => {
-        const result = parseIMAPResponse(data.toString())
+        const result = parseIMAPResponse(utf7imap.decode(data.toString()))
         if (result.tag === tag) {
           this._connection?.removeListener('data', handler)
           resolve(result)
