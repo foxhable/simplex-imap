@@ -1,0 +1,15 @@
+# misc
+.idea
+.vscode
+
+# build
+lib
+
+# package manager
+pnpm-lock.yaml
+
+# configs
+.eslintrc.json
+.lintstagedrc.yaml
+.prettierignore
+.prettierrc.toml
