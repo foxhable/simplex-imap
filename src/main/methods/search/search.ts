@@ -13,6 +13,7 @@ import type {
 } from './types.js'
 import { convertToIMAPDate } from '@/main/general/date/date.js'
 import { Message } from '@/main/classes/Mailbox/Message.js'
+import { convertSequenceSetToString } from '@/main/general/sequenceSet/sequenceSet.js'
 
 export async function search(this: SimplexIMAP, config: SearchMethodConfig) {
   await this._waitStatus(IMAP_STATUSES.READY)
@@ -26,7 +27,7 @@ export async function search(this: SimplexIMAP, config: SearchMethodConfig) {
   }
 
   const messageIDs = parseSearchResponse(res.response.lines[0].raw)
-  return messageIDs.map((id) => new Message(id))
+  return messageIDs.map((id) => new Message(this, id))
 }
 
 export function generateSearchFilter(config: SearchFilter) {
@@ -56,6 +57,10 @@ export function generateSearchFilter(config: SearchFilter) {
 
   if (typeof config.logical !== 'undefined') {
     result.push(generateLogicalSearchFilter(config.logical))
+  }
+
+  if (typeof config.sequenceSet !== 'undefined') {
+    result.push(convertSequenceSetToString(config.sequenceSet))
   }
 
   return result.join(' ')
