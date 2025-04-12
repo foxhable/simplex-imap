@@ -29,4 +29,6 @@ jobs:
         run: pnpm build
 
       - name: debug
-        run: echo ${{ github.event.release.is_prerelease }}
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
