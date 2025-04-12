@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "name": "logger",
+  "version": "0.0.1",
+  "main": "main.js",
+  "types": "main.d.ts"
+}
