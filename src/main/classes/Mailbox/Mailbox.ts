@@ -1,5 +1,5 @@
 import type { SimplexIMAP } from '@/main.js'
-import type { SelectMethodConfig } from '@/main/types/index.js'
+import type { SelectMethodConfig } from '@/main/types.js'
 
 export interface MailboxData {
   name: string
