@@ -40,59 +40,54 @@ function createTestMessage<TOptions extends TestMessageOptions>(options?: TOptio
   }
 }
 
-describe('Parser', () => {
-  const testMessage = createTestMessage()
+const testMessage = createTestMessage()
 
-  describe('parseIMAPResponse', () => {
-    describe('IMAP Response result', () => {
-      it('Should match tag', () => {
-        const result = parseIMAPResponse(testMessage.message)
+describe('IMAP Response result', () => {
+  it('Should match tag', () => {
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.tag).toMatch(testMessage.tag)
-      })
+    expect(result.tag).toMatch(testMessage.tag)
+  })
 
-      it('Should match status', () => {
-        const result = parseIMAPResponse(testMessage.message)
+  it('Should match status', () => {
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.status).toMatch(testMessage.status)
-      })
+    expect(result.status).toMatch(testMessage.status)
+  })
 
-      it('Should match code', () => {
-        const testMessage = createTestMessage({code: 'OVERQUOTA'})
-        const result = parseIMAPResponse(testMessage.message)
+  it('Should match code', () => {
+    const testMessage = createTestMessage({code: 'OVERQUOTA'})
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.code).toMatch(testMessage.code)
-      })
+    expect(result.code).toMatch(testMessage.code)
+  })
 
-      it('Should match body', () => {
-        const result = parseIMAPResponse(testMessage.message)
+  it('Should match body', () => {
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.body).toMatch(testMessage.body)
-      })
-    })
+    expect(result.body).toMatch(testMessage.body)
+  })
+})
 
-    describe('IMAP Response line', () => {
-      it('Should match zero lines', () => {
-        const result = parseIMAPResponse(testMessage.message)
+describe('IMAP Response line', () => {
+  it('Should match zero lines', () => {
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.response.lines.length).toEqual(0)
-        expect(result.response.lines[0]).toBeUndefined()
-      })
-      it('Should match one line', () => {
-        const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 1})
-        const result = parseIMAPResponse(testMessage.message)
+    expect(result.response.lines.length).toEqual(0)
+  })
+  it('Should match one line', () => {
+    const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 1})
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.response.lines.length).toEqual(1)
-        expect(result.response.lines[0].body).toMatch(testMessage.responseLines[0].body)
-      })
-      it('Should match two lines', () => {
-        const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 2})
-        const result = parseIMAPResponse(testMessage.message)
+    expect.soft(result.response.lines.length).toEqual(1)
+    expect.soft(result.response.lines[0].body).toMatch(testMessage.responseLines[0].body)
+  })
+  it('Should match two lines', () => {
+    const testMessage = createTestMessage({code: 'OVERQUOTA', lines: 2})
+    const result = parseIMAPResponse(testMessage.message)
 
-        expect(result.response.lines.length).toEqual(2)
-        expect(result.response.lines[0].body).toMatch(testMessage.responseLines[0].body)
-        expect(result.response.lines[1].body).toMatch(testMessage.responseLines[0].body)
-      })
-    })
+    expect.soft(result.response.lines.length).toEqual(2)
+    expect.soft(result.response.lines[0].body).toMatch(testMessage.responseLines[0].body)
+    expect.soft(result.response.lines[1].body).toMatch(testMessage.responseLines[0].body)
   })
 })
