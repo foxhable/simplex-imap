@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "simplex-imap",
+  "name": "@foxhable/simplex-imap",
   "description": "imap",
   "version": "0.0.1-beta.0",
   "author": "foxhable",
