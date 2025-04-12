@@ -28,7 +28,7 @@ export interface IMAPResponseLine {
   raw: string
 }
 
-export interface IMAPResult {
+export type IMAPResult = {
   tag: IMAPTag
   ok: boolean
   status: ResponseStatus
@@ -39,7 +39,13 @@ export interface IMAPResult {
     lines: IMAPResponseLine[]
     raw: string
   }
-}
+} & ({
+  ok: true
+  status: Exclude<ResponseStatus, 'NO' | 'BAD'>
+} | {
+  ok: false
+  status: Extract<ResponseStatus, 'NO' | 'BAD'>
+})
 
 export const RESPONSE_CODES = {
   ALERT: 'ALERT',
