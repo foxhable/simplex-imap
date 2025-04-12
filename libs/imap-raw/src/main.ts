@@ -1,14 +1,13 @@
 import { connect as createTLSConnection, type TLSSocket } from "tls";
 import { createConnection as createTCPConnection, type Socket } from 'net'
 import { ExtractMethodArgs, IMAPMethod, MethodWithArgs, MethodWithoutArgs } from "./types/methods.js";
-import { IMAPResponse } from "./types/response.js";
+import { IMAPResult } from "./types/response.js";
 import { IMAP_STATUSES, IMAPConfig, IMAPStatus } from "./types/general.js";
+import { parseIMAPResponse } from "./functions/parser.js";
 
 type IMAPConnection = TLSSocket | Socket
 
 export default class IMAP {
-  protected readonly _TAG_MSG_REGEX = new RegExp(`([\\d*]+)`)
-
   protected readonly _defaultConfig = {
     port: 993,
     tls: true,
@@ -25,10 +24,8 @@ export default class IMAP {
     return this._status
   }
 
-
   constructor(config: IMAPConfig) {
     this._config = this._createIMAPConfig(config)
-    this._connection = this.createConnection()
 
     if (this._config.connectOnCreating) {
       this._connection = this._createConnection()
@@ -40,9 +37,9 @@ export default class IMAP {
   }
 
 
-  async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<void>
-  async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<void>
-  async send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): Promise<void> {
+  async send<TMethod extends MethodWithoutArgs>(method: TMethod): Promise<IMAPResult>
+  async send<TMethod extends MethodWithArgs>(method: TMethod, args: ExtractMethodArgs<TMethod>): Promise<IMAPResult>
+  async send<TMethod extends IMAPMethod>(method: TMethod, args?: ExtractMethodArgs<TMethod>): Promise<IMAPResult> {
     if (!this._connection) throw new Error('Connection not created')
     await this._waitStatus(IMAP_STATUSES.READY)
 
@@ -52,6 +49,7 @@ export default class IMAP {
     const body = `${_tag} ${method}${_args}\r\n`
 
     this._connection.write(body)
+    return await this._response(_tag)
   }
 
   protected _waitStatus(targetStatus: IMAPStatus) {
@@ -89,5 +87,21 @@ export default class IMAP {
 
   protected _getTag(): string {
     return String(++this._tag)
+  }
+
+  protected async _response(tag: string): Promise<IMAPResult> {
+    return new Promise<IMAPResult>(resolve => {
+      if (!this._connection) throw new Error('Connection not created')
+
+      const handler = (data: any) => {
+        const result = parseIMAPResponse(data.toString())
+        if (result.tag === tag) {
+          this._connection?.removeListener('data', handler)
+          resolve(result)
+        }
+      }
+      
+      this._connection.on('data', handler)
+    })
   }
 }
