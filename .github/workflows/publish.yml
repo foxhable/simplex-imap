@@ -25,6 +25,9 @@ jobs:
       - name: enable pnpm
         run: corepack enable
 
+      - name: set .npmrc file
+        run: echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc
+
       - name: install deps
         run: pnpm install
 
