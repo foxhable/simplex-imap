@@ -67,20 +67,21 @@ export interface AddressItem {
   email: string
 }
 
-type AddressesList = AddressItem[]
+export type AddressesList = AddressItem[]
+export type ContentType = { type: string; boundary: string | null }
 
-interface MessageHeadersParsed {
-  list: MessageHeader
+export interface MessageHeadersParsed {
+  list: MessageHeader[]
   from: AddressesList | null
   to: AddressesList | null
   subject: string | null
   date: Date | null
   messageId: string | null
-  contentType: { type: string; boundary: string | null } | null
+  contentType: ContentType | null
   mimeVersion: string | null
 }
 
-interface EnvelopeParsed {
+export interface EnvelopeParsed {
   date: Date | null
   subject: string | null
   from: AddressesList | null
@@ -88,8 +89,8 @@ interface EnvelopeParsed {
   replyTo: AddressesList | null
   to: AddressesList | null
   cc: AddressesList | null
-  bcc: string | null
-  inReplyTo: string | null
+  bcc: AddressItem | null
+  inReplyTo: AddressItem | null
   messageId: string | null
 }
 
@@ -109,7 +110,7 @@ export interface FetchParseResult {
   uid: null | number
   flags: Array<MessageFlag | string>
   size: number | null
-  internalDate: Date
+  internalDate: Date | null
   headers: MessageHeadersParsed
   body: Array<BodyParsed & OtherMimeValues> | null
   envelope: EnvelopeParsed
