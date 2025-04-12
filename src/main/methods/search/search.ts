@@ -1,4 +1,4 @@
-import type { TenIMAP } from '@/main.js'
+import type { SimplexIMAP } from '@/main.js'
 import { IMAP_STATUSES } from '@/base/types/index.js'
 import { TenIMAPError } from '@/main/general/error.js'
 import type {
@@ -14,7 +14,7 @@ import type {
 import { convertToIMAPDate } from '@/main/general/date/date.js'
 import { Message } from '@/main/classes/Mailbox/Message.js'
 
-export async function search(this: TenIMAP, config: SearchMethodConfig) {
+export async function search(this: SimplexIMAP, config: SearchMethodConfig) {
   await this._waitStatus(IMAP_STATUSES.READY)
 
   const criteria = 'raw' in config ? config.raw : generateSearchFilter(config)

@@ -1,5 +1,5 @@
 import IMAP from '@/base/main.js'
-import { tenImapLogger } from './logger/main.js'
+import { simplexImapLogger } from './logger/main.js'
 import type { IMAPConfig } from '@/base/types/index.js'
 import type { SelectedMailbox } from './main/classes/Mailbox/SelectedMailbox.js'
 
@@ -9,7 +9,7 @@ import { select } from './main/methods/select/select.js'
 import { unselect } from './main/methods/unselect/unselect.js'
 import { search } from './main/methods/search/search.js'
 
-export class TenIMAP extends IMAP {
+export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
 
   public mailboxes = mailboxes
@@ -20,6 +20,6 @@ export class TenIMAP extends IMAP {
 
   constructor(config: IMAPConfig) {
     super(config)
-    tenImapLogger.setLogLevel(config.logLevel || this._defaultConfig.logLevel)
+    simplexImapLogger.setLogLevel(config.logLevel || this._defaultConfig.logLevel)
   }
 }
