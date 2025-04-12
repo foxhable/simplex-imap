@@ -1,4 +1,4 @@
-import TenIMAP from '@/main.js'
+import type { TenIMAP } from '@/main/types/index.js'
 import type { SelectMethodConfig } from '@/main/types/index.js'
 
 export interface MailboxData {
