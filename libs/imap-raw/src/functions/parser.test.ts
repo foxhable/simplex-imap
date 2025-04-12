@@ -1,4 +1,4 @@
-import { describe, expect, test } from '@jest/globals'
+import { describe, expect, test } from 'vitest'
 import { parseIMAPResponse } from "./parser.js";
 import type { IMAPResponseLine, ResponseCode, ResponseStatus } from "../types/index.js";
 
