@@ -1,5 +1,12 @@
-import { IMAPResult, RESPONSE_CODES, RESPONSE_STATUSES, ResponseCode, ResponseStatus } from "../types/response.js";
-import { IMAPTag } from "../types/general.js";
+import {
+  IMAPResponseLine,
+  IMAPResult,
+  IMAPTag,
+  RESPONSE_CODES,
+  RESPONSE_STATUSES,
+  ResponseCode,
+  ResponseStatus
+} from "../types/index.js";
 
 const TAG_REGEX_PART = '([\\d*]+)'
 const STATUS_REGEX_PART = `(${Object.values(RESPONSE_STATUSES).join('|')})`
@@ -7,12 +14,6 @@ const CODE_REGEX_PART = `(?:\\[(${Object.values(RESPONSE_CODES).join('|')})] )?`
 const BODY_REGEX_PART = '(.*)'
 export const IMAP_RESULT_REGEX = new RegExp(`(?:\r\n)?${TAG_REGEX_PART} ${STATUS_REGEX_PART} ${CODE_REGEX_PART}${BODY_REGEX_PART}\r\n$`)
 export const IMAP_RESPONSE_LINE_REGEX = new RegExp(`([*+]) (.+)`)
-
-export interface IMAPResponseLine {
-  tag: IMAPTag
-  body: string
-  raw: string
-}
 
 export function parseIMAPResponse(data: string): IMAPResult {
   const match = data.match(IMAP_RESULT_REGEX)

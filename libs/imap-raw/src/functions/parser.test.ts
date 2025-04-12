@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
-import { IMAPResponseLine, parseIMAPResponse } from "./parser.js";
-import { ResponseCode, ResponseStatus } from "../types/response.js";
+import { parseIMAPResponse } from "./parser.js";
+import { IMAPResponseLine, ResponseCode, ResponseStatus } from "../types/index.js";
 
 interface TestMessageOptions {
   tag?: string
