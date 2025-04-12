@@ -5,11 +5,15 @@
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {
+    "prepare": "husky",
     "test": "vitest"
   },
   "devDependencies": {
     "@types/node": "^20.5.7",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "nodemon": "^3.0.1",
+    "prettier": "^3.3.3",
     "typescript": "^5.6.2",
     "utf7": "^1.0.2",
     "vite-tsconfig-paths": "^5.0.1",
