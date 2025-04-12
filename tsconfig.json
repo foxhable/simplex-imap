@@ -1,3 +1,23 @@
 {
-  "extends": "config/tsconfig.json"
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": [ "ESNext" ],
+    "module": "Node16",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "lib",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "exclude": ["lib"]
 }
