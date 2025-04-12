@@ -1,7 +1,7 @@
 {
   "type": "module",
-  "name": "esmap",
-  "description": "library for imap",
+  "name": "imap_libs",
+  "description": "Monorepo of imap libs",
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {

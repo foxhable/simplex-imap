@@ -1,9 +1,10 @@
 {
   "type": "module",
   "name": "imap-raw",
-  "description": "library for raw IMAP",
+  "description": "lib for low-level imap",
   "version": "0.0.1",
   "author": "foxhable",
+  "main": "lib/main.js",
   "scripts": {
     "build": "tsc --project tsconfig.build.jso",
     "start": "node ./lib/main.js",
@@ -19,6 +20,10 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   },
+  "files": [
+    "src/**/*.ts",
+    "lib/**/*.js"
+  ],
   "engines": {
     "node": ">=17"
   },
