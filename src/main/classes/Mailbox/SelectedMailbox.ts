@@ -1,5 +1,5 @@
 import { Mailbox, type MailboxData } from './Mailbox.js'
-import TenIMAP from '@/main.js'
+import type { TenIMAP } from '@/main.js'
 import { type SearchMethodConfig } from '@/main/methods/search/types.js'
 import { type UnselectMethodConfig } from '@/main/methods/unselect/types.js'
 

@@ -162,7 +162,6 @@ describe('Simple single filters', () => {
 
   describe('Filter by content', () => {
     it('Should be set SUBJECT', () => {
-      const date = new Date()
       const filter: SearchFilter = {
         content: { subject: ['it'] },
       }
@@ -171,7 +170,6 @@ describe('Simple single filters', () => {
     })
 
     it('Should be set BODY', () => {
-      const date = new Date()
       const filter: SearchFilter = {
         content: { body: ['it'] },
       }
@@ -180,7 +178,6 @@ describe('Simple single filters', () => {
     })
 
     it('Should be set TEXT', () => {
-      const date = new Date()
       const filter: SearchFilter = {
         content: { text: ['it'] },
       }

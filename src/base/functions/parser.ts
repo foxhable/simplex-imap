@@ -22,7 +22,7 @@ export function parseIMAPResponse(data: string): IMAPResult {
   const match = data.match(IMAP_RESULT_REGEX)
 
   if (!match) {
-    throw new RawIMAPError('Data doesnt match to regex pattern', { data })
+    throw new RawIMAPError('Data doesnt have result response line', { data })
   }
 
   const response = data.replace(match[0], '')
@@ -45,6 +45,7 @@ export function parseIMAPResponse(data: string): IMAPResult {
       }
     })
 
+  // TODO: add text
   if (!match.groups) {
     throw new RawIMAPError('')
   }
