@@ -1,4 +1,6 @@
 # misc
+.DS_Store
+*.pem
 .idea
 .vscode
 
@@ -10,3 +12,6 @@ lib
 
 # package manager
 node_modules
+
+# turbo
+.turbo
