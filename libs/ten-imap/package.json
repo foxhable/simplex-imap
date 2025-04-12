@@ -25,6 +25,7 @@
   },
   "packageManager": "pnpm@8.6.0",
   "dependencies": {
-    "imap-raw": "workspace:*"
+    "imap-raw": "workspace:*",
+    "logger": "workspace:*"
   }
 }

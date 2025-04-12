@@ -16,6 +16,10 @@ importers:
         version: 1.10.13
 
   libs/imap-raw:
+    dependencies:
+      logger:
+        specifier: workspace:*
+        version: link:../../packages/logger
     devDependencies:
       '@jest/globals':
         specifier: ^29.7.0
@@ -44,6 +48,9 @@ importers:
       imap-raw:
         specifier: workspace:*
         version: link:../imap-raw
+      logger:
+        specifier: workspace:*
+        version: link:../../packages/logger
     devDependencies:
       '@jest/globals':
         specifier: ^29.7.0
@@ -68,6 +75,8 @@ importers:
         version: 5.2.2
 
   packages/config: {}
+
+  packages/logger: {}
 
 packages:
 
