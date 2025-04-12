@@ -37,9 +37,7 @@ jobs:
 
       - name: set stable version
         if: ${{ !github.event.release.prerelease }}
-        run:
-          - npm version ${{ github.event.release.tag_name }} -m "v%s"
-          - git push
+        run: npm version ${{ github.event.release.tag_name }} -m "v%s" | git push
 
       - name: publish beta
         if: ${{ github.event.release.prerelease }}
