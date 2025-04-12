@@ -34,9 +34,12 @@ jobs:
           git config --global user.name "foxhable"
 
       - name: change version of package
-        run: npm version ${{ github.event.release.tag_name }}
+        run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
 
-      - name: push version commits
+      - name: commit version of package
+        run: git commit -m "${{ github.event.release.tag_name }}"
+
+      - name: push version commit
         run: |
           git show
           git push "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" "${{ github.head_ref }}"
