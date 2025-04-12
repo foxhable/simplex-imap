@@ -35,14 +35,28 @@ export const MAILBOX_ROLES = {
 
 export type MailboxRole = typeof MAILBOX_ROLES[keyof typeof MAILBOX_ROLES]
 
-export type MailboxMessages = null | {
+export type MailboxMessageCounts = {
   exists: number
   recent: number
   unseen: number
 }
 
 export interface MailboxData {
+  name: string
+  uid?: number
+  uidNext?: number
+  flags?: MailboxFlag[]
   attributes?: MailboxAttribute[]
   delimiter?: string | null
-  name: string
+  messageCounts?: MailboxMessageCounts
 }
+
+export const MAILBOX_FLAGS = {
+  ANSWERED: '\\Answered',
+  FLAGGED: '\\Flagged',
+  DELETED: '\\Deleted',
+  DRAFT: '\\Draft',
+  SEEN: '\\Seen',
+} as const
+
+export type MailboxFlag = typeof MAILBOX_FLAGS[keyof typeof MAILBOX_FLAGS]

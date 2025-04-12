@@ -1,17 +1,26 @@
 import TenIMAP from '../../main.js'
 import { MAILBOX_ATTRIBUTES, MAILBOX_ROLES } from './types.js'
+import type { MailboxData, MailboxFlag } from './types.js'
 import type {
   MailboxAttribute,
+  MailboxMessageCounts,
   MailboxRole,
-  MailboxData,
-} from './types.js'
+  SelectMethodConfig,
+} from '../../types/index.js'
 
 export class Mailbox {
   protected _connection: TenIMAP
 
-  public attributes: MailboxAttribute[]
   public name: string
+  public uid: number | null = null
+  public uidNext: number | null = null
   public delimiter: string | null
+
+  public messageCounts: MailboxMessageCounts | null = null
+
+  public roles: MailboxRole[] = []
+  public flags: MailboxFlag[] = []
+  public attributes: MailboxAttribute[]
 
   public isMarked: boolean | null = null
   public isSelectable: boolean = true
@@ -21,13 +30,15 @@ export class Mailbox {
   public isSubscribed: boolean | null = null
   public isRemote: boolean | null = null
 
-  public roles: MailboxRole[] = []
-
   constructor(connection: TenIMAP, data: MailboxData) {
     this._connection = connection
     this.name = data.name
+    this.uid = data.uid || null
+    this.uidNext = data.uidNext || null
     this.attributes = data.attributes || []
     this.delimiter = data.delimiter || null
+    this.flags = data.flags || []
+    this.messageCounts = data.messageCounts || null
     this._setPropsByAttributes()
   }
 
@@ -90,5 +101,18 @@ export class Mailbox {
           break
       }
     })
+  }
+
+  public async select(config?: Omit<SelectMethodConfig, 'onlyParse'>) {
+    const parse = await this._connection.select(this.name, Object.assign({ onlyParse: true } as const, config))
+
+    this.uid = parse.uid
+    this.uidNext = parse.uidNext
+    this.messageCounts = parse.messageCounts
+    this.flags = parse.flags
+
+    this._connection.selectedMailbox = this
+
+    return this
   }
 }
