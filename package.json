@@ -4,7 +4,9 @@
   "description": "imap",
   "version": "0.0.1",
   "author": "foxhable",
-  "scripts": {},
+  "scripts": {
+    "test": "vitest"
+  },
   "devDependencies": {
     "@types/node": "^20.5.7",
     "nodemon": "^3.0.1",
