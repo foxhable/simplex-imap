@@ -1,10 +1,12 @@
-# env
+# misc
 .idea
 .vscode
+
+# env
 .env
 
 # build
 lib
 
-# npm
+# package manager
 node_modules
