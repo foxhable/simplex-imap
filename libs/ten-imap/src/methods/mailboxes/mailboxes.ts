@@ -12,7 +12,7 @@ export async function mailboxes(this: TenIMAP) {
     },
   )
 
-  if (!res.ok) throw new TenIMAPError('Error while getting inbox list')
+  if (!res.ok) throw new TenIMAPError(res.body, { res })
 
   const list = res.response.lines.map(line => {
     const parsedData = parseMailbox(line.body)
