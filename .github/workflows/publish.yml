@@ -31,6 +31,16 @@ jobs:
       - name: build lib
         run: pnpm build
 
+      - name: set beta version
+        if: ${{ github.event.release.prerelease }}
+        run: npm version --git-tag-version=false ${{ github.event.release.tag_name }}
+
+      - name: set stable version
+        if: ${{ !github.event.release.prerelease }}
+        run:
+          - npm version ${{ github.event.release.tag_name }} -m "v%s"
+          - git push
+
       - name: publish beta
         if: ${{ github.event.release.prerelease }}
         run: npm publish --tag=beta
