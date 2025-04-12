@@ -5,9 +5,9 @@
   "version": "0.0.1",
   "author": "foxhable",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.build.jso",
     "start": "node ./lib/main.js",
-    "build:watch": "tsc --watch",
+    "build:watch": "tsc --watch --project tsconfig.build.json",
     "dev": "nodemon -q ./lib/main.js",
     "test": "jest"
   },
