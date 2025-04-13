@@ -1,5 +1,5 @@
 export type * from './mailboxes/types.js'
 export type * from './select/types.js'
 export type * from './unselect/types.js'
-export * from './search/types.js'
+export type * from './search/types.js'
 export type * from './fetch/types.js'

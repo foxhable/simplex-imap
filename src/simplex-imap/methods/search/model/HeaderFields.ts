@@ -1,0 +1,26 @@
+export const HEADER_FIELDS = {
+  TRACE: 'trace',
+  RESENT_DATE: 'resent-date',
+  RESENT_FROM: 'resent-from',
+  RESENT_SENDER: 'resent-sender',
+  RESENT_TO: 'resent-to',
+  RESENT_CC: 'resent-cc',
+  RESENT_BCC: 'resent-bcc',
+  RESENT_MSG_ID: 'resent-msg-id',
+  ORIG_DATE: 'orig-date',
+  FROM: 'from',
+  SENDER: 'sender',
+  REPLY_TO: 'reply-to',
+  TO: 'to',
+  CC: 'cc',
+  BCC: 'bcc',
+  MESSAGE_ID: 'message-id',
+  IN_REPLY_TO: 'in-reply-to',
+  REFERENCES: 'references',
+  SUBJECT: 'subject',
+  COMMENTS: 'comments',
+  KEYWORDS: 'keywords',
+  OPTIONAL_FIELD: 'optional-field',
+} as const
+
+export type HeaderField = (typeof HEADER_FIELDS)[keyof typeof HEADER_FIELDS]

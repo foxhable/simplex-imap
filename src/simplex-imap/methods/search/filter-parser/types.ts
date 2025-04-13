@@ -1,0 +1,6 @@
+export type { SearchContentFilter } from './lib/parseContentFilter.js'
+export type { SearchDateFilter } from './lib/parseDateFilter.js'
+export type { SearchFlagFilter } from './lib/parseFlagsFilter.js'
+export type { SearchHeadersFilter } from './lib/parseHeadersFilter.js'
+export type { SearchLogicalFilter } from './lib/parseLogicalFilter.js'
+export type { SearchPropsFilter } from './lib/parsePropsFilter.js'

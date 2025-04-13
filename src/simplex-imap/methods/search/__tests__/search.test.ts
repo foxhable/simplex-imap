@@ -1,7 +1,7 @@
+import { parseSearchFilter, type SearchFilter } from '@/simplex-imap/methods/search/filter-parser/parseSearchFilter.js'
+import { parseSearchResponse } from '@/simplex-imap/methods/search/lib/parseSearchResponse.js'
+import { HEADER_FIELDS } from '@/simplex-imap/methods/search/model/HeaderFields.js'
 import { describe, expect, it } from 'vitest'
-import type { SearchFilter } from './types.js'
-import { generateSearchFilter, parseSearchResponse } from './search.js'
-import { HEADER_FIELDS } from './types.js'
 import { convertToIMAPDate } from '@/simplex-imap/shared/date/index.js'
 import { MAILBOX_FLAGS } from '@/simplex-imap/classes/Mailbox/types.js'
 
@@ -12,7 +12,7 @@ describe('Simple single filters', () => {
         headers: { header: [{ field: HEADER_FIELDS.SENDER, value: 'it@example.ru' }] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('HEADER sender it@example.ru')
+      expect(parseSearchFilter(filter)).toBe('HEADER sender it@example.ru')
     })
 
     it('Should be set HEADER sender and HEADER subject', () => {
@@ -25,7 +25,7 @@ describe('Simple single filters', () => {
         },
       }
 
-      expect(generateSearchFilter(filter)).toBe('HEADER sender it@example.ru HEADER subject it')
+      expect(parseSearchFilter(filter)).toBe('HEADER sender it@example.ru HEADER subject it')
     })
 
     it('Should be set one BCC', () => {
@@ -33,7 +33,7 @@ describe('Simple single filters', () => {
         headers: { bcc: ['it'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('BCC "it"')
+      expect(parseSearchFilter(filter)).toBe('BCC "it"')
     })
 
     it('Should be set two BCC', () => {
@@ -41,7 +41,7 @@ describe('Simple single filters', () => {
         headers: { bcc: ['it', 'test1'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('BCC "it" BCC "test1"')
+      expect(parseSearchFilter(filter)).toBe('BCC "it" BCC "test1"')
     })
 
     it('Should be set one CC', () => {
@@ -49,7 +49,7 @@ describe('Simple single filters', () => {
         headers: { cc: ['it'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('CC "it"')
+      expect(parseSearchFilter(filter)).toBe('CC "it"')
     })
 
     it('Should be set two CC', () => {
@@ -57,7 +57,7 @@ describe('Simple single filters', () => {
         headers: { cc: ['it', 'test1'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('CC "it" CC "test1"')
+      expect(parseSearchFilter(filter)).toBe('CC "it" CC "test1"')
     })
 
     it('Should be set one FROM', () => {
@@ -65,7 +65,7 @@ describe('Simple single filters', () => {
         headers: { from: ['it@example.com'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('FROM it@example.com')
+      expect(parseSearchFilter(filter)).toBe('FROM it@example.com')
     })
 
     it('Should be set two FROM', () => {
@@ -73,7 +73,7 @@ describe('Simple single filters', () => {
         headers: { from: ['it@example.com', 'test1@example.com'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('FROM it@example.com FROM test1@example.com')
+      expect(parseSearchFilter(filter)).toBe('FROM it@example.com FROM test1@example.com')
     })
 
     it('Should be set one TO', () => {
@@ -81,7 +81,7 @@ describe('Simple single filters', () => {
         headers: { to: ['it@example.com'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('TO it@example.com')
+      expect(parseSearchFilter(filter)).toBe('TO it@example.com')
     })
 
     it('Should be set two TO', () => {
@@ -89,7 +89,7 @@ describe('Simple single filters', () => {
         headers: { to: ['it@example.com', 'test1@example.com'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('TO it@example.com TO test1@example.com')
+      expect(parseSearchFilter(filter)).toBe('TO it@example.com TO test1@example.com')
     })
   })
 
@@ -100,7 +100,7 @@ describe('Simple single filters', () => {
         date: { on: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)}`)
     })
 
     it('Should be set two ON date', () => {
@@ -111,7 +111,7 @@ describe('Simple single filters', () => {
         date: { on: [date, date2] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)} ON ${convertToIMAPDate(date2)}`)
+      expect(parseSearchFilter(filter)).toBe(`ON ${convertToIMAPDate(date)} ON ${convertToIMAPDate(date2)}`)
     })
 
     it('Should be set SENTON date', () => {
@@ -120,7 +120,7 @@ describe('Simple single filters', () => {
         date: { sentOn: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SENTON ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`SENTON ${convertToIMAPDate(date)}`)
     })
 
     it('Should be set SINCE date', () => {
@@ -129,7 +129,7 @@ describe('Simple single filters', () => {
         date: { since: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SINCE ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`SINCE ${convertToIMAPDate(date)}`)
     })
 
     it('Should be set SENTSINCE date', () => {
@@ -138,7 +138,7 @@ describe('Simple single filters', () => {
         date: { sentSince: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SENTSINCE ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`SENTSINCE ${convertToIMAPDate(date)}`)
     })
 
     it('Should be set BEFORE date', () => {
@@ -147,7 +147,7 @@ describe('Simple single filters', () => {
         date: { before: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`BEFORE ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`BEFORE ${convertToIMAPDate(date)}`)
     })
 
     it('Should be set SENTBEFORE date', () => {
@@ -156,7 +156,7 @@ describe('Simple single filters', () => {
         date: { sentBefore: [date] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SENTBEFORE ${convertToIMAPDate(date)}`)
+      expect(parseSearchFilter(filter)).toBe(`SENTBEFORE ${convertToIMAPDate(date)}`)
     })
   })
 
@@ -166,7 +166,7 @@ describe('Simple single filters', () => {
         content: { subject: ['it'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SUBJECT "it"`)
+      expect(parseSearchFilter(filter)).toBe(`SUBJECT "it"`)
     })
 
     it('Should be set BODY', () => {
@@ -174,7 +174,7 @@ describe('Simple single filters', () => {
         content: { body: ['it'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`BODY "it"`)
+      expect(parseSearchFilter(filter)).toBe(`BODY "it"`)
     })
 
     it('Should be set TEXT', () => {
@@ -182,7 +182,7 @@ describe('Simple single filters', () => {
         content: { text: ['it'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`TEXT "it"`)
+      expect(parseSearchFilter(filter)).toBe(`TEXT "it"`)
     })
   })
 
@@ -192,7 +192,7 @@ describe('Simple single filters', () => {
         props: { uid: ['1'] },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UID 1')
+      expect(parseSearchFilter(filter)).toBe('UID 1')
     })
 
     it('Should be set one KEYWORD', () => {
@@ -200,7 +200,7 @@ describe('Simple single filters', () => {
         props: { keyword: [MAILBOX_FLAGS.FLAGGED] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
+      expect(parseSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
     })
 
     it('Should be set two KEYWORD', () => {
@@ -208,7 +208,7 @@ describe('Simple single filters', () => {
         props: { keyword: [MAILBOX_FLAGS.FLAGGED, MAILBOX_FLAGS.DELETED] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED} KEYWORD ${MAILBOX_FLAGS.DELETED}`)
+      expect(parseSearchFilter(filter)).toBe(`KEYWORD ${MAILBOX_FLAGS.FLAGGED} KEYWORD ${MAILBOX_FLAGS.DELETED}`)
     })
 
     it('Should be set UNKEYWORD', () => {
@@ -216,7 +216,7 @@ describe('Simple single filters', () => {
         props: { unKeyword: [MAILBOX_FLAGS.FLAGGED] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`UNKEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
+      expect(parseSearchFilter(filter)).toBe(`UNKEYWORD ${MAILBOX_FLAGS.FLAGGED}`)
     })
 
     it('Should be set LARGER', () => {
@@ -224,7 +224,7 @@ describe('Simple single filters', () => {
         props: { larger: [200] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`LARGER 200`)
+      expect(parseSearchFilter(filter)).toBe(`LARGER 200`)
     })
 
     it('Should be set SMALLER', () => {
@@ -232,7 +232,7 @@ describe('Simple single filters', () => {
         props: { smaller: [200] },
       }
 
-      expect(generateSearchFilter(filter)).toBe(`SMALLER 200`)
+      expect(parseSearchFilter(filter)).toBe(`SMALLER 200`)
     })
   })
 
@@ -242,7 +242,7 @@ describe('Simple single filters', () => {
         flags: { answered: true },
       }
 
-      expect(generateSearchFilter(filter)).toBe('ANSWERED')
+      expect(parseSearchFilter(filter)).toBe('ANSWERED')
     })
 
     it('Should be UNANSWERED', () => {
@@ -250,7 +250,7 @@ describe('Simple single filters', () => {
         flags: { answered: false },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UNANSWERED')
+      expect(parseSearchFilter(filter)).toBe('UNANSWERED')
     })
 
     it('Should be DELETED', () => {
@@ -258,7 +258,7 @@ describe('Simple single filters', () => {
         flags: { deleted: true },
       }
 
-      expect(generateSearchFilter(filter)).toBe('DELETED')
+      expect(parseSearchFilter(filter)).toBe('DELETED')
     })
 
     it('Should be UNDELETED', () => {
@@ -266,7 +266,7 @@ describe('Simple single filters', () => {
         flags: { deleted: false },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UNDELETED')
+      expect(parseSearchFilter(filter)).toBe('UNDELETED')
     })
 
     it('Should be DRAFT', () => {
@@ -274,7 +274,7 @@ describe('Simple single filters', () => {
         flags: { draft: true },
       }
 
-      expect(generateSearchFilter(filter)).toBe('DRAFT')
+      expect(parseSearchFilter(filter)).toBe('DRAFT')
     })
 
     it('Should be UNDRAFT', () => {
@@ -282,7 +282,7 @@ describe('Simple single filters', () => {
         flags: { draft: false },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UNDRAFT')
+      expect(parseSearchFilter(filter)).toBe('UNDRAFT')
     })
 
     it('Should be SEEN', () => {
@@ -290,7 +290,7 @@ describe('Simple single filters', () => {
         flags: { seen: true },
       }
 
-      expect(generateSearchFilter(filter)).toBe('SEEN')
+      expect(parseSearchFilter(filter)).toBe('SEEN')
     })
 
     it('Should be UNSEEN', () => {
@@ -298,7 +298,7 @@ describe('Simple single filters', () => {
         flags: { seen: false },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UNSEEN')
+      expect(parseSearchFilter(filter)).toBe('UNSEEN')
     })
 
     it('Should be FLAGGED', () => {
@@ -306,7 +306,7 @@ describe('Simple single filters', () => {
         flags: { flagged: true },
       }
 
-      expect(generateSearchFilter(filter)).toBe('FLAGGED')
+      expect(parseSearchFilter(filter)).toBe('FLAGGED')
     })
 
     it('Should be UNFLAGGED', () => {
@@ -314,7 +314,7 @@ describe('Simple single filters', () => {
         flags: { flagged: false },
       }
 
-      expect(generateSearchFilter(filter)).toBe('UNFLAGGED')
+      expect(parseSearchFilter(filter)).toBe('UNFLAGGED')
     })
   })
 })
@@ -325,7 +325,7 @@ describe('Advanced filters', () => {
       logical: { not: [{ flags: { answered: true } }] },
     }
 
-    expect(generateSearchFilter(filter)).toBe('NOT ANSWERED')
+    expect(parseSearchFilter(filter)).toBe('NOT ANSWERED')
   })
 
   it('Should be OR ANSWERED SEEN', () => {
@@ -335,7 +335,7 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter)).toBe('OR ANSWERED SEEN')
+    expect(parseSearchFilter(filter)).toBe('OR ANSWERED SEEN')
   })
 
   it('Should be OR NOT ANSWERED SEEN', () => {
@@ -345,7 +345,7 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter)).toBe('OR NOT ANSWERED SEEN')
+    expect(parseSearchFilter(filter)).toBe('OR NOT ANSWERED SEEN')
   })
 
   it('Should be OR NOT ANSWERED OR SEEN FLAGGED', () => {
@@ -360,7 +360,7 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter)).toBe('OR NOT ANSWERED OR SEEN FLAGGED')
+    expect(parseSearchFilter(filter)).toBe('OR NOT ANSWERED OR SEEN FLAGGED')
   })
 
   it('Should be SUBJECT "it" FROM it@example.com OR NOT ANSWERED OR SEEN FLAGGED', () => {
@@ -377,7 +377,7 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter))
+    expect(parseSearchFilter(filter))
       .contain('SUBJECT "it"')
       .and.contain('FROM it@example.com')
       .and.contain('OR NOT ANSWERED OR SEEN FLAGGED')
@@ -396,7 +396,7 @@ describe('Advanced filters', () => {
       },
     }
 
-    expect(generateSearchFilter(filter))
+    expect(parseSearchFilter(filter))
       .contain('SUBJECT "test2"')
       .and.contain('TEXT "it"')
       .and.contain('FROM it@example.com')
