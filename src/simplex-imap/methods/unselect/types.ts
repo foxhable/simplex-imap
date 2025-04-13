@@ -1,3 +1,1 @@
-export interface UnselectMethodConfig {
-  expunge?: boolean
-}
+export type { UnselectMethodConfig } from './unselect.js'
