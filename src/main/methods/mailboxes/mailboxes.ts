@@ -1,10 +1,9 @@
 import type { SimplexIMAP } from '@/main.js'
 import type { ParsedMailbox } from './types.js'
-import { SimplexIMAPError } from '@/main/general/error.js'
+import { IMAPError } from '@/logger/main.js'
 import { Mailbox } from '@/main/classes/Mailbox/Mailbox.js'
 import type { MailboxAttribute } from '@/main/classes/Mailbox/types.js'
 import { MAILBOX_ATTRIBUTES } from '@/main/classes/Mailbox/types.js'
-import { RawIMAPError } from '@/base/general/error.js'
 
 export async function mailboxes(this: SimplexIMAP) {
   const res = await this.send('LIST', {
@@ -12,7 +11,7 @@ export async function mailboxes(this: SimplexIMAP) {
     mailbox: '"*"',
   })
 
-  if (!res.ok) throw new SimplexIMAPError(res.body, { res })
+  if (!res.ok) throw new IMAPError(res.body, { res })
 
   return res.response.lines.map((line) => {
     const parsed = parseMailbox(line.body)
@@ -40,11 +39,11 @@ export function parseMailbox(text: string): ParsedMailbox {
   const match = text.match(MAILBOX_PARSE_REGEX)
 
   if (!match) {
-    throw new SimplexIMAPError('LIST response text doesnt match to regex pattern', { text })
+    throw new IMAPError('LIST response text doesnt match to regex pattern', { text })
   }
 
   if (!match.groups) {
-    throw new SimplexIMAPError('Cannot parse groups. Its unexpected, please create Issue')
+    throw new IMAPError('Cannot parse groups. Its unexpected, please create Issue')
   }
 
   const delimiter = match.groups[GROUPS.DELIMITER]
@@ -52,7 +51,7 @@ export function parseMailbox(text: string): ParsedMailbox {
   const name = path.at(-1)
 
   if (!name) {
-    throw new RawIMAPError('Cannot parse name of mailbox. Its unexpected, please create Issue')
+    throw new IMAPError('Cannot parse name of mailbox. Its unexpected, please create Issue')
   }
 
   return {

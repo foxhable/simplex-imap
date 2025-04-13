@@ -1,6 +1,6 @@
 import type { IMAPResponseLine, IMAPResult, ResponseCode, ResponseStatus } from '@/base/types/index.js'
 import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/base/types/index.js'
-import { RawIMAPError } from '@/base/general/error.js'
+import { IMAPError } from '@/logger/main.js'
 
 const GROUP_NAMES = {
   TAG: 'tag',
@@ -29,14 +29,14 @@ export function parseIMAPResponse(data: string): IMAPResult {
   const match = data.match(IMAP_RESULT_REGEX)
 
   if (!match) {
-    throw new RawIMAPError('Data doesnt have result response line', { data })
+    throw new IMAPError('Data doesnt have result response line', { data })
   }
 
   const response = data.replace(match[0], '')
 
   const responseLines: IMAPResponseLine[] = [...response.matchAll(IMAP_RESPONSE_LINE_REGEX)].map((match) => {
     if (!match.groups) {
-      throw new RawIMAPError('')
+      throw new IMAPError('')
     }
 
     return {
@@ -48,7 +48,7 @@ export function parseIMAPResponse(data: string): IMAPResult {
 
   // TODO: add text
   if (!match.groups) {
-    throw new RawIMAPError('')
+    throw new IMAPError('')
   }
 
   const status = match.groups[GROUP_NAMES.STATUS] as ResponseStatus

@@ -1,3 +1,13 @@
+export class IMAPError extends Error {
+  public data: any[]
+
+  constructor(message: string, ...data: any[]) {
+    super(message)
+    this.name = 'IMAPError'
+    this.data = data
+  }
+}
+
 interface LoggerConfig {
   prefix: string
   initLogLevel?: LogLevel
@@ -5,7 +15,6 @@ interface LoggerConfig {
 
 export const LOG_LEVELS = {
   NONE: 'none',
-  ERR: 'err',
   WARN: 'warn',
   INFO: 'info',
   ALL: 'all',
@@ -24,11 +33,6 @@ export function createLogger(config: LoggerConfig) {
     logLevel: config.initLogLevel || LOG_LEVELS.NONE,
     setLogLevel(newLevel: LogLevel) {
       this.logLevel = newLevel
-    },
-    err(text: string, ...info: any[]) {
-      if (!isLogLevelOneOf(this.logLevel, [LOG_LEVELS.ALL, LOG_LEVELS.ERR])) return
-
-      console.error(addPrefix(text), ...info)
     },
     log(text: string, ...info: any[]) {
       if (!isLogLevelOneOf(this.logLevel, [LOG_LEVELS.ALL, LOG_LEVELS.INFO])) return

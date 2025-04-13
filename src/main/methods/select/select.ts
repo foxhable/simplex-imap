@@ -1,7 +1,7 @@
 import type { SelectMethodConfig, SelectParse } from './types.js'
 import { IMAP_STATUSES, type IMAPResponseLine } from '@/base/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
-import { SimplexIMAPError } from '@/main/general/error.js'
+import { IMAPError } from '@/logger/main.js'
 import type { MailboxFlag } from '@/main/classes/Mailbox/types.js'
 import { MAILBOX_FLAGS } from '@/main/classes/Mailbox/types.js'
 import { SelectedMailbox } from '@/main/classes/Mailbox/SelectedMailbox.js'
@@ -25,7 +25,7 @@ export async function select<TConfig extends SelectMethodConfig>(
 
   if (!res.ok) {
     this.selectedMailbox = null
-    throw new SimplexIMAPError(res.body, { res })
+    throw new IMAPError(res.body, { res })
   }
 
   const parse = parseSelect(res.response.lines)

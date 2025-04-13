@@ -1,5 +1,5 @@
 import type { EnvelopeParsed, FetchParseResult, MessageHeadersParsed } from '@/main/methods/fetch/types.js'
-import { SimplexIMAPError } from '@/main/general/error.js'
+import { IMAPError } from '@/logger/main.js'
 import { parseAddressFromEnvelope, parseAddressFromHeaders } from '@/main/methods/fetch/addressParser.js'
 import { parseContentType } from '@/main/methods/fetch/contentTypeParser.js'
 
@@ -60,7 +60,7 @@ export function fetchResponseParser(rawResponse: string): FetchParseResult {
 
   const responseMatch = unfoldedRaw.match(FETCH_RESPONSE_REGEX)
   if (!responseMatch?.groups) {
-    throw new SimplexIMAPError('Unexpected error while parsing fetch')
+    throw new IMAPError('Unexpected error while parsing fetch')
   }
 
   const raw = responseMatch.groups.raw

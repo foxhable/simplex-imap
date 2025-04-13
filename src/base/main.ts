@@ -2,7 +2,7 @@ import { connect as createTLSConnection } from 'node:tls'
 import { createConnection as createTCPConnection } from 'node:net'
 import { imap as utf7imap } from 'utf7'
 import { Buffer } from 'node:buffer'
-import { imapRawLogger, imapRawLogger as logger } from '@/logger/main.js'
+import { IMAPError, imapRawLogger, imapRawLogger as logger } from '@/logger/main.js'
 import { hasResultLine, parseIMAPResponse } from './functions/parser.js'
 
 import type {
@@ -16,7 +16,6 @@ import type {
   MethodWithoutArgs,
 } from './types/index.js'
 import { IMAP_STATUSES, LOG_LEVELS } from './types/index.js'
-import { RawIMAPError } from './general/error.js'
 
 export default class IMAP {
   protected readonly _defaultConfig = {
@@ -105,7 +104,7 @@ export default class IMAP {
 
     const connection = this._config.tls ? createTLSConnection(_config) : createTCPConnection(_config)
 
-    if (!connection) throw new RawIMAPError('Error while creating connection')
+    if (!connection) throw new IMAPError('Error while creating connection')
 
     connection.once('connect', () => (this._status = IMAP_STATUSES.CONNECTED))
     connection.once('data', () => (this._status = IMAP_STATUSES.READY))
