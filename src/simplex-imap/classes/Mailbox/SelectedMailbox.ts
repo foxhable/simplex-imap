@@ -1,8 +1,8 @@
+import type { FetchConfig } from '@/simplex-imap/methods/fetch/config-parser/model/FetchConfig.js'
 import { Mailbox, type MailboxData } from './Mailbox.js'
 import type { SimplexIMAP } from '@/main.js'
 import { type SearchMethodConfig } from '@/simplex-imap/methods/search/types.js'
 import { type UnselectMethodConfig } from '@/simplex-imap/methods/unselect/types.js'
-import type { FetchConfig } from '@/simplex-imap/methods/fetch/types.js'
 import type { SequenceSet } from '@/simplex-imap/general/sequenceSet/sequenceSet.js'
 
 export interface SelectedMailboxData extends MailboxData {

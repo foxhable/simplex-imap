@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { parseFetchConfig } from '@/simplex-imap/methods/fetch/fetchConfigParser.js'
+import { parseFetchConfig } from '@/simplex-imap/methods/fetch/config-parser/fetchConfigParser.js'
 
 const FETCH_ITEM_REGEX_PART = '[\\w.]+(?:\\[[\\w(). ]+\\](?:<[\\d.]+>)?)?'
 const FETCH_ITEM_REGEX = new RegExp(FETCH_ITEM_REGEX_PART, 'g')
