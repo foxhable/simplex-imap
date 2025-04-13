@@ -1,3 +1,2 @@
-export type IMAPDate = string
-
-export type { SequenceSet } from './sequenceSet/sequenceSet.js'
+export type * from './sequenceSet/types.js'
+export type * from './date/types.js'

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/sequenceSet.js'
+import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/index.js'
 
 test('Should create string from one UID number', () => {
   const result = convertSequenceSetToString(1)

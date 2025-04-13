@@ -11,9 +11,9 @@ import type {
   SearchFilterProps,
   SearchMethodConfig,
 } from './types.js'
-import { convertToIMAPDate } from '@/simplex-imap/shared/date/date.js'
+import { convertToIMAPDate } from '@/simplex-imap/shared/date/index.js'
 import { Message } from '@/simplex-imap/classes/Mailbox/Message.js'
-import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/sequenceSet.js'
+import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/index.js'
 
 export async function search(this: SimplexIMAP, config: SearchMethodConfig) {
   await this._waitStatus(IMAP_STATUSES.READY)

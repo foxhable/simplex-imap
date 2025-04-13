@@ -1,5 +1,3 @@
-import type { IMAPDate } from '@/simplex-imap/shared/types.js'
-
 const monthsMap: {
   [index: number]: string
 } = {
@@ -16,6 +14,8 @@ const monthsMap: {
   10: 'Nov',
   11: 'Dec',
 }
+
+export type IMAPDate = string
 
 export function convertToIMAPDate(date: Date): IMAPDate {
   const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()

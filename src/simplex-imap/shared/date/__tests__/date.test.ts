@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { convertToIMAPDate } from './date.js'
+import { convertToIMAPDate } from '../date.js'
 
 test('Should be convert to "01-Jan-2000"', () => {
   const date = new Date('2000-01-01')
