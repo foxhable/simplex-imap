@@ -1,4 +1,4 @@
-import type { IMAPDate } from '@/simplex-imap/general/types.js'
+import type { IMAPDate } from '@/simplex-imap/shared/types.js'
 
 const monthsMap: {
   [index: number]: string

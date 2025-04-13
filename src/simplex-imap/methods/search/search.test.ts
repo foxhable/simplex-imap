@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { SearchFilter } from './types.js'
 import { generateSearchFilter, parseSearchResponse } from './search.js'
 import { HEADER_FIELDS } from './types.js'
-import { convertToIMAPDate } from '@/simplex-imap/general/date/date.js'
+import { convertToIMAPDate } from '@/simplex-imap/shared/date/date.js'
 import { MAILBOX_FLAGS } from '@/simplex-imap/classes/Mailbox/types.js'
 
 describe('Simple single filters', () => {

@@ -1,5 +1,5 @@
 import type { MailboxFlag } from '@/simplex-imap/classes/Mailbox/types.js'
-import type { SequenceSet } from '@/simplex-imap/general/sequenceSet/sequenceSet.js'
+import type { SequenceSet } from '@/simplex-imap/shared/sequenceSet/sequenceSet.js'
 
 export const HEADER_FIELDS = {
   TRACE: 'trace',
