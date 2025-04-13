@@ -8,7 +8,7 @@
 .env.local
 
 # build
-lib
+/lib
 
 # package manager
 node_modules

@@ -3,7 +3,7 @@
 .vscode
 
 # build
-lib
+/lib
 
 # package manager
 pnpm-lock.yaml
