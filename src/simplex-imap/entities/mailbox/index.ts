@@ -1,0 +1,5 @@
+export { Mailbox } from './class/Mailbox.js'
+export { SelectedMailbox } from './class/SelectedMailbox.js'
+export { MAILBOX_ATTRIBUTES } from './model/MailboxAttribute.js'
+export { MAILBOX_FLAGS } from './model/MailboxFlags.js'
+export { MAILBOX_ROLES } from './model/MailboxRoles.js'

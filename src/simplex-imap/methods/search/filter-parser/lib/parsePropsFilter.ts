@@ -1,4 +1,4 @@
-import type { MailboxFlag } from '@/simplex-imap/classes/Mailbox/types.js'
+import type { MailboxFlag } from '@/simplex-imap/entities/mailbox/types.js'
 
 export interface SearchPropsFilter {
   uid?: string[]

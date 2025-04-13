@@ -1,5 +1,6 @@
 import { IMAPError } from '@/logger/main.js'
-import { MAILBOX_ATTRIBUTES, type MailboxAttribute } from '@/simplex-imap/classes/Mailbox/types.js'
+import type { MailboxAttribute } from '@/simplex-imap/entities/mailbox/types.js'
+import { MAILBOX_ATTRIBUTES } from '@/simplex-imap/entities/mailbox/index.js'
 
 export interface ParsedMailbox {
   attributes: MailboxAttribute[]

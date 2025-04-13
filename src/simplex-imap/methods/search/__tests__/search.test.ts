@@ -3,7 +3,7 @@ import { parseSearchResponse } from '@/simplex-imap/methods/search/lib/parseSear
 import { HEADER_FIELDS } from '@/simplex-imap/methods/search/model/HeaderFields.js'
 import { describe, expect, it } from 'vitest'
 import { convertToIMAPDate } from '@/simplex-imap/shared/date/index.js'
-import { MAILBOX_FLAGS } from '@/simplex-imap/classes/Mailbox/types.js'
+import { MAILBOX_FLAGS } from '@/simplex-imap/entities/mailbox/index.js'
 
 describe('Simple single filters', () => {
   describe('Filter by headers', () => {

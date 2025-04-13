@@ -1,8 +1,1 @@
-export * from './Mailbox/types.js'
 export * from './Message/types.js'
-export { MessageHeader } from '@/simplex-imap/methods/fetch/response-parser/lib/parseHeaders.js'
-export { MessageFlag } from '@/simplex-imap/methods/fetch/response-parser/model/MessageFlag.js'
-export { MessageFlagKeyword } from '@/simplex-imap/methods/fetch/response-parser/model/MessageFlag.js'
-export { MESSAGE_FLAG_KEYWORDS } from '@/simplex-imap/methods/fetch/response-parser/model/MessageFlag.js'
-export { MessageSystemFlag } from '@/simplex-imap/methods/fetch/response-parser/model/MessageFlag.js'
-export { MESSAGE_SYSTEM_FLAGS } from '@/simplex-imap/methods/fetch/response-parser/model/MessageFlag.js'

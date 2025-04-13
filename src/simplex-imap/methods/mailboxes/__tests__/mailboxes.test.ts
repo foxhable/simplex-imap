@@ -1,6 +1,6 @@
 import { parseMailbox } from '@/simplex-imap/methods/mailboxes/lib/parseMailbox.js'
 import { test, expect } from 'vitest'
-import { type MailboxAttribute } from '@/simplex-imap/classes/Mailbox/types.js'
+import type { MailboxAttribute } from '@/simplex-imap/entities/mailbox/types.js'
 
 function createMailboxLine(name: string, attributes: MailboxAttribute[] = [], delimiter: string = '/') {
   return `LIST (${attributes.join(' ')}) "${delimiter}" "${name}"`

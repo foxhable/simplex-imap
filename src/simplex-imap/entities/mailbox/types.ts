@@ -1,0 +1,6 @@
+export type { Mailbox, MailboxData } from './class/Mailbox.js'
+export type { SelectedMailbox, SelectedMailboxData } from './class/SelectedMailbox.js'
+export type { MailboxAttribute } from './model/MailboxAttribute.js'
+export type { MailboxMessageCounts } from './model/MailboxMessageCounts.js'
+export type { MailboxFlag } from './model/MailboxFlags.js'
+export type { MailboxRole } from './model/MailboxRoles.js'

@@ -1,7 +1,7 @@
 import IMAP from '@/low-level-imap/main.js'
 import { simplexImapLogger } from './logger/main.js'
 import type { IMAPConfig } from '@/low-level-imap/types/index.js'
-import type { SelectedMailbox } from '@/simplex-imap/classes/Mailbox/SelectedMailbox.js'
+import type { SelectedMailbox } from '@/simplex-imap/entities/mailbox/index.js'
 
 import { mailboxes } from '@/simplex-imap/methods/mailboxes/index.js'
 import { login } from '@/simplex-imap/methods/login/index.js'

@@ -1,5 +1,6 @@
 import type { IMAPResponseLine } from '@/low-level-imap/types/index.js'
-import { MAILBOX_FLAGS, type MailboxFlag, type MailboxMessageCounts } from '@/simplex-imap/classes/Mailbox/types.js'
+import type { MailboxFlag, MailboxMessageCounts } from '@/simplex-imap/entities/mailbox/types.js'
+import { MAILBOX_FLAGS } from '@/simplex-imap/entities/mailbox/index.js'
 
 export interface SelectResponse {
   messageCounts: MailboxMessageCounts

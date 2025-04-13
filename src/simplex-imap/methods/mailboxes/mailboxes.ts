@@ -1,6 +1,6 @@
 import { IMAPError } from '@/logger/main.js'
 import type { SimplexIMAP } from '@/main.js'
-import { Mailbox } from '@/simplex-imap/classes/Mailbox/Mailbox.js'
+import { Mailbox } from '@/simplex-imap/entities/mailbox/index.js'
 import { parseMailbox } from './lib/parseMailbox.js'
 
 export async function mailboxes(this: SimplexIMAP) {

@@ -1,8 +1,8 @@
 import { IMAPError } from '@/logger/main.js'
 import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
-import type { Mailbox } from '@/simplex-imap/classes/Mailbox/Mailbox.js'
-import { SelectedMailbox } from '@/simplex-imap/classes/Mailbox/SelectedMailbox.js'
+import type { Mailbox } from '@/simplex-imap/entities/mailbox/types.js'
+import { SelectedMailbox } from '@/simplex-imap/entities/mailbox/index.js'
 import { parseSelectResponse, type SelectResponse } from './lib/parseSelectResponse.js'
 
 export interface SelectMethodConfig {
