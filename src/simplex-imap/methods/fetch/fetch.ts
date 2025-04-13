@@ -1,5 +1,6 @@
 import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
-import type { SequenceSet, SimplexIMAP } from '@/simplex-imap/types.js'
+import type { SimplexIMAP } from '@/main.js'
+import type { SequenceSet } from '@/simplex-imap/shared/sequenceSet/types.js'
 import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/index.js'
 import type { FetchConfig } from './config-parser/types.js'
 import { parseFetchConfig } from './config-parser/index.js'

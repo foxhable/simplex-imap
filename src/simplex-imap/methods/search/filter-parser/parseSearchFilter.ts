@@ -1,4 +1,4 @@
-import type { SequenceSet } from '@/simplex-imap/types.js'
+import type { SequenceSet } from '@/simplex-imap/shared/sequenceSet/types.js'
 import { convertSequenceSetToString } from '@/simplex-imap/shared/sequenceSet/index.js'
 import { parseContentFilter, type SearchContentFilter } from './lib/parseContentFilter.js'
 import { parseDateFilter, type SearchDateFilter } from './lib/parseDateFilter.js'
