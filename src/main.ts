@@ -4,11 +4,11 @@ import type { IMAPConfig } from '@/low-level-imap/types/index.js'
 import type { SelectedMailbox } from '@/simplex-imap/classes/Mailbox/SelectedMailbox.js'
 
 import { mailboxes } from '@/simplex-imap/methods/mailboxes/index.js'
-import { login } from '@/simplex-imap/methods/login/login.js'
+import { login } from '@/simplex-imap/methods/login/index.js'
 import { select } from '@/simplex-imap/methods/select/index.js'
 import { unselect } from '@/simplex-imap/methods/unselect/index.js'
 import { search } from '@/simplex-imap/methods/search/index.js'
-import { fetch } from './simplex-imap/methods/fetch/index.js'
+import { fetch } from '@/simplex-imap/methods/fetch/index.js'
 
 export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
