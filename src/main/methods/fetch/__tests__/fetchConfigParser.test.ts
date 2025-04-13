@@ -227,7 +227,6 @@ test('should create config with (FLAGS BODY[2.HEADER]<0.299>)', () => {
     flags: true,
     bodyHeader: { sectionPart: 2, partial: [0, 299] },
   })
-  console.log(result)
   const items = extractItemsFromString(result)
   expect.soft(items.length).toStrictEqual(2)
   expect.soft(items.includes('BODY[2.HEADER]<0.299>')).toBeTruthy()
