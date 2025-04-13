@@ -1,5 +1,5 @@
 import type { SimplexIMAP } from '@/main.js'
-import { IMAP_STATUSES } from '@/base/types/index.js'
+import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
 import { IMAPError } from '@/logger/main.js'
 import type { UnselectMethodConfig } from './types.js'
 

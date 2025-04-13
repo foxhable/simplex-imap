@@ -1,4 +1,4 @@
-import { IMAP_STATUSES, type IMAPCredentials } from '@/base/types/index.js'
+import { IMAP_STATUSES, type IMAPCredentials } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import { IMAPError } from '@/logger/main.js'
 

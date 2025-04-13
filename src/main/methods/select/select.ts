@@ -1,5 +1,5 @@
 import type { SelectMethodConfig, SelectParse } from './types.js'
-import { IMAP_STATUSES, type IMAPResponseLine } from '@/base/types/index.js'
+import { IMAP_STATUSES, type IMAPResponseLine } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import { IMAPError } from '@/logger/main.js'
 import type { MailboxFlag } from '@/main/classes/Mailbox/types.js'

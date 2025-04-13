@@ -1,5 +1,5 @@
-import type { IMAPResponseLine, IMAPResult, ResponseCode, ResponseStatus } from '@/base/types/index.js'
-import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/base/types/index.js'
+import type { IMAPResponseLine, IMAPResult, ResponseCode, ResponseStatus } from '@/low-level-imap/types/index.js'
+import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/low-level-imap/types/index.js'
 import { IMAPError } from '@/logger/main.js'
 
 const GROUP_NAMES = {
