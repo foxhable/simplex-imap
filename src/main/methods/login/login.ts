@@ -6,8 +6,8 @@ export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   await this._waitStatus(IMAP_STATUSES.READY)
 
   const _credentials = {
-    username: credentials?.username || this._config.credentials?.username || '',
-    password: credentials?.password || this._config.credentials?.password || '',
+    username: `"${credentials?.username || this._config.credentials?.username || ''}"`,
+    password: `"${credentials?.password || this._config.credentials?.password || ''}"`,
   }
 
   if (!_credentials.username || !_credentials.password) {
