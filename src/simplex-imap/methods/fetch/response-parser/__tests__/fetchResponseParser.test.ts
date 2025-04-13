@@ -1,6 +1,6 @@
+import type { MessageHeader } from '@/simplex-imap/methods/fetch/response-parser/lib/parseHeaders.js'
 import { expect, test } from 'vitest'
 import { fetchResponseParser } from '../fetchResponseParser.js'
-import type { MessageHeader } from '@/simplex-imap/classes/Message/types.js'
 
 test('should parse message uid', () => {
   const message = '1 FETCH (UID 4)'

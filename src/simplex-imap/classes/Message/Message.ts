@@ -1,4 +1,4 @@
-import type { FetchConfig } from '@/simplex-imap/methods/fetch/config-parser/model/FetchConfig.js'
+import type { FetchConfig } from '@/simplex-imap/methods/fetch/types.js'
 import type { SimplexIMAP } from '@/main.js'
 
 export class Message {

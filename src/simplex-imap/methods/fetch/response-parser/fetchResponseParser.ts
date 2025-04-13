@@ -1,5 +1,6 @@
 import { IMAPError } from '@/logger/main.js'
-import type { MessageFlag } from '@/simplex-imap/classes/Message/types.js'
+
+import type { MessageFlag } from './model/MessageFlag.js'
 import { type FetchBodyParseResult, parseBody } from './lib/parseBody.js'
 import { type EnvelopeParsed, parseEnvelope } from './lib/parseEnvelope.js'
 import { parseFlags } from './lib/parseFlags.js'

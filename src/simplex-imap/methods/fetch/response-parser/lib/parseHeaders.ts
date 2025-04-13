@@ -1,7 +1,11 @@
-import type { MessageHeader } from '@/simplex-imap/classes/Message/types.js'
-import { BODY_WITH_HEADERS_REGEX } from '@/simplex-imap/methods/fetch/response-parser/lib/parseBody.js'
+import { BODY_WITH_HEADERS_REGEX } from './parseBody.js'
 import { type AddressesList, parseAddressFromHeaders } from './parseAddress.js'
 import { type ContentType, parseContentType } from './parseContentType.js'
+
+export interface MessageHeader {
+  name: string
+  value: string
+}
 
 export interface MessageHeadersParsed {
   list: MessageHeader[]
