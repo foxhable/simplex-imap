@@ -8,7 +8,7 @@ import { login } from '@/simplex-imap/methods/login/login.js'
 import { select } from '@/simplex-imap/methods/select/select.js'
 import { unselect } from '@/simplex-imap/methods/unselect/unselect.js'
 import { search } from '@/simplex-imap/methods/search/search.js'
-import { fetch } from './simplex-imap/methods/fetch/fetch.js'
+import { fetch } from './simplex-imap/methods/fetch/index.js'
 
 export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
