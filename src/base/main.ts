@@ -58,7 +58,7 @@ export default class IMAP {
     const body = `${_tag} ${data}\r\n`
 
     this._connection.write(body)
-    logger.log('Sent message, body:\n', body)
+    logger.log('Sent message, body:\n', { data: { body } })
     return await this._response(_tag)
   }
 
@@ -80,7 +80,7 @@ export default class IMAP {
     const body = `${_tag} ${method}${_args}\r\n`
 
     this._connection.write(body)
-    logger.log('Sent message, body:\n', body)
+    logger.log('Sent message, body:\n', { data: { body } })
     return await this._response(_tag)
   }
 
@@ -112,7 +112,7 @@ export default class IMAP {
     connection.once('timeout', this.disconnect)
 
     connection.on('data', (data) => {
-      imapRawLogger.log('New message:\n', utf7imap.decode(data.toString()))
+      imapRawLogger.log('New message:\n', { data: utf7imap.decode(data.toString()) })
     })
 
     return connection

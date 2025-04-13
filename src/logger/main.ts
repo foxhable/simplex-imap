@@ -34,15 +34,15 @@ export function createLogger(config: LoggerConfig) {
     setLogLevel(newLevel: LogLevel) {
       this.logLevel = newLevel
     },
-    log(text: string, ...info: any[]) {
+    log(text: string, data?: object) {
       if (!isLogLevelOneOf(this.logLevel, [LOG_LEVELS.ALL, LOG_LEVELS.INFO])) return
 
-      console.log(addPrefix(text), ...info)
+      console.log(addPrefix(text), data)
     },
-    warn(text: string, ...info: any[]) {
+    warn(text: string, data?: object) {
       if (!isLogLevelOneOf(this.logLevel, [LOG_LEVELS.ALL, LOG_LEVELS.WARN])) return
 
-      console.warn(addPrefix(text), ...info)
+      console.warn(addPrefix(text), data)
     },
   }
 }
