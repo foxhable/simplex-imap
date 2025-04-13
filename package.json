@@ -16,8 +16,8 @@
     "./types": "./lib/main/types.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "postbuild": "tsc-alias -p tsconfig.build.json",
+    "build": "concurrently \"tsc -p tsconfig.build.json\" \"tsc-alias\"",
+    "build:watch": "concurrently \"tsc -w -p tsconfig.build.json\" \"tsc-alias -w\"",
     "prepare": "husky",
     "lint": "eslint src/.",
     "test": "vitest"
@@ -33,6 +33,7 @@
     "@eslint/js": "^9.12.0",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^22.6.0",
+    "concurrently": "^9.1.2",
     "eslint": "^9.12.0",
     "eslint-plugin-import": "^2.31.0",
     "husky": "^9.1.6",
