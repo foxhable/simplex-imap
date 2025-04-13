@@ -1,7 +1,7 @@
 import { IMAPError } from '@/logger/main.js'
 import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
-import { Message } from '@/simplex-imap/classes/Message/Message.js'
+import { Message } from '@/simplex-imap/entities/message/index.js'
 import type { SearchFilter } from '@/simplex-imap/methods/search/filter-parser/parseSearchFilter.js'
 import { parseSearchResponse } from '@/simplex-imap/methods/search/lib/parseSearchResponse.js'
 import { parseSearchFilter } from './filter-parser/index.js'

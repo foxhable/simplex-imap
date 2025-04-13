@@ -1,4 +1,4 @@
-import type { MessageHeader } from '@/simplex-imap/methods/fetch/response-parser/lib/parseHeaders.js'
+import type { MessageHeaderRaw } from '@/simplex-imap/entities/message/types.js'
 import { expect, test } from 'vitest'
 import { fetchResponseParser } from '../fetchResponseParser.js'
 
@@ -53,7 +53,7 @@ const headers =
   'To:test@test.ru\r\n' +
   'Content-Type:multipart/alternative; boundary="00000000000002133006258c9558"'
 
-const headersArr: MessageHeader[] = [
+const headersArr: MessageHeaderRaw[] = [
   { name: 'Delivered-To', value: 'test@test.ru' },
   { name: 'MIME-Version', value: '1.0' },
   {
