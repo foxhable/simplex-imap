@@ -3,7 +3,7 @@ import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import type { Mailbox } from '@/simplex-imap/classes/Mailbox/Mailbox.js'
 import { SelectedMailbox } from '@/simplex-imap/classes/Mailbox/SelectedMailbox.js'
-import { parseSelect, type SelectResponse } from './lib/parseSelect.js'
+import { parseSelectResponse, type SelectResponse } from './lib/parseSelectResponse.js'
 
 export interface SelectMethodConfig {
   /** @description if true - using EXAMINE instead SELECT */
@@ -34,7 +34,7 @@ export async function select<TConfig extends SelectMethodConfig>(
     throw new IMAPError(res.body, { res })
   }
 
-  const parse = parseSelect(res.response.lines)
+  const parse = parseSelectResponse(res.response.lines)
   const selectedMailbox = new SelectedMailbox(this, { name: mailbox, mailbox: config?.mailbox })
 
   this.selectedMailbox = selectedMailbox

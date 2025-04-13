@@ -20,7 +20,7 @@ const UNSEEN_REGEX = /OK \[UNSEEN (\d+)]/
 const UID_REGEX = /OK \[UIDVALIDITY (\d+)]/
 const NEXT_UID_REGEX = /OK \[UIDNEXT (\d+)]/
 
-export function parseSelect(lines: IMAPResponseLine[]): SelectResponse {
+export function parseSelectResponse(lines: IMAPResponseLine[]): SelectResponse {
   return lines.reduce(
     (result, item) => {
       switch (true) {
