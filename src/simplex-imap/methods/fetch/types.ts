@@ -1,5 +1,3 @@
-import type { MessageFlag, MessageHeader } from '@/simplex-imap/types.js'
-
 export const FETCH_MACROS = {
   ALL: 'ALL',
   FAST: 'FAST',
@@ -61,63 +59,3 @@ export type FetchConfig =
   | {
       raw: string
     }
-
-export interface AddressItem {
-  name: string | null
-  email: string
-}
-
-export type AddressesList = AddressItem[]
-export type ContentType = {
-  type: string
-  boundary: string | null
-  charset: string | null
-  encoding: string | null
-}
-
-export interface MessageHeadersParsed {
-  list: MessageHeader[]
-  from: AddressesList | null
-  to: AddressesList | null
-  subject: string | null
-  date: Date | null
-  messageId: string | null
-  contentType: ContentType | null
-  mimeVersion: string | null
-}
-
-export interface EnvelopeParsed {
-  date: Date | null
-  subject: string | null
-  from: AddressesList | null
-  sender: AddressesList | null
-  replyTo: AddressesList | null
-  to: AddressesList | null
-  cc: AddressesList | null
-  bcc: AddressItem | null
-  inReplyTo: AddressItem | null
-  messageId: string | null
-}
-
-export interface BodyParsed {
-  section: string
-  text: string | null
-  contentType: string | null
-  charset: string | null
-  encoding: string | null
-}
-
-export type MimeValues = {
-  [index: string]: string | null
-}
-
-export interface FetchParseResult {
-  uid: null | number
-  flags: Array<MessageFlag | string>
-  size: number | null
-  internalDate: Date | null
-  headers: MessageHeadersParsed
-  body: Array<BodyParsed & MimeValues> | null
-  envelope: EnvelopeParsed
-  raw: string
-}

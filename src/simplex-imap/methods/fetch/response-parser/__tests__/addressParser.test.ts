@@ -1,6 +1,9 @@
 import { expect, describe, it } from 'vitest'
-import { parseAddressFromEnvelope, parseAddressFromHeaders } from '@/simplex-imap/methods/fetch/addressParser.js'
-import type { AddressItem } from '@/simplex-imap/methods/fetch/types.js'
+import {
+  type AddressItem,
+  parseAddressFromEnvelope,
+  parseAddressFromHeaders,
+} from '@/simplex-imap/methods/fetch/response-parser/lib/parseAddress.js'
 
 describe('address parser from headers', () => {
   it('should parse one address with name', () => {

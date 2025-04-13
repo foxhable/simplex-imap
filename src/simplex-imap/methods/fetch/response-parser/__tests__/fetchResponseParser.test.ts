@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { fetchResponseParser } from '@/simplex-imap/methods/fetch/fetchResponseParser.js'
+import { fetchResponseParser } from '../fetchResponseParser.js'
 import type { MessageHeader } from '@/simplex-imap/classes/Message/types.js'
 
 test('should parse message uid', () => {

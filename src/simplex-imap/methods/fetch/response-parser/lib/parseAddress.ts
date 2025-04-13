@@ -1,6 +1,11 @@
-import type { AddressesList, AddressItem } from '@/simplex-imap/methods/fetch/types.js'
-
 const ADDRESS_WITH_NAME_REGEX = /(?<name>[ \w_-]+) <(?<email>[\w_-]+@[\w-]+\.\w+)>/
+
+export interface AddressItem {
+  name: string | null
+  email: string
+}
+
+export type AddressesList = AddressItem[]
 
 export function parseAddressFromHeaders(raw: string): AddressesList {
   return raw.split(',').map<AddressItem>((address) => {
