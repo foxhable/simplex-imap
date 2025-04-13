@@ -5,7 +5,7 @@ import type { SelectedMailbox } from '@/simplex-imap/classes/Mailbox/SelectedMai
 
 import { mailboxes } from '@/simplex-imap/methods/mailboxes/index.js'
 import { login } from '@/simplex-imap/methods/login/login.js'
-import { select } from '@/simplex-imap/methods/select/select.js'
+import { select } from '@/simplex-imap/methods/select/index.js'
 import { unselect } from '@/simplex-imap/methods/unselect/unselect.js'
 import { search } from '@/simplex-imap/methods/search/search.js'
 import { fetch } from './simplex-imap/methods/fetch/index.js'

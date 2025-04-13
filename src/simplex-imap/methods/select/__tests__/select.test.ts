@@ -1,5 +1,5 @@
+import { parseSelect } from '@/simplex-imap/methods/select/lib/parseSelect.js'
 import { test, expect } from 'vitest'
-import { parseSelect } from '@/simplex-imap/methods/select/select.js'
 
 function line(body: string) {
   return { tag: '*', body: body, raw: `* ${body}` }
