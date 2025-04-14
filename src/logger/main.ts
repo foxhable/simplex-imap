@@ -47,5 +47,5 @@ export function createLogger(config: LoggerConfig) {
   }
 }
 
-export const imapRawLogger = createLogger({ prefix: 'imap-raw' })
-export const simplexImapLogger = createLogger({ prefix: 'simplex-imap' })
+export const imapRawLogger = createLogger({ prefix: 'imap:low-level' })
+export const simplexImapLogger = createLogger({ prefix: 'imap' })
