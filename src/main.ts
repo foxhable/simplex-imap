@@ -1,4 +1,4 @@
-import { simplexImapLogger } from './logger/main.js'
+import { simplexImapLogger } from '@/shared/logger/index.js'
 import { IMAP } from '@/entities/imap/index.js'
 import type { IMAPConfig } from '@/entities/imap/types.js'
 import type { SelectedMailbox } from '@/entities/mailbox/index.js'

@@ -1,4 +1,4 @@
-import { IMAPError } from '@/logger/main.js'
+import { IMAPError } from '@/shared/logger/index.js'
 import type { SimplexIMAP } from '@/main.js'
 
 export interface UnselectMethodConfig {

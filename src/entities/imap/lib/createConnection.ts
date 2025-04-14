@@ -2,7 +2,7 @@ import { EventEmitter } from 'node:events'
 import { imap as utf7imap } from 'utf7'
 import { connect as createTLSConnection } from 'node:tls'
 import { createConnection as createTCPConnection } from 'node:net'
-import { IMAPError, imapRawLogger } from '@/logger/main.js'
+import { IMAPError, imapRawLogger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
 import { IMAP_STATUSES } from '../model/IMAPStatus.js'
 

@@ -26,7 +26,7 @@ function isLogLevelOneOf(logLevel: LogLevel, list: LogLevel[]) {
   return list.map((i) => logLevel.includes(i)).includes(true)
 }
 
-export function createLogger(config: LoggerConfig) {
+function createLogger(config: LoggerConfig) {
   const addPrefix = (text: string) => (config.prefix ? `[${config.prefix}] ${text}` : text)
 
   return {

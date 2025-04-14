@@ -1,4 +1,4 @@
-import type { LogLevel } from '@/logger/main.js'
+import type { LogLevel } from '@/shared/logger/types.js'
 import type { IMAP } from '../class/IMAP.js'
 
 export interface TLSOptions {

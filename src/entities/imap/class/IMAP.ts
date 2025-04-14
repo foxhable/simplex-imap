@@ -1,5 +1,5 @@
 import { Buffer } from 'node:buffer'
-import { imapRawLogger as logger, LOG_LEVELS } from '@/logger/main.js'
+import { imapRawLogger as logger, LOG_LEVELS } from '@/shared/logger/index.js'
 import { send } from '../lib/send.js'
 import { rawSend } from '../lib/rawSend.js'
 import { response } from '../lib/response.js'

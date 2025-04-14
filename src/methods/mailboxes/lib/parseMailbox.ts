@@ -1,4 +1,4 @@
-import { IMAPError } from '@/logger/main.js'
+import { IMAPError } from '@/shared/logger/index.js'
 import type { MailboxAttribute } from '@/entities/mailbox/types.js'
 import { MAILBOX_ATTRIBUTES } from '@/entities/mailbox/index.js'
 

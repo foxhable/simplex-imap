@@ -1,4 +1,4 @@
-import { imapRawLogger as logger } from '@/logger/main.js'
+import { imapRawLogger as logger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
 import { IMAP_STATUSES } from '../model/IMAPStatus.js'
 import type { IMAPResult } from '../model/IMAPResult.js'

@@ -1,5 +1,5 @@
 import type { SimplexIMAP } from '@/main.js'
-import { IMAPError } from '@/logger/main.js'
+import { IMAPError } from '@/shared/logger/index.js'
 import { type IMAPCredentials } from '@/entities/imap/types.js'
 
 export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {

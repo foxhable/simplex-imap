@@ -1,4 +1,4 @@
-import { IMAPError } from '@/logger/main.js'
+import { IMAPError } from '@/shared/logger/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import type { Mailbox } from '@/entities/mailbox/types.js'
 import { SelectedMailbox } from '@/entities/mailbox/index.js'

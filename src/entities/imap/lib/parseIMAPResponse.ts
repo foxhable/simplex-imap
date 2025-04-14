@@ -1,4 +1,4 @@
-import { IMAPError } from '@/logger/main.js'
+import { IMAPError } from '@/shared/logger/index.js'
 import { RESPONSE_CODES, type ResponseCode } from '../model/ResponseCode.js'
 import { RESPONSE_STATUSES, type ResponseStatus } from '../model/ResponseStatus.js'
 import type { IMAPResponseLine, IMAPResult } from '../model/IMAPResult.js'
