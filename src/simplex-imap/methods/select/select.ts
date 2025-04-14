@@ -1,5 +1,4 @@
 import { IMAPError } from '@/logger/main.js'
-import { IMAP_STATUSES } from '@/low-level-imap/types/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import type { Mailbox } from '@/simplex-imap/entities/mailbox/types.js'
 import { SelectedMailbox } from '@/simplex-imap/entities/mailbox/index.js'
@@ -25,8 +24,6 @@ export async function select<TConfig extends SelectMethodConfig>(
       : SelectedMailbox
     : SelectedMailbox
 > {
-  await this._waitStatus(IMAP_STATUSES.READY)
-
   const res = await this.send(config?.readonly ? 'EXAMINE' : 'SELECT', { mailbox })
 
   if (!res.ok) {

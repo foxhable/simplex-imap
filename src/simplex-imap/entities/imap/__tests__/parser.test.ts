@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { parseIMAPResponse } from './parser.js'
+import { parseIMAPResponse } from '../lib/parseIMAPResponse.js'
 
 test('Should match tag', () => {
   const message = '1 OK Authentication successful\r\n'

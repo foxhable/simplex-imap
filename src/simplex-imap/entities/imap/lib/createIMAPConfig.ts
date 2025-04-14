@@ -1,13 +1,5 @@
 import type { LogLevel } from '@/logger/main.js'
-
-export const IMAP_STATUSES = {
-  NOT_CONNECTED: 'not_connected',
-  CONNECTED: 'connected',
-  READY: 'ready',
-  DISCONNECTED: 'disconnected',
-} as const
-
-export type IMAPStatus = (typeof IMAP_STATUSES)[keyof typeof IMAP_STATUSES]
+import type { IMAP } from '../class/IMAP.js'
 
 export interface TLSOptions {
   readonly ca: string
@@ -28,4 +20,6 @@ export type IMAPConfig = {
   readonly credentials?: IMAPCredentials
 }
 
-export type IMAPTag = '*' | string
+export function createIMAPConfig(this: IMAP, userConfig?: IMAPConfig) {
+  return Object.assign(this._defaultConfig, userConfig)
+}

@@ -1,4 +1,4 @@
-import type { IMAPResponseLine } from '@/low-level-imap/types/index.js'
+import type { IMAPResponseLine } from '@/simplex-imap/entities/imap/index.js'
 import type { MailboxFlag, MailboxMessageCounts } from '@/simplex-imap/entities/mailbox/types.js'
 import { MAILBOX_FLAGS } from '@/simplex-imap/entities/mailbox/index.js'
 

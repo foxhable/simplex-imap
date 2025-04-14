@@ -1,6 +1,7 @@
-import type { IMAPResponseLine, IMAPResult, ResponseCode, ResponseStatus } from '@/low-level-imap/types/index.js'
-import { RESPONSE_CODES, RESPONSE_STATUSES } from '@/low-level-imap/types/index.js'
 import { IMAPError } from '@/logger/main.js'
+import { RESPONSE_CODES, type ResponseCode } from '../model/ResponseCode.js'
+import { RESPONSE_STATUSES, type ResponseStatus } from '../model/ResponseStatus.js'
+import type { IMAPResponseLine, IMAPResult } from '../model/IMAPResult.js'
 
 const GROUP_NAMES = {
   TAG: 'tag',
@@ -13,10 +14,10 @@ const TAG_REGEX_PART = `(?<${GROUP_NAMES.TAG}>[\\d*]+)`
 const STATUS_REGEX_PART = `(?<${GROUP_NAMES.STATUS}>${Object.values(RESPONSE_STATUSES).join('|')})`
 const CODE_REGEX_PART = `(?:\\[(?<${GROUP_NAMES.CODE}>${Object.values(RESPONSE_CODES).join('|')})] )?`
 const BODY_REGEX_PART = `(?<${GROUP_NAMES.BODY}>.*)`
-export const IMAP_RESULT_REGEX = new RegExp(
+const IMAP_RESULT_REGEX = new RegExp(
   `(?:\r\n)?${TAG_REGEX_PART} ${STATUS_REGEX_PART} ${CODE_REGEX_PART}${BODY_REGEX_PART}\r\n$`,
 )
-export const IMAP_RESPONSE_LINE_REGEX = new RegExp(
+const IMAP_RESPONSE_LINE_REGEX = new RegExp(
   `^(?<${GROUP_NAMES.TAG}>[*+]) (?<${GROUP_NAMES.BODY}>(?:[\\w\\W](?!^\\*))+)`,
   'gm',
 )
