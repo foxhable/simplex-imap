@@ -13,7 +13,7 @@
       },
       "./lib/main.js"
     ],
-    "./types": "./lib/main/types.js"
+    "./types": "./lib/types.js"
   },
   "scripts": {
     "build": "concurrently \"tsc -p tsconfig.build.json\" \"tsc-alias\"",
