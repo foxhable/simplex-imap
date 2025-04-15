@@ -1,3 +1,4 @@
+import { defaultConfig } from '@/entities/imap/index.js'
 import { simplexImapLogger } from '@/shared/logger/index.js'
 import { IMAP } from '@/entities/imap/index.js'
 import type { IMAPConfig } from '@/entities/imap/types.js'
@@ -22,6 +23,6 @@ export class SimplexIMAP extends IMAP {
 
   constructor(config: IMAPConfig) {
     super(config)
-    simplexImapLogger.setLogLevel(config.logLevel || this._defaultConfig.logLevel)
+    simplexImapLogger.setLogLevel(config.logLevel || defaultConfig.logLevel)
   }
 }
