@@ -1,9 +1,8 @@
 import { LOG_LEVELS } from '@/shared/logger/index.js'
 import type { LogLevel } from '@/shared/logger/logger.js'
+import type { ConnectionOptions } from 'node:tls'
 
-export interface TLSOptions {
-  readonly hostname?: string
-}
+export type TLSOptions = Pick<ConnectionOptions, 'cert' | 'key' | 'ca' | 'servername' | 'checkServerIdentity'>
 
 export interface IMAPCredentials {
   username: string

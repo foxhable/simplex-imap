@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events'
 import { imap as utf7imap } from 'utf7'
-import { connect as createTLSConnection } from 'node:tls'
-import { createConnection as createTCPConnection } from 'node:net'
+import { connect as createTLSConnection, type ConnectionOptions } from 'node:tls'
+import { createConnection as createTCPConnection, type NetConnectOpts } from 'node:net'
 import { IMAPError, imapRawLogger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
 import { IMAP_STATUSES } from '../model/IMAPStatus.js'
@@ -12,12 +12,18 @@ export interface IMAPConnection extends EventEmitter {
 }
 
 export function createConnection(this: IMAP): IMAPConnection {
+  const defaultPort = this._config.tls ? 993 : 143
+
   const _config = {
     host: this._config.host,
-    port: this._config.port,
+    port: this._config.port || defaultPort,
   }
 
-  const connection = this._config.tls ? createTLSConnection(_config) : createTCPConnection(_config)
+  const tcpConfig: NetConnectOpts = _config
+
+  const tlsConfig: ConnectionOptions = Object.assign(_config, this._config.tlsOptions)
+
+  const connection = this._config.tls ? createTLSConnection(tlsConfig) : createTCPConnection(tcpConfig)
 
   if (!connection) throw new IMAPError('Error while creating connection')
 
