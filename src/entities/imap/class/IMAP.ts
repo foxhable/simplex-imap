@@ -1,25 +1,18 @@
 import { Buffer } from 'node:buffer'
-import { imapRawLogger as logger, LOG_LEVELS } from '@/shared/logger/index.js'
+import { imapRawLogger as logger } from '@/shared/logger/index.js'
 import { send } from '../lib/send.js'
 import { rawSend } from '../lib/rawSend.js'
 import { response } from '../lib/response.js'
 import { waitStatus } from '../lib/waitStatus.js'
 import { disconnect } from '../lib/disconnect.js'
-import { createIMAPConfig, type IMAPConfig } from '../lib/createIMAPConfig.js'
 import { createConnection, type IMAPConnection } from '../lib/createConnection.js'
 import { IMAP_STATUSES, type IMAPStatus } from '../model/IMAPStatus.js'
+import { defaultConfig, type IMAPConfig } from '../config/defaultConfig.js'
 
 export class IMAP {
   buffer: Buffer[] = []
 
-  protected readonly _defaultConfig = {
-    port: 993,
-    tls: true,
-    connectOnCreating: true,
-    logLevel: LOG_LEVELS.NONE,
-  } as const satisfies Partial<IMAPConfig>
-
-  protected readonly _config: typeof this._defaultConfig & IMAPConfig
+  protected readonly _config: IMAPConfig
   protected _connection: IMAPConnection | null = null
 
   protected _tag: number = 0
@@ -27,8 +20,8 @@ export class IMAP {
   protected _status: IMAPStatus = IMAP_STATUSES.NOT_CONNECTED
 
   constructor(config: IMAPConfig) {
-    this._config = this._createIMAPConfig(config)
-    logger.setLogLevel(config.logLevel || this._defaultConfig.logLevel)
+    this._config = Object.assign(defaultConfig, config)
+    logger.setLogLevel(config.logLevel || defaultConfig.logLevel)
 
     if (this._config.connectOnCreating) {
       this._connection = this._createConnection()
@@ -50,8 +43,6 @@ export class IMAP {
   public send = send
 
   protected _waitStatus = waitStatus
-
-  protected _createIMAPConfig = createIMAPConfig
 
   protected _createConnection = createConnection
 
