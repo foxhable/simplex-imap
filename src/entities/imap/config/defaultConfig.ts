@@ -9,7 +9,7 @@ export interface IMAPCredentials {
   password: string
 }
 
-export type IMAPConfig = {
+export interface IMAPConfig {
   readonly host: string
   /** @description if [`tls`]{@link tls} is `true` then default `993`, otherwise `143` */
   readonly port?: number
@@ -21,6 +21,16 @@ export type IMAPConfig = {
    * */
   readonly tls?: boolean
   readonly tlsOptions?: TLSOptions
+  readonly logLevel?: LogLevel
+  readonly credentials?: IMAPCredentials
+}
+
+export const defaultConfig = {
+  tls: true,
+  logLevel: LOG_LEVELS.NONE,
+} as const satisfies Partial<IMAPConfig>
+
+export interface SimplexIMAPConfig extends IMAPConfig {
   /**
    * @description if `true` then calling [`connect`]{@link IMAP.connect} when creating instance
    * @default true
@@ -33,13 +43,9 @@ export type IMAPConfig = {
    * @default true
    * */
   readonly loginOnCreating?: boolean
-  readonly logLevel?: LogLevel
-  readonly credentials?: IMAPCredentials
 }
 
-export const defaultConfig = {
-  tls: true,
+export const defaultSimplexIMAPConfig = {
   connectOnCreating: true,
   loginOnCreating: true,
-  logLevel: LOG_LEVELS.NONE,
-} as const satisfies Partial<IMAPConfig>
+} as const satisfies Partial<SimplexIMAPConfig>
