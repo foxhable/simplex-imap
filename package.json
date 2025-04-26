@@ -16,7 +16,9 @@
     "./types": "./lib/types.js"
   },
   "scripts": {
-    "build": "concurrently \"tsc -p tsconfig.build.json\" \"tsc-alias\"",
+    "build": "tsc -p tsconfig.build.json",
+    "postbuild": "tsc-alias -p tsconfig.build.json",
+    "prebuild:watch": "npm run build",
     "build:watch": "concurrently \"tsc -w -p tsconfig.build.json\" \"tsc-alias -w\"",
     "prepare": "husky",
     "lint": "eslint src/.",
