@@ -1,6 +1,6 @@
 import { imapRawLogger as logger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
-import { IMAP_STATUSES } from '../model/IMAPStatus.js'
+import { IMAP_CONN_STATUSES } from '../model/IMAPConnStatus.js'
 import type { IMAPResult } from '../model/IMAPResult.js'
 import type { ExtractMethodArgs, IMAPMethod, MethodWithArgs, MethodWithoutArgs } from '../model/methods.js'
 
@@ -16,7 +16,7 @@ export async function send<TMethod extends IMAPMethod>(
   args?: ExtractMethodArgs<TMethod>,
 ): Promise<IMAPResult> {
   if (!this._connection) throw new Error('Connection not created')
-  await this._waitStatus(IMAP_STATUSES.READY)
+  await this._waitConnStatus(IMAP_CONN_STATUSES.READY)
 
   const _tag = this._getTag()
 

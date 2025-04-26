@@ -4,7 +4,7 @@ import { connect as createTLSConnection, type ConnectionOptions } from 'node:tls
 import { createConnection as createTCPConnection, type NetConnectOpts } from 'node:net'
 import { IMAPError, imapRawLogger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
-import { IMAP_STATUSES } from '../model/IMAPStatus.js'
+import { IMAP_CONN_STATUSES } from '../model/IMAPConnStatus.js'
 
 export interface IMAPConnection extends EventEmitter {
   write: (buffer: string | Uint8Array) => boolean
@@ -27,8 +27,8 @@ export function createConnection(this: IMAP): IMAPConnection {
 
   if (!connection) throw new IMAPError('Error while creating connection')
 
-  connection.once('connect', () => (this._status = IMAP_STATUSES.CONNECTED))
-  connection.once('data', () => (this._status = IMAP_STATUSES.READY))
+  connection.once('connect', () => (this._connStatus = IMAP_CONN_STATUSES.CONNECTED))
+  connection.once('data', () => (this._connStatus = IMAP_CONN_STATUSES.READY))
   connection.once('close', this.disconnect)
   connection.once('timeout', this.disconnect)
 

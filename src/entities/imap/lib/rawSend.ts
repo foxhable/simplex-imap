@@ -1,10 +1,10 @@
 import { imapRawLogger as logger } from '@/shared/logger/index.js'
 import type { IMAP } from '../class/IMAP.js'
-import { IMAP_STATUSES } from '../model/IMAPStatus.js'
+import { IMAP_CONN_STATUSES } from '../model/IMAPConnStatus.js'
 
 export async function rawSend(this: IMAP, data: string) {
   if (!this._connection) throw new Error('Connection not created')
-  await this._waitStatus(IMAP_STATUSES.READY)
+  await this._waitConnStatus(IMAP_CONN_STATUSES.READY)
 
   const _tag = this._getTag()
 
