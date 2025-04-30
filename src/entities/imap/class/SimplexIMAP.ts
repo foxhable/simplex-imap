@@ -15,13 +15,6 @@ export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
   protected readonly _config!: SimplexIMAPConfig
 
-  public mailboxes = mailboxes
-  public login = login
-  public select = select
-  public unselect = unselect
-  public search = search
-  public fetch = fetch
-
   constructor(config: SimplexIMAPConfig) {
     const _config = Object.assign(defaultSimplexIMAPConfig, config)
     super(_config)
@@ -31,6 +24,40 @@ export class SimplexIMAP extends IMAP {
     if (_config.connectOnCreating) {
       this.connect().then(() => this._loginOnCreate())
     }
+  }
+
+  public async disconnect() {
+    await super.disconnect()
+    this._state = IMAP_STATES.LOGOUT
+  }
+
+  public async connect() {
+    await super.connect()
+    this._state = IMAP_STATES.NOT_AUTH
+  }
+
+  public mailboxes(...props: Parameters<typeof mailboxes>) {
+    return mailboxes.apply(this, props)
+  }
+
+  public login(...props: Parameters<typeof login>) {
+    return login.apply(this, props)
+  }
+
+  public select(...props: Parameters<typeof select>) {
+    return select.apply(this, props)
+  }
+
+  public unselect(...props: Parameters<typeof unselect>) {
+    return unselect.apply(this, props)
+  }
+
+  public search(...props: Parameters<typeof search>) {
+    return search.apply(this, props)
+  }
+
+  public fetch(...props: Parameters<typeof fetch>) {
+    return fetch.apply(this, props)
   }
 
   protected _loginOnCreate() {
