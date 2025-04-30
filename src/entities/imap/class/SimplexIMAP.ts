@@ -1,7 +1,8 @@
-import { defaultConfig, defaultSimplexIMAPConfig } from '@/entities/imap/index.js'
-import { simplexImapLogger } from '@/shared/logger/index.js'
+import { IMAP_CONN_STATUSES } from '@/entities/imap/model/IMAPConnStatus.js'
+import { defaultConfig, type IMAPConfig } from '../config/defaultConfig.js'
+import { IMAP_STATES, type IMAPState } from '../model/IMAPState.js'
+import { IMAPError, simplexImapLogger } from '@/shared/logger/index.js'
 import { IMAP } from '@/entities/imap/index.js'
-import type { SimplexIMAPConfig } from '@/entities/imap/types.js'
 import type { SelectedMailbox } from '@/entities/mailbox/index.js'
 
 import { mailboxes } from '@/methods/mailboxes/index.js'
@@ -13,17 +14,16 @@ import { fetch } from '@/methods/fetch/index.js'
 
 export class SimplexIMAP extends IMAP {
   public selectedMailbox: SelectedMailbox | null = null
-  protected readonly _config!: SimplexIMAPConfig
 
-  constructor(config: SimplexIMAPConfig) {
-    const _config = Object.assign(defaultSimplexIMAPConfig, config)
-    super(_config)
+  protected _state: IMAPState | null = null
+  public get state() {
+    return this._state
+  }
 
-    simplexImapLogger.setLogLevel(_config.logLevel || defaultConfig.logLevel)
+  constructor(config: IMAPConfig) {
+    super(config)
 
-    if (_config.connectOnCreating) {
-      this.connect().then(() => this._loginOnCreate())
-    }
+    simplexImapLogger.setLogLevel(config.logLevel || defaultConfig.logLevel)
   }
 
   public async disconnect() {
@@ -60,9 +60,15 @@ export class SimplexIMAP extends IMAP {
     return fetch.apply(this, props)
   }
 
-  protected _loginOnCreate() {
-    if (!this._config.loginOnCreating) return
+  protected async _methodCallPreparation() {
+    await this._waitConnStatus(IMAP_CONN_STATUSES.READY)
 
-    this.login()
+    if (this._state === IMAP_STATES.AUTH || this._state === IMAP_STATES.SELECTED) return
+
+    if (this._state === IMAP_STATES.LOGOUT) {
+      throw new IMAPError('IMAP in LOGOUT state. You need connect first by SimplexIMAP.connect()')
+    } else if (this._state === IMAP_STATES.NOT_AUTH) {
+      throw new IMAPError('IMAP in NOT AUTHENTICATED state. You need authenticate first by SimplexIMAP.login()')
+    }
   }
 }

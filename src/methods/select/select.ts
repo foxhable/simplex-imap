@@ -2,6 +2,7 @@ import { IMAPError } from '@/shared/logger/index.js'
 import type { SimplexIMAP } from '@/main.js'
 import type { Mailbox } from '@/entities/mailbox/types.js'
 import { SelectedMailbox } from '@/entities/mailbox/index.js'
+import { IMAP_STATES } from '@/entities/imap/index.js'
 import { parseSelectResponse, type SelectResponse } from './lib/parseSelectResponse.js'
 
 export interface SelectMethodConfig {
@@ -24,6 +25,8 @@ export async function select<TConfig extends SelectMethodConfig>(
       : SelectedMailbox
     : SelectedMailbox
 > {
+  await this._methodCallPreparation()
+
   const res = await this.send(config?.readonly ? 'EXAMINE' : 'SELECT', { mailbox })
 
   if (!res.ok) {
@@ -35,6 +38,8 @@ export async function select<TConfig extends SelectMethodConfig>(
   const selectedMailbox = new SelectedMailbox(this, { name: mailbox, mailbox: config?.mailbox })
 
   this.selectedMailbox = selectedMailbox
+
+  this._state = IMAP_STATES.SELECTED
 
   // @ts-expect-error TS2322 fix later
   return config?.onlyParse ? parse : selectedMailbox

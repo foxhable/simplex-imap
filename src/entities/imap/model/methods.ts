@@ -69,5 +69,6 @@ type MethodsMap = [
 ]
 export type MethodWithArgs = Extract<MethodsMap[number], { args: { [index: string]: any } }>['method']
 export type MethodWithoutArgs = Extract<MethodsMap[number], { args: null }>['method']
+export type MethodsAll = MethodWithoutArgs | MethodWithArgs
 
 export type ExtractMethodArgs<TMethod extends IMAPMethod> = Extract<MethodsMap[number], { method: TMethod }>['args']

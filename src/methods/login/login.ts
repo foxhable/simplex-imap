@@ -1,6 +1,7 @@
 import type { SimplexIMAP } from '@/main.js'
 import { IMAPError } from '@/shared/logger/index.js'
 import { type IMAPCredentials } from '@/entities/imap/types.js'
+import { IMAP_STATES } from '@/entities/imap/index.js'
 
 export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   const _credentials = {
@@ -17,6 +18,8 @@ export async function login(this: SimplexIMAP, credentials?: IMAPCredentials) {
   if (!res.ok) {
     throw new IMAPError(res.body, { res })
   }
+
+  this._state = IMAP_STATES.AUTH
 
   return res
 }

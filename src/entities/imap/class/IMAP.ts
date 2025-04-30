@@ -25,6 +25,10 @@ export class IMAP {
   constructor(config: IMAPConfig) {
     this._config = Object.assign(defaultConfig, config)
     logger.setLogLevel(config.logLevel || defaultConfig.logLevel)
+
+    if (this._config.connectOnCreating) {
+      this.connect()
+    }
   }
 
   public disconnect() {

@@ -4,6 +4,8 @@ import { Mailbox } from '@/entities/mailbox/index.js'
 import { parseMailbox } from './lib/parseMailbox.js'
 
 export async function mailboxes(this: SimplexIMAP) {
+  await this._methodCallPreparation()
+
   const res = await this.send('LIST', {
     refName: '""',
     mailbox: '"*"',

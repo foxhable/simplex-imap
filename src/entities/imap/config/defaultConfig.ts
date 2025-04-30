@@ -23,29 +23,15 @@ export interface IMAPConfig {
   readonly tlsOptions?: TLSOptions
   readonly logLevel?: LogLevel
   readonly credentials?: IMAPCredentials
-}
-
-export const defaultConfig = {
-  tls: true,
-  logLevel: LOG_LEVELS.NONE,
-} as const satisfies Partial<IMAPConfig>
-
-export interface SimplexIMAPConfig extends IMAPConfig {
   /**
    * @description if `true` then calling [`connect`]{@link IMAP.connect} when creating instance
    * @default true
    * */
   readonly connectOnCreating?: boolean
-  /**
-   * @description if `true` then calling [`login`]{@link IMAP.login} with [`credentials`]{@link credentials} after connect.
-   *
-   * If [`connectOnCreating`]{@link connectOnCreating} is `false` then not affect.
-   * @default true
-   * */
-  readonly loginOnCreating?: boolean
 }
 
-export const defaultSimplexIMAPConfig = {
+export const defaultConfig = {
+  tls: true,
+  logLevel: LOG_LEVELS.NONE,
   connectOnCreating: true,
-  loginOnCreating: true,
-} as const satisfies Partial<SimplexIMAPConfig>
+} as const satisfies Partial<IMAPConfig>
