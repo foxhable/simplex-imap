@@ -63,6 +63,6 @@ export function parseFetchConfig(config: FetchConfig): string {
   }
 
   const parsed = parseFetchDataItem(config)
-  const parsedStr = parsed.join(' ')
+  const parsedStr = parsed.join(' ').length ? parsed.join(' ') : 'ALL'
   return parsed.length > 1 ? `(${parsedStr})` : parsedStr
 }
