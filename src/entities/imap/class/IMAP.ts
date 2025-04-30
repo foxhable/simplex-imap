@@ -18,33 +18,44 @@ export class IMAP {
   protected _tag: number = 0
 
   protected _connStatus: IMAPConnStatus = IMAP_CONN_STATUSES.NOT_CONNECTED
+  public get connStatus() {
+    return this._connStatus
+  }
 
   constructor(config: IMAPConfig) {
     this._config = Object.assign(defaultConfig, config)
     logger.setLogLevel(config.logLevel || defaultConfig.logLevel)
   }
 
-  public get connStatus() {
-    return this._connStatus
+  public disconnect() {
+    return disconnect.apply(this)
   }
-
-  public disconnect = disconnect
 
   public async connect(this: IMAP) {
     this._connection = this._createConnection()
   }
 
-  public rawSend = rawSend
+  public rawSend(...props: Parameters<typeof rawSend>) {
+    return rawSend.apply(this, props)
+  }
 
-  public send = send
+  public send(...props: Parameters<typeof send>) {
+    return send.apply(this, props)
+  }
 
-  protected _waitConnStatus = waitConnStatus
+  protected _waitConnStatus(...props: Parameters<typeof waitConnStatus>) {
+    return waitConnStatus.apply(this, props)
+  }
 
-  protected _createConnection = createConnection
+  protected _createConnection(...props: Parameters<typeof createConnection>) {
+    return createConnection.apply(this, props)
+  }
 
   protected _getTag(this: IMAP): string {
     return String(++this._tag)
   }
 
-  protected _response = response
+  protected _response(...props: Parameters<typeof response>) {
+    return response.apply(this, props)
+  }
 }
