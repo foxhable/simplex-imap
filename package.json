@@ -2,7 +2,7 @@
   "type": "module",
   "name": "simplex-imap",
   "description": "imap",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.4",
   "author": "foxhable",
   "main": "lib/main.js",
   "types": "lib/main.d.ts",
