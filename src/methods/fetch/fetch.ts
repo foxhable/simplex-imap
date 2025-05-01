@@ -1,4 +1,5 @@
 import type { SimplexIMAP } from '@/main.js'
+import { fetchResponseParser } from '@/methods/fetch/response-parser/index.js'
 import { IMAPError } from '@/shared/logger/index.js'
 import type { SequenceSet } from '@/shared/sequence-set/types.js'
 import { convertSequenceSetToString } from '@/shared/sequence-set/index.js'
@@ -20,5 +21,5 @@ export async function fetch(this: SimplexIMAP, sequenceSet: SequenceSet, config:
     criteria,
   })
 
-  return res.response.raw
+  return fetchResponseParser(res.response.raw)
 }
