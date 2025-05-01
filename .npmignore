@@ -12,6 +12,7 @@ eslint.config.js
 tsconfig.build.json
 tsconfig.json
 vitest.config.js
+.npmrc
 
 # test
 dev-test.ts
