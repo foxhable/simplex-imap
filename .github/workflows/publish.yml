@@ -49,7 +49,7 @@ jobs:
         if: ${{ !github.event.release.prerelease }}
         run: |
           git commit -am "${{ github.event.release.tag_name }}"
-          git push
+          git push origin HEAD:master
 
       - name: publish beta
         if: ${{ github.event.release.prerelease }}
