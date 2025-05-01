@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: '23.x'
 
+      - name: setup git config
+        run: |
+          git config --global user.email "github-actions@github.com>"
+          git config --global user.name "github-actions"
+
       - name: enable pnpm
         run: corepack enable
 
