@@ -17,7 +17,7 @@ export type FetchBodyParseResult = Array<BodyParsed & MimeValues> | null
 const BODY_SPECIFIED_REGEX = /BODY\[(?<section>[\d.]+)] {\d+}\r\n(?<body>.*)\r\n/g
 const BODY_MIME_REGEX = /BODY\[(?<section>[\d.]+).(MIME|HEADER)] \{\d+}\r\n(?<headers>.+)(?:\r\n)+/g
 export const BODY_WITH_HEADERS_REGEX =
-  /BODY\[] {\d+}\r\n(?<headers>(?:[\w-]+: ?.+\r\n)+)\r\n(?<bodyList>(?<boundary>--.+)\r\n[\w\W\r\n]+)/
+  /BODY\[] {\d+}\r\n(?<headers>(?:[\w-]+: ?.+\r\n)+)(?:\r\n){1,2}(?<bodyList>(?<boundary>--.+)\r\n[\w\W\r\n]+)/
 
 export function parseBody(response: string): FetchBodyParseResult {
   const body: FetchBodyParseResult = []
